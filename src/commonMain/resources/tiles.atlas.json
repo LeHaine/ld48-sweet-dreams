@@ -153,7 +153,7 @@
 	"sourceSize": {"w":24,"h":20}
 },
 {
-	"filename": "heroIdle0.png",
+	"filename": "heroBroomAttack20.png",
 	"frame": {"x":38,"y":208,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
@@ -161,7 +161,7 @@
 	"sourceSize": {"w":24,"h":20}
 },
 {
-	"filename": "heroIdle1.png",
+	"filename": "heroBroomAttack21.png",
 	"frame": {"x":38,"y":232,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
@@ -169,7 +169,7 @@
 	"sourceSize": {"w":24,"h":20}
 },
 {
-	"filename": "heroRun0.png",
+	"filename": "heroBroomAttack22.png",
 	"frame": {"x":38,"y":256,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
@@ -177,7 +177,7 @@
 	"sourceSize": {"w":24,"h":20}
 },
 {
-	"filename": "heroRun1.png",
+	"filename": "heroBroomAttack23.png",
 	"frame": {"x":38,"y":280,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
@@ -185,7 +185,7 @@
 	"sourceSize": {"w":24,"h":20}
 },
 {
-	"filename": "heroRun2.png",
+	"filename": "heroBroomAttack24.png",
 	"frame": {"x":38,"y":304,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
@@ -193,7 +193,7 @@
 	"sourceSize": {"w":24,"h":20}
 },
 {
-	"filename": "heroRun3.png",
+	"filename": "heroBroomAttack25.png",
 	"frame": {"x":38,"y":328,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
@@ -201,7 +201,7 @@
 	"sourceSize": {"w":24,"h":20}
 },
 {
-	"filename": "heroSleeping0.png",
+	"filename": "heroBroomAttack26.png",
 	"frame": {"x":2,"y":331,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
@@ -209,8 +209,72 @@
 	"sourceSize": {"w":24,"h":20}
 },
 {
-	"filename": "heroSleeping1.png",
+	"filename": "heroBroomAttack27.png",
 	"frame": {"x":30,"y":352,"w":24,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
+	"sourceSize": {"w":24,"h":20}
+},
+{
+	"filename": "heroIdle0.png",
+	"frame": {"x":2,"y":355,"w":24,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
+	"sourceSize": {"w":24,"h":20}
+},
+{
+	"filename": "heroIdle1.png",
+	"frame": {"x":30,"y":376,"w":24,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
+	"sourceSize": {"w":24,"h":20}
+},
+{
+	"filename": "heroRun0.png",
+	"frame": {"x":2,"y":379,"w":24,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
+	"sourceSize": {"w":24,"h":20}
+},
+{
+	"filename": "heroRun1.png",
+	"frame": {"x":30,"y":400,"w":24,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
+	"sourceSize": {"w":24,"h":20}
+},
+{
+	"filename": "heroRun2.png",
+	"frame": {"x":2,"y":403,"w":24,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
+	"sourceSize": {"w":24,"h":20}
+},
+{
+	"filename": "heroRun3.png",
+	"frame": {"x":30,"y":424,"w":24,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
+	"sourceSize": {"w":24,"h":20}
+},
+{
+	"filename": "heroSleeping0.png",
+	"frame": {"x":2,"y":427,"w":24,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
+	"sourceSize": {"w":24,"h":20}
+},
+{
+	"filename": "heroSleeping1.png",
+	"frame": {"x":30,"y":448,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
@@ -301,8 +365,8 @@
 	"version": "1.0",
 	"image": "tiles.atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":64,"h":374},
+	"size": {"w":64,"h":470},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:adfb034a8c05c009d50c896bbfeadfe6:0b396dd3204a822720127e2a96191b27:5e5ef3518cc1a44e4ed4954a57ade08c$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a8352d085fe7f77da96b526aa3c5ebd7:e91e2c8bbe1a4067007493025c8314ac:5e5ef3518cc1a44e4ed4954a57ade08c$"
 }
 }
