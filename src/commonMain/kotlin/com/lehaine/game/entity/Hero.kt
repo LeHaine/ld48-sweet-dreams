@@ -103,6 +103,7 @@ class Hero(
             begin {
                 cd(ATTACK_CD, 300.milliseconds)
                 cd(SLING_SHOT_CD, 5.seconds)
+                cd(ANIM_PLAYING, Assets.heroSlingShot.duration)
                 sprite.playOverlap(Assets.heroSlingShot)
                 repeat(3) {
                     val x = when (it) {
