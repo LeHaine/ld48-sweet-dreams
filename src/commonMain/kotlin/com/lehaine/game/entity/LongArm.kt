@@ -35,8 +35,8 @@ inline fun Container.longArm(
         anchorY = 1.0,
     ),
     targetComponent = TargetComponentDefault(),
-    healthComponent = HealthComponentDefault(50),
-    dangerousComponent = DangerousComponentDefault(10)
+    healthComponent = HealthComponentDefault(100),
+    dangerousComponent = DangerousComponentDefault(35)
 ).addTo(this).addToLevel().also(callback)
 
 class LongArm(

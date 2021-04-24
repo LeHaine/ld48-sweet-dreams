@@ -35,7 +35,7 @@ inline fun Container.sheep(
         anchorY = 1.0,
     ),
     targetComponent = TargetComponentDefault(),
-    healthComponent = HealthComponentDefault(25),
+    healthComponent = HealthComponentDefault(30),
     dangerousComponent = DangerousComponentDefault(5)
 ).addTo(this).addToLevel().also(callback)
 

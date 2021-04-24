@@ -34,7 +34,7 @@ inline fun Container.dustBunny(
     ),
     targetComponent = TargetComponentDefault(),
     healthComponent = HealthComponentDefault(25),
-    dangerousComponent = DangerousComponentDefault(5)
+    dangerousComponent = DangerousComponentDefault(15)
 ).addTo(this).addToLevel().also(callback)
 
 class DustBunny(

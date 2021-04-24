@@ -36,8 +36,8 @@ inline fun Container.ghoul(
         anchorY = 1.0,
     ),
     targetComponent = TargetComponentDefault(),
-    healthComponent = HealthComponentDefault(25),
-    dangerousComponent = DangerousComponentDefault(5)
+    healthComponent = HealthComponentDefault(75),
+    dangerousComponent = DangerousComponentDefault(50)
 ).addTo(this).addToLevel().also(callback)
 
 class Ghoul(
