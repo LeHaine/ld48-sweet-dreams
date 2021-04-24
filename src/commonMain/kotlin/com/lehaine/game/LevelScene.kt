@@ -65,7 +65,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             gameLevel._camera = it
         }
         // overlay
-        solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#2b186c6d"])
+        solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#311d8a51"])
         val timerText = text("0:00") {
             font = Assets.pixelFont
             fontSize = 12.0
