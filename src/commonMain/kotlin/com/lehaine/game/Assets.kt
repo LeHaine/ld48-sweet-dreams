@@ -32,6 +32,11 @@ object Assets {
     lateinit var longArmStunned: SpriteAnimation
     lateinit var longArmWalk: SpriteAnimation
 
+    lateinit var sheepIdle: SpriteAnimation
+    lateinit var sheepAttack: SpriteAnimation
+    lateinit var sheepStunned: SpriteAnimation
+    lateinit var sheepWalk: SpriteAnimation
+
     lateinit var stunIcon: SpriteAnimation
 
     object Sfx {
@@ -79,6 +84,11 @@ object Assets {
         longArmSwing = tiles.getSpriteAnimation("longArmSwing", 100.milliseconds)
         longArmStunned = tiles.getSpriteAnimation("longArmStunned", 500.milliseconds)
         longArmWalk = tiles.getSpriteAnimation("longArmWalk", 100.milliseconds)
+
+        sheepIdle = tiles.getSpriteAnimation("sheepIdle", 500.milliseconds)
+        sheepAttack = tiles.getSpriteAnimation("sheepAttack", 100.milliseconds)
+        sheepStunned = tiles.getSpriteAnimation("sheepStunned", 500.milliseconds)
+        sheepWalk = tiles.getSpriteAnimation("sheepWalk", 100.milliseconds)
 
         stunIcon = tiles.getSpriteAnimation("stunIcon", 200.milliseconds)
 

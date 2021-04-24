@@ -14,11 +14,11 @@ import com.soywiz.korge.view.anchor
 import com.soywiz.korma.geom.Anchor
 import com.soywiz.korui.UiContainer
 
-fun Container.longArm(
+fun Container.sheep(
     cx: Int, cy: Int,
     level: GenericGameLevelComponent<LevelMark>,
-    callback: LongArm.() -> Unit = {}
-): LongArm = LongArm(
+    callback: Sheep.() -> Unit = {}
+): Sheep = Sheep(
     level = level,
     platformerDynamicComponent = PlatformerDynamicComponentDefault(
         levelComponent = level,
@@ -35,11 +35,11 @@ fun Container.longArm(
         anchorY = 1.0,
     ),
     targetComponent = TargetComponentDefault(),
-    healthComponent = HealthComponentDefault(50),
-    dangerousComponent = DangerousComponentDefault(10)
+    healthComponent = HealthComponentDefault(25),
+    dangerousComponent = DangerousComponentDefault(5)
 ).addTo(this).addToLevel().also(callback)
 
-class LongArm(
+class Sheep(
     level: GenericGameLevelComponent<LevelMark>,
     platformerDynamicComponent: PlatformerDynamicComponent,
     spriteComponent: SpriteComponent,
@@ -60,13 +60,13 @@ class LongArm(
         private const val IDLE = "idle"
     }
 
-    private sealed class LongArmState {
-        object Idle : LongArmState()
-        object Attack : LongArmState()
-        object MovingToHero : LongArmState()
+    private sealed class SheepState {
+        object Idle : SheepState()
+        object Attack : SheepState()
+        object MovingToHero : SheepState()
 
-        object NoAffects : LongArmState()
-        object Stunned : LongArmState()
+        object NoAffects : SheepState()
+        object Stunned : SheepState()
     }
 
 
@@ -78,31 +78,31 @@ class LongArm(
             visible = false
         }
     }
-    private val moveSpeed = 0.015
+    private val moveSpeed = 0.02
 
 
     private val attackingHero get() = distGridTo(level.hero) <= 3 && !cd.has(ATTACK_CD)
 
-    private val entityFSM = stateMachine<LongArmState>(LongArmState.NoAffects) {
-        state(LongArmState.Stunned) {
+    private val entityFSM = stateMachine<SheepState>(SheepState.NoAffects) {
+        state(SheepState.Stunned) {
             transition {
                 when {
-                    hasAffect(Affect.STUN) -> LongArmState.Stunned
-                    else -> LongArmState.NoAffects
+                    hasAffect(Affect.STUN) -> SheepState.Stunned
+                    else -> SheepState.NoAffects
                 }
             }
             begin {
                 affectIcon.playAnimationLooped(Assets.stunIcon)
                 affectIcon.visible = true
-                sprite.playAnimationLooped(Assets.longArmStunned)
+                sprite.playAnimationLooped(Assets.sheepStunned)
             }
         }
 
-        state(LongArmState.NoAffects) {
+        state(SheepState.NoAffects) {
             transition {
                 when {
-                    hasAffect(Affect.STUN) -> LongArmState.Stunned
-                    else -> LongArmState.NoAffects
+                    hasAffect(Affect.STUN) -> SheepState.Stunned
+                    else -> SheepState.NoAffects
                 }
             }
             begin {
@@ -117,49 +117,49 @@ class LongArm(
 
     }
 
-    private val controlFSM = stateMachine<LongArmState>(LongArmState.Idle) {
-        state(LongArmState.MovingToHero) {
+    private val controlFSM = stateMachine<SheepState>(SheepState.Idle) {
+        state(SheepState.MovingToHero) {
             transition {
                 when {
-                    attackingHero -> LongArmState.Attack
-                    else -> LongArmState.MovingToHero
+                    attackingHero -> SheepState.Attack
+                    else -> SheepState.MovingToHero
                 }
 
             }
             begin {
-                sprite.playAnimationLooped(Assets.longArmWalk)
+                sprite.playAnimationLooped(Assets.sheepWalk)
             }
             update {
                 moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, level.hero.cy, moveSpeed * tmod)
             }
 
         }
-        state(LongArmState.Attack) {
+        state(SheepState.Attack) {
             transition {
                 when {
-                    cd.has(ANIM_PLAYING) -> LongArmState.Attack
-                    else -> LongArmState.Idle
+                    cd.has(ANIM_PLAYING) -> SheepState.Attack
+                    else -> SheepState.Idle
                 }
             }
             begin {
                 dir = dirTo(level.hero)
-                sprite.playOverlap(Assets.longArmSwing, onAnimationFrameChange = {
-                    if (it == 7) {
+                sprite.playOverlap(Assets.sheepAttack, onAnimationFrameChange = {
+                    if (it == 8) {
                         attemptToAttackHero()
                     }
                 })
-                cd(ANIM_PLAYING, Assets.longArmSwing.duration)
+                cd(ANIM_PLAYING, Assets.sheepWalk.duration)
                 cd(ATTACK_CD, 3.seconds)
             }
 
         }
-        state(LongArmState.Idle) {
+        state(SheepState.Idle) {
             var playingAnim = false
             transition {
                 when {
-                    cd.has(IDLE) -> LongArmState.Idle
-                    attackingHero -> LongArmState.Attack
-                    else -> LongArmState.MovingToHero
+                    cd.has(IDLE) -> SheepState.Idle
+                    attackingHero -> SheepState.Attack
+                    else -> SheepState.MovingToHero
                 }
             }
             begin {
@@ -168,7 +168,7 @@ class LongArm(
             }
             update {
                 if (!playingAnim && !cd.has(ANIM_PLAYING)) {
-                    sprite.playAnimationLooped(Assets.longArmIdle)
+                    sprite.playAnimationLooped(Assets.sheepIdle)
                     playingAnim = true
                 }
             }

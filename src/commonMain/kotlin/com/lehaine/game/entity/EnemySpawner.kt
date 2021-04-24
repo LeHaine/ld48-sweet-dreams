@@ -8,6 +8,7 @@ import com.lehaine.kiwi.component.addToLevel
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.seconds
 import com.soywiz.korge.view.Container
+import kotlin.random.Random
 
 fun Container.enemySpawner(level: GenericGameLevelComponent<LevelMark>): EnemySpawner =
     EnemySpawner(level).addTo(this).addToLevel()
@@ -17,6 +18,7 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
     companion object {
         const val SPAWN_CD = "spawnCD"
     }
+
 
     override fun update(dt: TimeSpan) {
         super.update(dt)
@@ -30,7 +32,12 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
     fun spawn() {
         level.camera.content.apply {
             val spawn = level.spawnPoints.random()
-            longArm(spawn.cx, spawn.cy, level)
+            val rng = Random.nextFloat()
+            if (rng > 0.5) {
+                longArm(spawn.cx, spawn.cy, level)
+            } else {
+                sheep(spawn.cx, spawn.cy, level)
+            }
         }
     }
 
