@@ -126,6 +126,7 @@ class Hero(
         state(HeroState.SlingShot) {
             transition {
                 when {
+                    dodging -> HeroState.Dodge
                     cd.has(ATTACK_CD) -> HeroState.SlingShot
                     else -> HeroState.Idle
                 }
@@ -153,6 +154,7 @@ class Hero(
         state(HeroState.BroomAttack3) {
             transition {
                 when {
+                    dodging -> HeroState.Dodge
                     cd.has(ATTACK_CD) -> HeroState.BroomAttack3
                     swinging -> HeroState.BroomAttack1
                     else -> HeroState.Idle
@@ -180,6 +182,7 @@ class Hero(
         state(HeroState.BroomAttack2) {
             transition {
                 when {
+                    dodging -> HeroState.Dodge
                     cd.has(ATTACK_CD) -> HeroState.BroomAttack2
                     swinging && cd.has(COMBO) -> HeroState.BroomAttack3
                     else -> HeroState.Idle
@@ -209,6 +212,7 @@ class Hero(
         state(HeroState.BroomAttack1) {
             transition {
                 when {
+                    dodging -> HeroState.Dodge
                     cd.has(ATTACK_CD) -> HeroState.BroomAttack1
                     swinging && cd.has(COMBO) -> HeroState.BroomAttack2
                     else -> HeroState.Idle
