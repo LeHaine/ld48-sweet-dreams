@@ -4,6 +4,7 @@ import com.lehaine.game.*
 import com.lehaine.game.component.*
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.korge.view.enhancedSprite
+import com.lehaine.kiwi.random
 import com.lehaine.kiwi.stateMachine
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
@@ -125,6 +126,9 @@ class LongArm(
                 }
 
             }
+            begin {
+                sprite.playAnimationLooped(Assets.longArmWalk)
+            }
             update {
                 moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, level.hero.cy, moveSpeed * tmod)
             }
@@ -174,10 +178,6 @@ class LongArm(
     init {
         enableCollisionChecks = true
         sprite.playAnimationLooped(Assets.longArmIdle)
-        controlFSM.onStateChanged = {
-            println(it)
-
-        }
     }
 
     override fun update(dt: TimeSpan) {
@@ -195,7 +195,7 @@ class LongArm(
     }
 
     private fun attemptToAttackHero() {
-        if (distGridTo(level.hero) <= 2.5) {
+        if (distGridTo(level.hero) <= (1.5..2.5).random() && dir == dirTo(level.hero)) {
             attack(level.hero, -dirTo(level.hero))
         }
     }

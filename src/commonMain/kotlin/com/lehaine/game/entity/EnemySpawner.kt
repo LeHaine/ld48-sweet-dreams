@@ -27,10 +27,7 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
         }
     }
 
-    var done = false
     fun spawn() {
-        if (done) return
-        done = true
         level.camera.content.apply {
             val spawn = level.spawnPoints.random()
             longArm(spawn.cx, spawn.cy, level)

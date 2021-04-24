@@ -30,6 +30,7 @@ object Assets {
     lateinit var longArmIdle: SpriteAnimation
     lateinit var longArmSwing: SpriteAnimation
     lateinit var longArmStunned: SpriteAnimation
+    lateinit var longArmWalk: SpriteAnimation
 
     lateinit var stunIcon: SpriteAnimation
 
@@ -77,6 +78,7 @@ object Assets {
         longArmIdle = tiles.getSpriteAnimation("longArmIdle", 500.milliseconds)
         longArmSwing = tiles.getSpriteAnimation("longArmSwing", 100.milliseconds)
         longArmStunned = tiles.getSpriteAnimation("longArmStunned", 500.milliseconds)
+        longArmWalk = tiles.getSpriteAnimation("longArmWalk", 100.milliseconds)
 
         stunIcon = tiles.getSpriteAnimation("stunIcon", 200.milliseconds)
 

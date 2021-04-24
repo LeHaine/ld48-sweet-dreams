@@ -210,7 +210,7 @@
 },
 {
 	"filename": "heroBroomAttack27.png",
-	"frame": {"x":2,"y":367,"w":24,"h":20},
+	"frame": {"x":38,"y":376,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
@@ -218,7 +218,7 @@
 },
 {
 	"filename": "heroIdle0.png",
-	"frame": {"x":30,"y":376,"w":24,"h":20},
+	"frame": {"x":38,"y":400,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
@@ -226,7 +226,7 @@
 },
 {
 	"filename": "heroIdle1.png",
-	"frame": {"x":2,"y":391,"w":24,"h":20},
+	"frame": {"x":38,"y":424,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
@@ -234,7 +234,7 @@
 },
 {
 	"filename": "heroRun0.png",
-	"frame": {"x":30,"y":400,"w":24,"h":20},
+	"frame": {"x":38,"y":448,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
@@ -242,7 +242,7 @@
 },
 {
 	"filename": "heroRun1.png",
-	"frame": {"x":2,"y":415,"w":24,"h":20},
+	"frame": {"x":2,"y":457,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
@@ -250,7 +250,7 @@
 },
 {
 	"filename": "heroRun2.png",
-	"frame": {"x":30,"y":424,"w":24,"h":20},
+	"frame": {"x":30,"y":472,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
@@ -258,7 +258,7 @@
 },
 {
 	"filename": "heroRun3.png",
-	"frame": {"x":2,"y":439,"w":24,"h":20},
+	"frame": {"x":2,"y":481,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
@@ -266,7 +266,7 @@
 },
 {
 	"filename": "heroSleeping0.png",
-	"frame": {"x":30,"y":448,"w":24,"h":20},
+	"frame": {"x":30,"y":496,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
@@ -274,7 +274,7 @@
 },
 {
 	"filename": "heroSleeping1.png",
-	"frame": {"x":2,"y":463,"w":24,"h":20},
+	"frame": {"x":2,"y":505,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
@@ -385,6 +385,46 @@
 	"sourceSize": {"w":32,"h":14}
 },
 {
+	"filename": "longArmWalk0.png",
+	"frame": {"x":2,"y":367,"w":32,"h":14},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":14},
+	"sourceSize": {"w":32,"h":14}
+},
+{
+	"filename": "longArmWalk1.png",
+	"frame": {"x":2,"y":385,"w":32,"h":14},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":14},
+	"sourceSize": {"w":32,"h":14}
+},
+{
+	"filename": "longArmWalk2.png",
+	"frame": {"x":2,"y":403,"w":32,"h":14},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":14},
+	"sourceSize": {"w":32,"h":14}
+},
+{
+	"filename": "longArmWalk3.png",
+	"frame": {"x":2,"y":421,"w":32,"h":14},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":14},
+	"sourceSize": {"w":32,"h":14}
+},
+{
+	"filename": "longArmWalk4.png",
+	"frame": {"x":2,"y":439,"w":32,"h":14},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":14},
+	"sourceSize": {"w":32,"h":14}
+},
+{
 	"filename": "stunIcon0.png",
 	"frame": {"x":50,"y":29,"w":8,"h":4},
 	"rotated": false,
@@ -405,8 +445,8 @@
 	"version": "1.0",
 	"image": "tiles.atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":64,"h":485},
+	"size": {"w":64,"h":527},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:00b4b2de905c95d2f88834a7a3e418b0:8480af67ffbb8857750f07046535b471:5e5ef3518cc1a44e4ed4954a57ade08c$"
+	"smartupdate": "$TexturePacker:SmartUpdate:e64562083307431d98120a0e26b67322:d073f475cb25e6ca81bb68bb3683df93:5e5ef3518cc1a44e4ed4954a57ade08c$"
 }
 }
