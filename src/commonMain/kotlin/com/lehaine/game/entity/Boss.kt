@@ -78,8 +78,7 @@ class Boss(
             visible = false
         }
     }
-    private val moveSpeed = 0.02
-
+    private val moveSpeed = 0.04
 
     private val attackingHero get() = distGridTo(level.hero) <= 3 && !cd.has(ATTACK_CD)
 
