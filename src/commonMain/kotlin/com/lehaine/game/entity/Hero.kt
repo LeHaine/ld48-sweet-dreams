@@ -2,8 +2,10 @@ package com.lehaine.game.entity
 
 import com.lehaine.game.*
 import com.lehaine.game.component.GenericGameLevelComponent
+import com.lehaine.game.component.HealthComponent
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.stateMachine
+import com.soywiz.kds.iterators.fastForEach
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.korev.Key
@@ -46,6 +48,8 @@ class Hero(
     companion object {
         const val ON_GROUND_RECENTLY = "onGroundRecently"
         const val JUMP_EXTRA = "jumpExtra"
+        const val ANIM_PLAYING = "animPlaying"
+        const val ATTACK_CD = "attackCD"
     }
 
     private sealed class HeroState {
@@ -55,20 +59,52 @@ class Hero(
         object DoubleJump : HeroState()
         object Fall : HeroState()
         object Sleep : HeroState()
+        object BroomAttack1 : HeroState()
     }
 
-    private val moveSpeed = 0.03
+    private val moveSpeed = 0.04
     private val moveFriction = 0.8
     private val jumpHeight = -0.5
     private val jumpExtraSpeed = 0.04
 
+    private var canSwing = true
+    private val swinging get() = input.mouseButtons == 1 && canSwing
+
     private val runningLeft get() = input.keys.pressing(Key.A)
     private val runningRight get() = input.keys.pressing(Key.D)
     private val running get() = runningLeft || runningRight
+
     private val jumping get() = input.keys.justPressed(Key.SPACE) && cd.has(ON_GROUND_RECENTLY)
     private val jumpingExtra get() = input.keys.justPressed(Key.SPACE) && cd.has(JUMP_EXTRA)
 
+    private var broomCombo = 0
+
     private val fsm = stateMachine<HeroState>(HeroState.Sleep) {
+        state(HeroState.BroomAttack1) {
+            transition {
+                when {
+                    cd.has(ATTACK_CD) -> HeroState.BroomAttack1
+                    else -> HeroState.Idle
+                }
+
+            }
+            begin {
+                canSwing = false
+                sprite.playOverlap(Assets.heroBroomAttack1)
+                cd(ATTACK_CD, 300.milliseconds)
+                cd(ANIM_PLAYING, Assets.heroBroomAttack1.duration)
+                level.entities.fastForEach {
+                    if (it != this@Hero
+                        && dirTo(it) == dir
+                        && distGridTo(it) <= 1
+                        && it is HealthComponent
+                    ) {
+                        it.damage(25, -dirTo(it))
+                    }
+                }
+
+            }
+        }
         state(HeroState.Sleep) {
             transition {
                 when {
@@ -117,6 +153,7 @@ class Hero(
             transition {
                 when {
                     jumping -> HeroState.Jump
+                    swinging && broomCombo == 0 -> HeroState.BroomAttack1
                     running -> HeroState.Run
                     else -> HeroState.Idle
                 }
@@ -127,17 +164,23 @@ class Hero(
             update { run() }
         }
         state(HeroState.Idle) {
+            var playingAnim = false
             transition {
                 when {
                     jumping -> HeroState.Jump
                     running -> HeroState.Run
+                    swinging && broomCombo == 0 -> HeroState.BroomAttack1
                     else -> HeroState.Idle
                 }
             }
             begin {
-                sprite.playAnimationLooped(Assets.heroIdle)
+                playingAnim = false
             }
             update {
+                if (!playingAnim && !cd.has(ANIM_PLAYING)) {
+                    sprite.playAnimationLooped(Assets.heroIdle)
+                    playingAnim = true
+                }
                 run()
             }
         }
@@ -151,6 +194,10 @@ class Hero(
         super.update(dt)
         if (onGround) {
             cd(ON_GROUND_RECENTLY, 150.milliseconds)
+        }
+
+        if (input.mouseButtons == 0) {
+            canSwing = true
         }
 
         fsm.update(dt)
