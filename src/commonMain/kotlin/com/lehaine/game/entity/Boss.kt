@@ -141,7 +141,10 @@ class Boss(
             begin {
                 dir = dirTo(level.hero)
                 sprite.playOverlap(Assets.bossAttack, onAnimationFrameChange = {
-                    if (it in 3..8) {
+                    if (it in 6..11) {
+                        if(it == 6) {
+                            camera.shake(300.milliseconds,0.3)
+                        }
                         attemptToAttackHero()
                     }
                 })
