@@ -10,6 +10,7 @@ import com.lehaine.kiwi.korge.view.ldtk.toLDtkLevel
 import com.soywiz.kds.iterators.fastForEach
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
+import com.soywiz.kmem.umod
 import com.soywiz.korev.Key
 import com.soywiz.korge.input.keys
 import com.soywiz.korge.scene.Scene
@@ -75,7 +76,10 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
         addUpdater { dt ->
             val tmod = if (dt == 0.milliseconds) 0.0 else (dt / 16.666666.milliseconds)
             timer += dt
-            timerText.text = "${floor(timer.minutes).toInt()}:${(floor(timer.seconds).toInt()).toString().padStart(2,'0')}"
+            val minutes = floor((timer.seconds / 60) umod 60.0).toInt()
+            val seconds = floor(timer.seconds umod 60.0).toInt()
+            timerText.text =
+                "${minutes}:${seconds.toString().padStart(2, '0')}"
 
             fx.update(dt)
             gameLevel.entities.fastForEach {
