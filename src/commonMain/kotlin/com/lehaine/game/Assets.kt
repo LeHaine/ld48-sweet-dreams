@@ -22,7 +22,7 @@ object Assets {
     lateinit var pixelFont: Font
 
     lateinit var bossIdle: SpriteAnimation
-    lateinit var bossWalk: SpriteAnimation
+    lateinit var bossRun: SpriteAnimation
     lateinit var bossAttack: SpriteAnimation
 
     lateinit var heroIdle: SpriteAnimation
@@ -90,7 +90,7 @@ object Assets {
 
         bossIdle = tiles.getSpriteAnimation("bossIdle", 500.milliseconds)
         bossAttack = tiles.getSpriteAnimation("bossAttack", 100.milliseconds)
-        bossWalk = tiles.getSpriteAnimation("bossWalk", 100.milliseconds)
+        bossRun = tiles.getSpriteAnimation("bossRun", 100.milliseconds)
 
         // define animations and other assets here
         heroIdle = tiles.getSpriteAnimation("heroIdle", 500.milliseconds)
