@@ -4,7 +4,9 @@ import GameModule
 import com.lehaine.game.entity.Hero
 import com.lehaine.game.entity.enemySpawner
 import com.lehaine.game.entity.hero
+import com.lehaine.kiwi.korge.getByPrefix
 import com.lehaine.kiwi.korge.view.cameraContainer
+import com.lehaine.kiwi.korge.view.enhancedSprite
 import com.lehaine.kiwi.korge.view.ldtk.ldtkMapView
 import com.lehaine.kiwi.korge.view.ldtk.toLDtkLevel
 import com.soywiz.kds.iterators.fastForEach
@@ -69,9 +71,17 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
         val timerText = text("0:00") {
             font = Assets.pixelFont
             fontSize = 12.0
+            x = 3.0
+            y = 3.0
         }
 
+        val slingshotIcon = enhancedSprite(Assets.tiles.getByPrefix("slingshotIcon"), smoothing = false) {
+            alpha(0.65)
+        }.alignBottomToBottomOf(this, 3.0)
+            .alignLeftToLeftOf(this, 3.0)
+
         val spawner = enemySpawner(gameLevel)
+
         var timer = TimeSpan.ZERO
         addUpdater { dt ->
             val tmod = if (dt == 0.milliseconds) 0.0 else (dt / 16.666666.milliseconds)

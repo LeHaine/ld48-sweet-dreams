@@ -234,7 +234,7 @@
 },
 {
 	"filename": "fxImpact0.png",
-	"frame": {"x":90,"y":627,"w":15,"h":9},
+	"frame": {"x":108,"y":627,"w":15,"h":9},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":9},
@@ -946,7 +946,7 @@
 },
 {
 	"filename": "sheepWalk2.png",
-	"frame": {"x":109,"y":627,"w":12,"h":8},
+	"frame": {"x":90,"y":646,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -954,11 +954,19 @@
 },
 {
 	"filename": "sheepWalk3.png",
-	"frame": {"x":109,"y":639,"w":12,"h":8},
+	"frame": {"x":106,"y":646,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
 	"sourceSize": {"w":12,"h":8}
+},
+{
+	"filename": "slingshotIcon0.png",
+	"frame": {"x":90,"y":627,"w":14,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":15},
+	"sourceSize": {"w":14,"h":15}
 },
 {
 	"filename": "stunIcon0.png",
@@ -983,6 +991,6 @@
 	"format": "RGBA8888",
 	"size": {"w":128,"h":656},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:fbab936e4aa0d6cfc13ca37483752cdc:1a4b91e8b96fd19b5eaa1513178e91bb:5e5ef3518cc1a44e4ed4954a57ade08c$"
+	"smartupdate": "$TexturePacker:SmartUpdate:7145dd54c374ddd2b7acc30627359541:95e70e231cdb88115976ee89071dbcdd:5e5ef3518cc1a44e4ed4954a57ade08c$"
 }
 }
