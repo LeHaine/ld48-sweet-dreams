@@ -1,6 +1,7 @@
 package com.lehaine.game.component
 
 import com.lehaine.game.Fx
+import com.lehaine.game.Hero
 import com.lehaine.kiwi.component.LevelComponent
 import com.lehaine.kiwi.korge.view.CameraContainer
 
@@ -9,6 +10,7 @@ import com.lehaine.kiwi.korge.view.CameraContainer
  */
 interface GenericGameLevelComponent<LevelMark> : LevelComponent<LevelMark> {
     val fx: Fx
+    val hero: Hero
     val camera: CameraContainer
     val levelWidth: Int
     val levelHeight: Int

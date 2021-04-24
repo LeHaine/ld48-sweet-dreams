@@ -23,6 +23,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
         val gameLevel = GameLevel(worldLevel)
 
         lateinit var fx: Fx
+        lateinit var hero: Hero
 
         val cam = cameraContainer(
             GameModule.size.width.toDouble(), GameModule.size.height.toDouble(),
@@ -37,12 +38,15 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                 name = "EntityContainer"
 
                 // instantiate and add entities to game level list here
+
+                hero = hero(worldLevel.layerEntities.allHero[0], gameLevel).also { gameLevel._hero = it }
             }
 
             val particleContainer = fastSpriteContainer(useRotation = true, smoothing = false)
             fx = Fx(gameLevel, particleContainer).also { gameLevel._fx = it }
         }.apply {
             // follow newly created entity or do something with camera
+            follow(hero)
         }.also {
             gameLevel._camera = it
         }

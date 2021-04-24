@@ -8,9 +8,11 @@ import com.soywiz.kmem.clamp
 class GameLevel(val level: World.WorldLevel) : GenericGameLevelComponent<LevelMark> {
     var _camera: CameraContainer? = null
     var _fx: Fx? = null
+    var _hero:Hero? = null
 
     override val camera get() = _camera!!
     override val fx get() = _fx!!
+    override val hero get() = _hero!!
 
     override val entities: ArrayList<Entity> = arrayListOf()
     override val staticEntities: ArrayList<Entity> = arrayListOf()

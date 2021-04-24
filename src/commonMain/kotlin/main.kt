@@ -4,7 +4,6 @@ import com.lehaine.game.World
 import com.soywiz.korge.Korge
 import com.soywiz.korge.scene.Module
 import com.soywiz.korge.view.views
-import com.soywiz.korgw.GameWindow
 import com.soywiz.korim.color.Colors
 import com.soywiz.korinject.AsyncInjector
 import com.soywiz.korma.geom.Size

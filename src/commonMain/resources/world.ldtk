@@ -5,11 +5,11 @@
 		"doc": "https://ldtk.io/json",
 		"schema": "https://ldtk.io/files/JSON_SCHEMA.json",
 		"appAuthor": "Sebastien 'deepnight' Benard",
-		"appVersion": "0.9.0",
+		"appVersion": "0.9.3",
 		"url": "https://ldtk.io"
 	},
-	"jsonVersion": "0.9.0",
-	"nextUid": 61,
+	"jsonVersion": "0.9.3",
+	"nextUid": 62,
 	"worldLayout": "Free",
 	"worldGridWidth": 256,
 	"worldGridHeight": 256,
@@ -23,7 +23,7 @@
 	"minifyJson": false,
 	"externalLevels": false,
 	"exportTiled": false,
-	"exportPng": false,
+	"imageExportMode": "None",
 	"pngFilePattern": null,
 	"backupOnSave": false,
 	"backupLimit": 10,
@@ -396,7 +396,33 @@
 			"tilePivotX": 0,
 			"tilePivotY": 0
 		}
-	], "entities": [], "tilesets": [
+	], "entities": [
+		{
+			"identifier": "Hero",
+			"uid": 61,
+			"tags": [],
+			"width": 8,
+			"height": 16,
+			"resizableX": false,
+			"resizableY": false,
+			"keepAspectRatio": false,
+			"fillOpacity": 1,
+			"lineOpacity": 1,
+			"hollow": false,
+			"color": "#94D9B3",
+			"renderMode": "Rectangle",
+			"showName": true,
+			"tilesetId": null,
+			"tileId": null,
+			"tileRenderMode": "FitInside",
+			"maxCount": 0,
+			"limitScope": "PerLevel",
+			"limitBehavior": "MoveLastOne",
+			"pivotX": 0.5,
+			"pivotY": 1,
+			"fieldDefs": []
+		}
+	], "tilesets": [
 		{
 			"__cWid": 64,
 			"__cHei": 64,
@@ -460,7 +486,19 @@
 					"seed": 8697657,
 					"overrideTilesetUid": null,
 					"gridTiles": [],
-					"entityInstances": []
+					"entityInstances": [
+						{
+							"__identifier": "Hero",
+							"__grid": [27,19],
+							"__pivot": [0.5,1],
+							"__tile": null,
+							"width": 8,
+							"height": 16,
+							"defUid": 61,
+							"px": [220,160],
+							"fieldInstances": []
+						}
+					]
 				},
 				{
 					"__identifier": "Collisions",
