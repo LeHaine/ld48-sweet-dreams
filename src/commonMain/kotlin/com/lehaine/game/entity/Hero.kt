@@ -96,7 +96,7 @@ class Hero(
                 level.entities.fastForEach {
                     if (it != this@Hero
                         && dirTo(it) == dir
-                        && distGridTo(it) <= 1
+                        && distGridTo(it) <= 2.5
                         && it is HealthComponent
                     ) {
                         it.damage(25, -dirTo(it))

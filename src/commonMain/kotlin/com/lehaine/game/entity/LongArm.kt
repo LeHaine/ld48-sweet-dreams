@@ -6,6 +6,7 @@ import com.lehaine.game.GameEntity
 import com.lehaine.game.LevelMark
 import com.lehaine.game.component.*
 import com.lehaine.kiwi.component.*
+import com.soywiz.klock.TimeSpan
 import com.soywiz.korge.view.Container
 import com.soywiz.korui.UiContainer
 
@@ -49,6 +50,18 @@ class LongArm(
     init {
         enableCollisionChecks = true
         sprite.playAnimationLooped(Assets.longArmIdle)
+    }
+
+    override fun update(dt: TimeSpan) {
+        super.update(dt)
+        if (isDead) {
+            destroy()
+        }
+    }
+
+    override fun damage(amount: Int, fromDir: Int) {
+        healthComponent.damage(amount, fromDir)
+        stretchX = 0.6
     }
 
     override fun buildDebugInfo(container: UiContainer) {
