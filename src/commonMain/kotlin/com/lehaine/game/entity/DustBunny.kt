@@ -56,6 +56,7 @@ class DustBunny(
         private const val ANIM_PLAYING = "animPlaying"
         private const val ATTACK_CD = "attackCD"
         private const val IDLE = "idle"
+        private const val DUST = "dustCD"
     }
 
     private sealed class DustBunnyState {
@@ -173,7 +174,13 @@ class DustBunny(
     override fun update(dt: TimeSpan) {
         super.update(dt)
         if (isDead) {
+            fx.dustExplosion(centerX, centerY)
             destroy()
+        }
+
+        if (!cd.has(DUST)) {
+            cd(DUST, 250.milliseconds)
+            fx.dust(centerX, centerY)
         }
 
         entityFSM.update(dt)
