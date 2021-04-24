@@ -4,7 +4,6 @@ import com.lehaine.game.*
 import com.lehaine.game.component.*
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.korge.view.enhancedSprite
-import com.lehaine.kiwi.random
 import com.lehaine.kiwi.stateMachine
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
@@ -123,7 +122,6 @@ class Boss(
                     attackingHero -> BossState.Attack
                     else -> BossState.MovingToHero
                 }
-
             }
             begin {
                 sprite.playAnimationLooped(Assets.bossRun)
@@ -143,7 +141,7 @@ class Boss(
             begin {
                 dir = dirTo(level.hero)
                 sprite.playOverlap(Assets.bossAttack, onAnimationFrameChange = {
-                    if (it == 8) {
+                    if (it in 3..8) {
                         attemptToAttackHero()
                     }
                 })
@@ -193,7 +191,7 @@ class Boss(
     }
 
     private fun attemptToAttackHero() {
-        if (distGridTo(level.hero) <= (1.5..2.5).random() && dir == dirTo(level.hero)) {
+        if (distGridTo(level.hero) <= 3.5 && dir == dirTo(level.hero)) {
             attack(level.hero, -dirTo(level.hero))
         }
     }
@@ -201,5 +199,4 @@ class Boss(
     override fun buildDebugInfo(container: UiContainer) {
         debugComponents(container)
     }
-
 }

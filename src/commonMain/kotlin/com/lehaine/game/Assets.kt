@@ -89,7 +89,7 @@ object Assets {
         pixelFont = TtfFont(resourcesVfs["m5x7.ttf"].readAll())
 
         bossIdle = tiles.getSpriteAnimation("bossIdle", 500.milliseconds)
-        bossAttack = tiles.getSpriteAnimation("bossAttack", 100.milliseconds)
+        bossAttack = tiles.getSpriteAnimation("bossAttack", 150.milliseconds)
         bossRun = tiles.getSpriteAnimation("bossRun", 100.milliseconds)
 
         // define animations and other assets here
