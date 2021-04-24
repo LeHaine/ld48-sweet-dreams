@@ -1,8 +1,7 @@
 package com.lehaine.game.entity
 
 import com.lehaine.game.*
-import com.lehaine.game.component.GenericGameLevelComponent
-import com.lehaine.game.component.HealthComponent
+import com.lehaine.game.component.*
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.stateMachine
 import com.soywiz.kds.iterators.fastForEach
@@ -32,7 +31,9 @@ fun Container.hero(
     spriteComponent = SpriteComponent(
         anchorX = data.pivotX.toDouble(),
         anchorY = data.pivotY.toDouble()
-    )
+    ),
+    healthComponent = HealthComponentDefault(50),
+    dangerousComponent = DangerousComponentDefault(20)
 ).addTo(this).addToLevel().also(callback)
 
 
@@ -40,16 +41,20 @@ class Hero(
     level: GenericGameLevelComponent<LevelMark>,
     platformerDynamicComponent: PlatformerDynamicComponent,
     spriteComponent: SpriteComponent,
+    private val healthComponent: HealthComponent,
+    private val dangerousComponent: DangerousComponent
 ) :
     GameEntity(level, spriteComponent, platformerDynamicComponent),
     SpriteComponent by spriteComponent,
-    PlatformerDynamicComponent by platformerDynamicComponent {
+    PlatformerDynamicComponent by platformerDynamicComponent,
+    HealthComponent by healthComponent,
+    DangerousComponent by dangerousComponent {
 
     companion object {
-        const val ON_GROUND_RECENTLY = "onGroundRecently"
-        const val JUMP_EXTRA = "jumpExtra"
-        const val ANIM_PLAYING = "animPlaying"
-        const val ATTACK_CD = "attackCD"
+        private const val ON_GROUND_RECENTLY = "onGroundRecently"
+        private const val JUMP_EXTRA = "jumpExtra"
+        private const val ANIM_PLAYING = "animPlaying"
+        private const val ATTACK_CD = "attackCD"
     }
 
     private sealed class HeroState {
@@ -99,7 +104,7 @@ class Hero(
                         && distGridTo(it) <= 2.5
                         && it is HealthComponent
                     ) {
-                        it.damage(25, -dirTo(it))
+                        attack(it, -dirTo(it))
                     }
                 }
 
@@ -200,7 +205,12 @@ class Hero(
             canSwing = true
         }
 
+        if (isDead) {
+            destroy()
+        }
+
         fsm.update(dt)
+
     }
 
     private fun run() {

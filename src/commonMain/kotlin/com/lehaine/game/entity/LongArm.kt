@@ -6,7 +6,9 @@ import com.lehaine.game.GameEntity
 import com.lehaine.game.LevelMark
 import com.lehaine.game.component.*
 import com.lehaine.kiwi.component.*
+import com.lehaine.kiwi.stateMachine
 import com.soywiz.klock.TimeSpan
+import com.soywiz.klock.seconds
 import com.soywiz.korge.view.Container
 import com.soywiz.korui.UiContainer
 
@@ -47,9 +49,63 @@ class LongArm(
     HealthComponent by healthComponent,
     DangerousComponent by dangerousComponent {
 
+    companion object {
+        private const val ANIM_PLAYING = "animPlaying"
+        private const val ATTACK_CD = "attackCD"
+    }
+
     init {
         enableCollisionChecks = true
         sprite.playAnimationLooped(Assets.longArmIdle)
+    }
+
+    private sealed class LongArmState {
+        object Idle : LongArmState()
+        object Attack : LongArmState()
+    }
+
+    private val attackingHero get() = distGridTo(level.hero) <= 3 && !cd.has(ATTACK_CD)
+
+    private val fsm = stateMachine<LongArmState>(LongArmState.Idle) {
+        state(LongArmState.Attack) {
+            var animPlaying = true
+            transition {
+                when {
+                    animPlaying -> LongArmState.Attack
+                    else -> LongArmState.Idle
+                }
+            }
+            begin {
+                animPlaying = true
+                dir = dirTo(level.hero)
+                sprite.playOverlap(Assets.longArmSwing, onAnimationFrameChange = {
+                    if (it == 4) {
+                        attemptToAttackHero()
+                    }
+                }) {
+                    animPlaying = false
+                }
+                cd(ATTACK_CD, 3.seconds)
+            }
+        }
+        state(LongArmState.Idle) {
+            var playingAnim = false
+            transition {
+                when {
+                    attackingHero -> LongArmState.Attack
+                    else -> LongArmState.Idle
+                }
+            }
+            begin {
+                playingAnim = false
+            }
+            update {
+                if (!playingAnim && !cd.has(ANIM_PLAYING)) {
+                    sprite.playAnimationLooped(Assets.longArmIdle)
+                    playingAnim = true
+                }
+            }
+        }
     }
 
     override fun update(dt: TimeSpan) {
@@ -57,11 +113,19 @@ class LongArm(
         if (isDead) {
             destroy()
         }
+
+        fsm.update(dt)
     }
 
     override fun damage(amount: Int, fromDir: Int) {
         healthComponent.damage(amount, fromDir)
         stretchX = 0.6
+    }
+
+    private fun attemptToAttackHero() {
+        if (distGridTo(level.hero) <= 2.5) {
+            attack(level.hero, -dirTo(level.hero))
+        }
     }
 
     override fun buildDebugInfo(container: UiContainer) {
