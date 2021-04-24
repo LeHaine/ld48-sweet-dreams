@@ -8,6 +8,7 @@ import com.lehaine.kiwi.korge.view.cameraContainer
 import com.lehaine.kiwi.korge.view.ldtk.ldtkMapView
 import com.lehaine.kiwi.korge.view.ldtk.toLDtkLevel
 import com.soywiz.kds.iterators.fastForEach
+import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.korev.Key
 import com.soywiz.korge.input.keys
@@ -17,6 +18,7 @@ import com.soywiz.korge.view.fast.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korma.geom.Rectangle
+import kotlin.math.floor
 
 
 class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scene() {
@@ -42,7 +44,6 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                 gameLevel.spawnPoints += it
             }
 
-            enemySpawner(gameLevel)
 
             container EntityContainer@{
                 name = "EntityContainer"
@@ -62,10 +63,20 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
         }.also {
             gameLevel._camera = it
         }
+        // overlay
+        solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#0d071baa"])
+        val timerText = text("0:00") {
+            font = Assets.pixelFont
+            fontSize = 12.0
+        }
 
-        solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#0d071baa"]) {}
+        val spawner = enemySpawner(gameLevel)
+        var timer = TimeSpan.ZERO
         addUpdater { dt ->
             val tmod = if (dt == 0.milliseconds) 0.0 else (dt / 16.666666.milliseconds)
+            timer += dt
+            timerText.text = "${floor(timer.minutes).toInt()}:${(floor(timer.seconds).toInt()).toString().padStart(2,'0')}"
+
             fx.update(dt)
             gameLevel.entities.fastForEach {
                 it.tmod = tmod
