@@ -54,6 +54,7 @@ class Hero(
         object Jump : HeroState()
         object DoubleJump : HeroState()
         object Fall : HeroState()
+        object Sleep : HeroState()
     }
 
     private val moveSpeed = 0.03
@@ -67,7 +68,19 @@ class Hero(
     private val jumping get() = input.keys.justPressed(Key.SPACE) && cd.has(ON_GROUND_RECENTLY)
     private val jumpingExtra get() = input.keys.justPressed(Key.SPACE) && cd.has(JUMP_EXTRA)
 
-    private val fsm = stateMachine<HeroState>(HeroState.Idle) {
+    private val fsm = stateMachine<HeroState>(HeroState.Sleep) {
+        state(HeroState.Sleep) {
+            transition {
+                when {
+                    input.keys.justPressed(Key.SPACE) -> HeroState.Idle
+                    else -> HeroState.Sleep
+                }
+
+            }
+            begin {
+                sprite.playAnimationLooped(Assets.heroSleep)
+            }
+        }
         state(HeroState.Fall) {
             transition {
                 when {
