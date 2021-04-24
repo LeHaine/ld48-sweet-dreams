@@ -58,12 +58,14 @@ class Hero(
         private const val ATTACK_CD = "attackCD"
         private const val COMBO = "combo"
         private const val SLING_SHOT_CD = "slingShotCD"
+        private const val DODGE = "dodge"
     }
 
     private sealed class HeroState {
         object Idle : HeroState()
         object Run : HeroState()
         object Jump : HeroState()
+        object Dodge : HeroState()
         object DoubleJump : HeroState()
         object Fall : HeroState()
         object Sleep : HeroState()
@@ -85,6 +87,11 @@ class Hero(
     private val runningRight get() = input.keys.pressing(Key.D)
     private val running get() = runningLeft || runningRight
 
+    private val dodging
+        get() = (input.keys.justPressed(Key.LEFT_SHIFT) || input.keys.justPressed(Key.RIGHT_SHIFT)) && !cd.has(
+            DODGE
+        )
+
     private val slingShot get() = input.keys.pressing(Key.Q) && !cd.has(SLING_SHOT_CD)
 
     private val jumping get() = input.keys.justPressed(Key.SPACE) && cd.has(ON_GROUND_RECENTLY)
@@ -93,6 +100,29 @@ class Hero(
     private var broomCombo = 0
 
     private val fsm = stateMachine<HeroState>(HeroState.Sleep) {
+        state(HeroState.Dodge) {
+            var animFinished = false
+            transition {
+                when {
+                    animFinished -> HeroState.Idle
+                    else -> HeroState.Dodge
+                }
+            }
+
+            begin {
+                sprite.playOverlap(Assets.heroRoll) {
+                    animFinished = true
+                }
+                addAffect(Affect.INVULNERABLE, 1.seconds)
+            }
+            update {
+                velocityX += moveSpeed * 2.0 * dir * tmod
+            }
+            end {
+                cd(DODGE, 200.milliseconds)
+                animFinished = false
+            }
+        }
         state(HeroState.SlingShot) {
             transition {
                 when {
@@ -251,6 +281,7 @@ class Hero(
         state(HeroState.Run) {
             transition {
                 when {
+                    dodging -> HeroState.Dodge
                     jumping -> HeroState.Jump
                     slingShot -> HeroState.SlingShot
                     swinging && broomCombo == 0 -> HeroState.BroomAttack1
@@ -269,6 +300,7 @@ class Hero(
             var playingAnim = false
             transition {
                 when {
+                    dodging -> HeroState.Dodge
                     jumping -> HeroState.Jump
                     running -> HeroState.Run
                     slingShot -> HeroState.SlingShot
@@ -318,6 +350,9 @@ class Hero(
     }
 
     override fun damage(amount: Int, fromDir: Int) {
+        if (hasAffect(Affect.INVULNERABLE)) {
+            return
+        }
         healthComponent.damage(amount, fromDir)
         blink()
     }
