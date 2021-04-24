@@ -1,5 +1,5 @@
 #!/bin/bash
-aseprite="D:/Program Files/Aseprite/Aseprite.exe"
+aseprite="D:/Program Files (x86)/SteamLibrary/steamapps/common/Aseprite/Aseprite.exe"
 fileName=""
 excludeFiles=()
 for file in ./ase/*.aseprite; do

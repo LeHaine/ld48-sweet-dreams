@@ -1,10 +1,13 @@
 package com.lehaine.game
 
+import com.soywiz.klock.milliseconds
 import com.soywiz.korau.sound.PlaybackTimes
 import com.soywiz.korau.sound.Sound
 import com.soywiz.korau.sound.playbackTimes
 import com.soywiz.korau.sound.readSound
+import com.soywiz.korge.view.SpriteAnimation
 import com.soywiz.korge.view.Views
+import com.soywiz.korge.view.getSpriteAnimation
 import com.soywiz.korim.atlas.Atlas
 import com.soywiz.korim.atlas.readAtlas
 import com.soywiz.korim.font.Font
@@ -17,6 +20,9 @@ object Assets {
     lateinit var tiles: Atlas
 
     lateinit var pixelFont: Font
+
+    lateinit var heroIdle: SpriteAnimation
+    lateinit var heroRun: SpriteAnimation
 
     object Sfx {
         lateinit var views: Views
@@ -53,6 +59,8 @@ object Assets {
         pixelFont = TtfFont(resourcesVfs["m5x7.ttf"].readAll())
 
         // define animations and other assets here
+        heroIdle = tiles.getSpriteAnimation("heroIdle", 500.milliseconds)
+        heroRun = tiles.getSpriteAnimation("heroRun", 100.milliseconds)
 
         Sfx.init(views)
     }

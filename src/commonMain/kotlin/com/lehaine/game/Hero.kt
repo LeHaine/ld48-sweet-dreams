@@ -74,7 +74,6 @@ class Hero(
                     else -> HeroState.Fall
                 }
             }
-
             update {
                 run()
             }
@@ -87,13 +86,11 @@ class Hero(
                     else -> HeroState.Jump
                 }
             }
-
             begin {
                 if (jumping) {
                     jump()
                 }
             }
-
             update {
                 if (jumpingExtra) {
                     jumpExtra()
@@ -110,7 +107,9 @@ class Hero(
                     else -> HeroState.Idle
                 }
             }
-
+            begin {
+                sprite.playAnimationLooped(Assets.heroRun)
+            }
             update { run() }
         }
         state(HeroState.Idle) {
@@ -121,7 +120,9 @@ class Hero(
                     else -> HeroState.Idle
                 }
             }
-
+            begin {
+                sprite.playAnimationLooped(Assets.heroIdle)
+            }
             update {
                 run()
             }
@@ -129,8 +130,7 @@ class Hero(
     }
 
     init {
-        scaleX = 4.0
-        scaleY = 4.0
+        enableCollisionChecks = true
     }
 
     override fun update(dt: TimeSpan) {
