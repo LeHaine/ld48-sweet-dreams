@@ -94,7 +94,7 @@ class Boss(
             begin {
                 affectIcon.playAnimationLooped(Assets.stunIcon)
                 affectIcon.visible = true
-                sprite.playAnimationLooped(Assets.sheepStunned)
+                sprite.playAnimationLooped(Assets.bossIdle)
             }
         }
 
@@ -127,7 +127,7 @@ class Boss(
 
             }
             begin {
-                sprite.playAnimationLooped(Assets.sheepWalk)
+                sprite.playAnimationLooped(Assets.bossWalk)
             }
             update {
                 moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, level.hero.cy, moveSpeed * tmod)
@@ -143,12 +143,12 @@ class Boss(
             }
             begin {
                 dir = dirTo(level.hero)
-                sprite.playOverlap(Assets.sheepAttack, onAnimationFrameChange = {
+                sprite.playOverlap(Assets.bossAttack, onAnimationFrameChange = {
                     if (it == 8) {
                         attemptToAttackHero()
                     }
                 })
-                cd(ANIM_PLAYING, Assets.sheepAttack.duration)
+                cd(ANIM_PLAYING, Assets.bossAttack.duration)
                 cd(ATTACK_CD, 3.seconds)
             }
 
@@ -168,7 +168,7 @@ class Boss(
             }
             update {
                 if (!playingAnim && !cd.has(ANIM_PLAYING)) {
-                    sprite.playAnimationLooped(Assets.sheepIdle)
+                    sprite.playAnimationLooped(Assets.bossIdle)
                     playingAnim = true
                 }
             }

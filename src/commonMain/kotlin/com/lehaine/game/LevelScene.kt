@@ -128,6 +128,32 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             timerText.text =
                 "${minutes}:${seconds.toString().padStart(2, '0')}"
 
+            sleepState.text = when {
+                timer >= SleepState.DeepestSleep.time -> {
+                    gameLevel.sleepState = SleepState.DeepestSleep
+                    "Deepest SLEEP!"
+                }
+                timer >= SleepState.EvenDeeperSleep.time -> {
+                    gameLevel.sleepState = SleepState.EvenDeeperSleep
+                    "Even Deeper Sleep"
+                }
+                timer >= SleepState.DeeperSleep.time -> {
+                    gameLevel.sleepState = SleepState.DeeperSleep
+                    "Deeper Sleep"
+                }
+                timer >= SleepState.MediumSleep.time -> {
+                    gameLevel.sleepState = SleepState.MediumSleep
+                    "Medium Sleep"
+                }
+                timer >= SleepState.LightSleep.time -> {
+                    gameLevel.sleepState = SleepState.LightSleep
+                    "Light Sleep"
+                }
+                else -> {
+                    gameLevel.sleepState = SleepState.VeryLightSleep
+                    "Very Light Sleep"
+                }
+            }
             if (gameLevel.slingShotCDRemaining > 0.milliseconds) {
                 gameLevel.slingShotCDRemaining -= dt
                 slingshotCDText.text = gameLevel.slingShotCDRemaining.seconds.toIntCeil().toString()

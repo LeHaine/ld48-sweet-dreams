@@ -1,6 +1,7 @@
 package com.lehaine.game.component
 
 import com.lehaine.game.Fx
+import com.lehaine.game.SleepState
 import com.lehaine.game.World
 import com.lehaine.game.entity.Hero
 import com.lehaine.kiwi.component.GridPositionComponent
@@ -19,4 +20,5 @@ interface GenericGameLevelComponent<LevelMark> : LevelComponent<LevelMark> {
     val levelWidth: Int
     val levelHeight: Int
     var slingShotCDRemaining:TimeSpan
+    var sleepState: SleepState
 }

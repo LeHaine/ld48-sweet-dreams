@@ -5,6 +5,8 @@ import com.lehaine.game.entity.Hero
 import com.lehaine.kiwi.component.Entity
 import com.lehaine.kiwi.korge.view.CameraContainer
 import com.soywiz.klock.TimeSpan
+import com.soywiz.klock.milliseconds
+import com.soywiz.klock.seconds
 import com.soywiz.kmem.clamp
 
 class GameLevel(val level: World.WorldLevel) : GenericGameLevelComponent<LevelMark> {
@@ -13,6 +15,7 @@ class GameLevel(val level: World.WorldLevel) : GenericGameLevelComponent<LevelMa
     var _hero: Hero? = null
 
     override var slingShotCDRemaining: TimeSpan = TimeSpan.ZERO
+    override var sleepState: SleepState = SleepState.VeryLightSleep
 
     override val camera get() = _camera!!
     override val fx get() = _fx!!
@@ -106,4 +109,21 @@ enum class LevelMark {
     PLATFORM_END_RIGHT,
     PLATFORM_END_LEFT,
     SMALL_STEP
+}
+
+sealed class SleepState(val time: TimeSpan) {
+//    object VeryLightSleep : SleepState(0.milliseconds)
+//    object LightSleep : SleepState(60.seconds)
+//    object MediumSleep : SleepState(120.seconds)
+//    object DeeperSleep : SleepState(180.seconds)
+//    object EvenDeeperSleep : SleepState(240.seconds)
+//    object DeepestSleep : SleepState(300.seconds)
+
+    // debug
+    object VeryLightSleep : SleepState(0.milliseconds)
+    object LightSleep : SleepState(10.seconds)
+    object MediumSleep : SleepState(20.seconds)
+    object DeeperSleep : SleepState(30.seconds)
+    object EvenDeeperSleep : SleepState(40.seconds)
+    object DeepestSleep : SleepState(50.seconds)
 }

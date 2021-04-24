@@ -322,38 +322,6 @@
 },
 {
 	"filename": "ghoulAttack2.png",
-	"frame": {"x":106,"y":355,"w":16,"h":16},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16}
-},
-{
-	"filename": "ghoulAttack3.png",
-	"frame": {"x":106,"y":355,"w":16,"h":16},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16}
-},
-{
-	"filename": "ghoulAttack4.png",
-	"frame": {"x":106,"y":375,"w":16,"h":16},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16}
-},
-{
-	"filename": "ghoulAttack5.png",
-	"frame": {"x":106,"y":395,"w":16,"h":16},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16}
-},
-{
-	"filename": "ghoulAttack6.png",
 	"frame": {"x":30,"y":638,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
@@ -361,8 +329,40 @@
 	"sourceSize": {"w":16,"h":16}
 },
 {
+	"filename": "ghoulAttack3.png",
+	"frame": {"x":106,"y":315,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
+	"filename": "ghoulAttack4.png",
+	"frame": {"x":106,"y":335,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
+	"filename": "ghoulAttack5.png",
+	"frame": {"x":30,"y":638,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
+	"filename": "ghoulAttack6.png",
+	"frame": {"x":106,"y":315,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
 	"filename": "ghoulAttack7.png",
-	"frame": {"x":30,"y":658,"w":16,"h":16},
+	"frame": {"x":30,"y":638,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -370,7 +370,39 @@
 },
 {
 	"filename": "ghoulAttack8.png",
+	"frame": {"x":30,"y":658,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
+	"filename": "ghoulAttack9.png",
 	"frame": {"x":50,"y":638,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
+	"filename": "ghoulAttack10.png",
+	"frame": {"x":106,"y":355,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
+	"filename": "ghoulAttack11.png",
+	"frame": {"x":106,"y":375,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
+	"filename": "ghoulAttack12.png",
+	"frame": {"x":106,"y":395,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -1031,6 +1063,6 @@
 	"format": "RGBA8888",
 	"size": {"w":128,"h":676},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:a540e871c48f3f35490937d27c665dd8:925d510c87a647d046921452d2bb0901:5e5ef3518cc1a44e4ed4954a57ade08c$"
+	"smartupdate": "$TexturePacker:SmartUpdate:3c5bffbd69b0e19176011b4f57489e65:1c87f347f02b92a537a98b05054e8c69:5e5ef3518cc1a44e4ed4954a57ade08c$"
 }
 }

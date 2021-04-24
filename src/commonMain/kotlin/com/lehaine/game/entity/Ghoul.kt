@@ -162,7 +162,7 @@ class Ghoul(
             begin {
                 dir = dirTo(level.hero)
                 sprite.playOverlap(Assets.ghoulAttack, onAnimationFrameChange = {
-                    if (it == 6) {
+                    if (it == 10) {
                         attemptToAttackHero()
                     }
                 })

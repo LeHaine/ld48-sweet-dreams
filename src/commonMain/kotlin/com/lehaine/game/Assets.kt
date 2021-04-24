@@ -21,6 +21,10 @@ object Assets {
 
     lateinit var pixelFont: Font
 
+    lateinit var bossIdle: SpriteAnimation
+    lateinit var bossWalk: SpriteAnimation
+    lateinit var bossAttack: SpriteAnimation
+
     lateinit var heroIdle: SpriteAnimation
     lateinit var heroRun: SpriteAnimation
     lateinit var heroSleep: SpriteAnimation
@@ -82,6 +86,10 @@ object Assets {
     suspend fun init(views: Views) {
         tiles = resourcesVfs["tiles.atlas.json"].readAtlas()
         pixelFont = TtfFont(resourcesVfs["m5x7.ttf"].readAll())
+
+        bossIdle = tiles.getSpriteAnimation("bossIdle", 500.milliseconds)
+        bossAttack = tiles.getSpriteAnimation("bossAttack", 100.milliseconds)
+        bossWalk = tiles.getSpriteAnimation("bossWalk", 100.milliseconds)
 
         // define animations and other assets here
         heroIdle = tiles.getSpriteAnimation("heroIdle", 500.milliseconds)
