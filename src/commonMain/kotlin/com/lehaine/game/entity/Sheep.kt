@@ -148,7 +148,7 @@ class Sheep(
                         attemptToAttackHero()
                     }
                 })
-                cd(ANIM_PLAYING, Assets.sheepWalk.duration)
+                cd(ANIM_PLAYING, Assets.sheepAttack.duration)
                 cd(ATTACK_CD, 3.seconds)
             }
 
