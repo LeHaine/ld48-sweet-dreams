@@ -1074,11 +1074,11 @@
 },
 {
 	"filename": "slingshotIcon0.png",
-	"frame": {"x":1429,"y":22,"w":14,"h":15},
+	"frame": {"x":1429,"y":22,"w":13,"h":13},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":15},
-	"sourceSize": {"w":14,"h":15}
+	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":13},
+	"sourceSize": {"w":13,"h":13}
 },
 {
 	"filename": "stunIcon0.png",
@@ -1103,6 +1103,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1445,"h":63},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:b7ed251015146df6ddb21324564c0fbe:41da7fb8f5002f4cb8f66cbac704e424:5e5ef3518cc1a44e4ed4954a57ade08c$"
+	"smartupdate": "$TexturePacker:SmartUpdate:832c277bbcc58b342548a2ecbc6a4540:0b1d2d2687630b255a62c2468dd861b9:5e5ef3518cc1a44e4ed4954a57ade08c$"
 }
 }

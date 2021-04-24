@@ -104,6 +104,11 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
         }.alignBottomToBottomOf(this, 3.0)
             .alignLeftToLeftOf(this, 3.0)
 
+        text("Q") {
+            font = Assets.pixelFont
+            fontSize = 8.0
+            x = 7.0
+        }.alignBottomToTopOf(slingshotCDCover, 1)
 
         val sleepState = text("Very Light Sleep") {
             font = Assets.pixelFont
@@ -112,7 +117,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             y = 4.0
         }.alignRightToRightOf(this, 3.0)
 
-        val sleepIcon = enhancedSprite(smoothing = false) {
+        enhancedSprite(smoothing = false) {
             playAnimationLooped(Assets.sleepIcon)
             alignRightToLeftOf(sleepState, 3.0)
         }
