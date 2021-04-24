@@ -25,6 +25,7 @@ object Assets {
     lateinit var heroRun: SpriteAnimation
     lateinit var heroSleep: SpriteAnimation
     lateinit var heroBroomAttack1: SpriteAnimation
+    lateinit var heroBroomAttack2: SpriteAnimation
 
     lateinit var longArmIdle: SpriteAnimation
     lateinit var longArmSwing: SpriteAnimation
@@ -68,6 +69,7 @@ object Assets {
         heroRun = tiles.getSpriteAnimation("heroRun", 100.milliseconds)
         heroSleep = tiles.getSpriteAnimation("heroSleep", 500.milliseconds)
         heroBroomAttack1 = tiles.getSpriteAnimation("heroBroomAttack1", 100.milliseconds)
+        heroBroomAttack2 = tiles.getSpriteAnimation("heroBroomAttack2", 100.milliseconds)
 
         longArmIdle = tiles.getSpriteAnimation("longArmIdle", 500.milliseconds)
         longArmSwing = tiles.getSpriteAnimation("longArmSwing", 100.milliseconds)
