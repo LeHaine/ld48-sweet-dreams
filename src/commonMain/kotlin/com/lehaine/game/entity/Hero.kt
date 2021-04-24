@@ -1,5 +1,6 @@
-package com.lehaine.game
+package com.lehaine.game.entity
 
+import com.lehaine.game.*
 import com.lehaine.game.component.GenericGameLevelComponent
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.stateMachine

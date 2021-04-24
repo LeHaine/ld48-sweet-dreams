@@ -1,6 +1,8 @@
 package com.lehaine.game
 
 import GameModule
+import com.lehaine.game.entity.Hero
+import com.lehaine.game.entity.hero
 import com.lehaine.kiwi.korge.view.cameraContainer
 import com.lehaine.kiwi.korge.view.ldtk.ldtkMapView
 import com.lehaine.kiwi.korge.view.ldtk.toLDtkLevel

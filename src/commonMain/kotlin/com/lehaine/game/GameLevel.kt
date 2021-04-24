@@ -1,6 +1,7 @@
 package com.lehaine.game
 
 import com.lehaine.game.component.GenericGameLevelComponent
+import com.lehaine.game.entity.Hero
 import com.lehaine.kiwi.component.Entity
 import com.lehaine.kiwi.korge.view.CameraContainer
 import com.soywiz.kmem.clamp
@@ -8,7 +9,7 @@ import com.soywiz.kmem.clamp
 class GameLevel(val level: World.WorldLevel) : GenericGameLevelComponent<LevelMark> {
     var _camera: CameraContainer? = null
     var _fx: Fx? = null
-    var _hero:Hero? = null
+    var _hero: Hero? = null
 
     override val camera get() = _camera!!
     override val fx get() = _fx!!

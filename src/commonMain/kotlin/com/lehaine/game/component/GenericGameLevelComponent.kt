@@ -1,7 +1,7 @@
 package com.lehaine.game.component
 
 import com.lehaine.game.Fx
-import com.lehaine.game.Hero
+import com.lehaine.game.entity.Hero
 import com.lehaine.kiwi.component.LevelComponent
 import com.lehaine.kiwi.korge.view.CameraContainer
 
