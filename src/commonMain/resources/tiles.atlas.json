@@ -217,7 +217,7 @@
 	"sourceSize": {"w":24,"h":20}
 },
 {
-	"filename": "long-armIdle0.png",
+	"filename": "longArmIdle0.png",
 	"frame": {"x":39,"y":50,"w":20,"h":14},
 	"rotated": false,
 	"trimmed": false,
@@ -225,7 +225,7 @@
 	"sourceSize": {"w":20,"h":14}
 },
 {
-	"filename": "long-armIdle1.png",
+	"filename": "longArmIdle1.png",
 	"frame": {"x":39,"y":68,"w":20,"h":14},
 	"rotated": false,
 	"trimmed": false,
@@ -233,7 +233,7 @@
 	"sourceSize": {"w":20,"h":14}
 },
 {
-	"filename": "long-armSwing0.png",
+	"filename": "longArmSwing0.png",
 	"frame": {"x":2,"y":283,"w":20,"h":14},
 	"rotated": false,
 	"trimmed": false,
@@ -241,7 +241,7 @@
 	"sourceSize": {"w":20,"h":14}
 },
 {
-	"filename": "long-armSwing1.png",
+	"filename": "longArmSwing1.png",
 	"frame": {"x":2,"y":301,"w":20,"h":14},
 	"rotated": false,
 	"trimmed": false,
@@ -249,7 +249,7 @@
 	"sourceSize": {"w":20,"h":14}
 },
 {
-	"filename": "long-armSwing2.png",
+	"filename": "longArmSwing2.png",
 	"frame": {"x":26,"y":302,"w":20,"h":14},
 	"rotated": false,
 	"trimmed": false,
@@ -257,7 +257,7 @@
 	"sourceSize": {"w":20,"h":14}
 },
 {
-	"filename": "long-armSwing3.png",
+	"filename": "longArmSwing3.png",
 	"frame": {"x":2,"y":319,"w":20,"h":14},
 	"rotated": false,
 	"trimmed": false,
@@ -265,7 +265,7 @@
 	"sourceSize": {"w":20,"h":14}
 },
 {
-	"filename": "long-armSwing4.png",
+	"filename": "longArmSwing4.png",
 	"frame": {"x":26,"y":320,"w":20,"h":14},
 	"rotated": false,
 	"trimmed": false,
@@ -273,7 +273,7 @@
 	"sourceSize": {"w":20,"h":14}
 },
 {
-	"filename": "long-armSwing5.png",
+	"filename": "longArmSwing5.png",
 	"frame": {"x":2,"y":337,"w":20,"h":14},
 	"rotated": false,
 	"trimmed": false,
@@ -287,6 +287,6 @@
 	"format": "RGBA8888",
 	"size": {"w":64,"h":356},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:923151bd79bcaf4b90dab678cbd3ad39:b34800151f77f837a4a402faea9a41e5:5e5ef3518cc1a44e4ed4954a57ade08c$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c29b8b626c8ad0aaeadacfa4a2f2acbc:b34800151f77f837a4a402faea9a41e5:5e5ef3518cc1a44e4ed4954a57ade08c$"
 }
 }

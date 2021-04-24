@@ -2,6 +2,7 @@ package com.lehaine.game
 
 import GameModule
 import com.lehaine.game.entity.Hero
+import com.lehaine.game.entity.enemySpawner
 import com.lehaine.game.entity.hero
 import com.lehaine.kiwi.korge.view.cameraContainer
 import com.lehaine.kiwi.korge.view.ldtk.ldtkMapView
@@ -13,6 +14,7 @@ import com.soywiz.korge.input.keys
 import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.view.*
 import com.soywiz.korge.view.fast.*
+import com.soywiz.korim.color.Colors
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korma.geom.Rectangle
 
@@ -35,6 +37,11 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             clip = true
         ) {
             ldtkMapView(ldtkLevel)
+            worldLevel.layerEntities.allSpawners.forEach {
+                gameLevel.spawnPoints += it
+            }
+
+            enemySpawner(gameLevel)
 
             container EntityContainer@{
                 name = "EntityContainer"
@@ -44,8 +51,10 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                 hero = hero(worldLevel.layerEntities.allHero[0], gameLevel).also { gameLevel._hero = it }
             }
 
+
             val particleContainer = fastSpriteContainer(useRotation = true, smoothing = false)
             fx = Fx(gameLevel, particleContainer).also { gameLevel._fx = it }
+
         }.apply {
             // follow newly created entity or do something with camera
             follow(hero)
@@ -53,6 +62,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             gameLevel._camera = it
         }
 
+        solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#00000096"]) {}
         addUpdater { dt ->
             val tmod = if (dt == 0.milliseconds) 0.0 else (dt / 16.666666.milliseconds)
             fx.update(dt)

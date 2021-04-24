@@ -3,6 +3,7 @@ package com.lehaine.game
 import com.lehaine.game.component.GenericGameLevelComponent
 import com.lehaine.game.entity.Hero
 import com.lehaine.kiwi.component.Entity
+import com.lehaine.kiwi.component.GridPositionComponent
 import com.lehaine.kiwi.korge.view.CameraContainer
 import com.soywiz.kmem.clamp
 
@@ -17,6 +18,7 @@ class GameLevel(val level: World.WorldLevel) : GenericGameLevelComponent<LevelMa
 
     override val entities: ArrayList<Entity> = arrayListOf()
     override val staticEntities: ArrayList<Entity> = arrayListOf()
+    override val spawnPoints: ArrayList<World.EntitySpawners> = arrayListOf()
 
     override val levelWidth get() = level.layerCollisions.cWidth
     override val levelHeight get() = level.layerCollisions.cHeight
