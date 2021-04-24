@@ -8,6 +8,7 @@ import com.lehaine.game.component.*
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.stateMachine
 import com.soywiz.klock.TimeSpan
+import com.soywiz.klock.milliseconds
 import com.soywiz.klock.seconds
 import com.soywiz.korge.view.Container
 import com.soywiz.korui.UiContainer
@@ -32,6 +33,7 @@ fun Container.longArm(
         anchorX = 0.5,
         anchorY = 1.0,
     ),
+    targetComponent = TargetComponentDefault(),
     healthComponent = HealthComponentDefault(50),
     dangerousComponent = DangerousComponentDefault(10)
 ).addTo(this).addToLevel().also(callback)
@@ -40,18 +42,21 @@ class LongArm(
     level: GenericGameLevelComponent<LevelMark>,
     platformerDynamicComponent: PlatformerDynamicComponent,
     spriteComponent: SpriteComponent,
+    private val targetComponent: TargetComponent,
     private val healthComponent: HealthComponent,
     private val dangerousComponent: DangerousComponent
 ) :
     GameEntity(level, spriteComponent, platformerDynamicComponent),
     SpriteComponent by spriteComponent,
     PlatformerDynamicComponent by platformerDynamicComponent,
+    TargetComponent by targetComponent,
     HealthComponent by healthComponent,
     DangerousComponent by dangerousComponent {
 
     companion object {
         private const val ANIM_PLAYING = "animPlaying"
         private const val ATTACK_CD = "attackCD"
+        private const val IDLE = "idle"
     }
 
     init {
@@ -62,11 +67,27 @@ class LongArm(
     private sealed class LongArmState {
         object Idle : LongArmState()
         object Attack : LongArmState()
+        object MovingToHero : LongArmState()
     }
+
+    private val moveSpeed = 0.015
 
     private val attackingHero get() = distGridTo(level.hero) <= 3 && !cd.has(ATTACK_CD)
 
     private val fsm = stateMachine<LongArmState>(LongArmState.Idle) {
+        state(LongArmState.MovingToHero) {
+            transition {
+                when {
+                    attackingHero -> LongArmState.Attack
+                    else -> LongArmState.MovingToHero
+                }
+
+            }
+            update {
+                moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, level.hero.cy, moveSpeed * tmod)
+            }
+
+        }
         state(LongArmState.Attack) {
             var animPlaying = true
             transition {
@@ -92,12 +113,14 @@ class LongArm(
             var playingAnim = false
             transition {
                 when {
+                    cd.has(IDLE) -> LongArmState.Idle
                     attackingHero -> LongArmState.Attack
-                    else -> LongArmState.Idle
+                    else -> LongArmState.MovingToHero
                 }
             }
             begin {
                 playingAnim = false
+                cd(IDLE, (500..1500).random().milliseconds)
             }
             update {
                 if (!playingAnim && !cd.has(ANIM_PLAYING)) {
