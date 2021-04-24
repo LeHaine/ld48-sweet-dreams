@@ -68,6 +68,7 @@ class Hero(
         object Sleep : HeroState()
         object BroomAttack1 : HeroState()
         object BroomAttack2 : HeroState()
+        object BroomAttack3 : HeroState()
     }
 
     private val moveSpeed = 0.04
@@ -88,34 +89,62 @@ class Hero(
     private var broomCombo = 0
 
     private val fsm = stateMachine<HeroState>(HeroState.Sleep) {
-        state(HeroState.BroomAttack2) {
+        state(HeroState.BroomAttack3) {
             transition {
                 when {
-                    cd.has(ATTACK_CD) -> HeroState.BroomAttack2
+                    cd.has(ATTACK_CD) -> HeroState.BroomAttack3
                     swinging -> HeroState.BroomAttack1
                     else -> HeroState.Idle
                 }
             }
-
             begin {
                 cd.remove(COMBO)
                 canSwing = false
-                sprite.playOverlap(Assets.heroBroomAttack2)
+                sprite.playOverlap(Assets.heroBroomAttack3)
                 cd(ATTACK_CD, 300.milliseconds)
-                cd(ANIM_PLAYING, Assets.heroBroomAttack1.duration)
+                cd(ANIM_PLAYING, Assets.heroBroomAttack3.duration)
+                broomCombo = 0
                 level.entities.fastForEach {
                     if (it != this@Hero
                         && dirTo(it) == dir
                         && distGridTo(it) <= 3
                         && it is HealthComponent
                     ) {
-                        attack(it, -dirTo(it), 1.5)
+                        attack(it, -dirTo(it), 2.0)
                         (it as GameEntity).addAffect(Affect.STUN, 1.seconds)
                     }
                 }
 
             }
+        }
+        state(HeroState.BroomAttack2) {
+            transition {
+                when {
+                    cd.has(ATTACK_CD) -> HeroState.BroomAttack2
+                    swinging && cd.has(COMBO) -> HeroState.BroomAttack3
+                    else -> HeroState.Idle
+                }
+            }
 
+            begin {
+                canSwing = false
+                sprite.playOverlap(Assets.heroBroomAttack2)
+                cd(COMBO, 600.milliseconds)
+                cd(ATTACK_CD, 300.milliseconds)
+                cd(ANIM_PLAYING, Assets.heroBroomAttack2.duration)
+                broomCombo++
+                level.entities.fastForEach {
+                    if (it != this@Hero
+                        && dirTo(it) == dir
+                        && distGridTo(it) <= 3
+                        && it is HealthComponent
+                    ) {
+                        attack(it, -dirTo(it), 1.25)
+                        (it as GameEntity).addAffect(Affect.STUN, 1.seconds)
+                    }
+                }
+
+            }
         }
         state(HeroState.BroomAttack1) {
             transition {
@@ -195,6 +224,7 @@ class Hero(
                     jumping -> HeroState.Jump
                     swinging && broomCombo == 0 -> HeroState.BroomAttack1
                     swinging && broomCombo == 1 -> HeroState.BroomAttack2
+                    swinging && broomCombo == 2 -> HeroState.BroomAttack3
                     running -> HeroState.Run
                     else -> HeroState.Idle
                 }
@@ -212,6 +242,7 @@ class Hero(
                     running -> HeroState.Run
                     swinging && broomCombo == 0 -> HeroState.BroomAttack1
                     swinging && broomCombo == 1 -> HeroState.BroomAttack2
+                    swinging && broomCombo == 2 -> HeroState.BroomAttack3
                     else -> HeroState.Idle
                 }
             }
