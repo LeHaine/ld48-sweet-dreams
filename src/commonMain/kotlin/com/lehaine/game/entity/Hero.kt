@@ -57,6 +57,7 @@ class Hero(
         private const val ANIM_PLAYING = "animPlaying"
         private const val ATTACK_CD = "attackCD"
         private const val COMBO = "combo"
+        private const val SLING_SHOT_CD = "slingShotCD"
     }
 
     private sealed class HeroState {
@@ -69,6 +70,7 @@ class Hero(
         object BroomAttack1 : HeroState()
         object BroomAttack2 : HeroState()
         object BroomAttack3 : HeroState()
+        object SlingShot : HeroState()
     }
 
     private val moveSpeed = 0.04
@@ -83,12 +85,39 @@ class Hero(
     private val runningRight get() = input.keys.pressing(Key.D)
     private val running get() = runningLeft || runningRight
 
+    private val slingShot get() = input.keys.pressing(Key.Q) && !cd.has(SLING_SHOT_CD)
+
     private val jumping get() = input.keys.justPressed(Key.SPACE) && cd.has(ON_GROUND_RECENTLY)
     private val jumpingExtra get() = input.keys.justPressed(Key.SPACE) && cd.has(JUMP_EXTRA)
 
     private var broomCombo = 0
 
     private val fsm = stateMachine<HeroState>(HeroState.Sleep) {
+        state(HeroState.SlingShot) {
+            transition {
+                when {
+                    cd.has(ATTACK_CD) -> HeroState.SlingShot
+                    else -> HeroState.Idle
+                }
+            }
+            begin {
+                cd(ATTACK_CD, 300.milliseconds)
+                cd(SLING_SHOT_CD, 5.seconds)
+                sprite.playOverlap(Assets.heroSlingShot)
+                repeat(3) {
+                    val x = when (it) {
+                        0 -> centerX + (5 * dir)
+                        else -> centerX
+                    }
+                    val y = when (it) {
+                        0 -> centerY
+                        1 -> centerY - 2
+                        else -> centerY + 2
+                    }
+                    projectile(x, y, dir, level, this@Hero)
+                }
+            }
+        }
         state(HeroState.BroomAttack3) {
             transition {
                 when {
@@ -114,7 +143,6 @@ class Hero(
                         (it as GameEntity).addAffect(Affect.STUN, 1.seconds)
                     }
                 }
-
             }
         }
         state(HeroState.BroomAttack2) {
@@ -222,6 +250,7 @@ class Hero(
             transition {
                 when {
                     jumping -> HeroState.Jump
+                    slingShot -> HeroState.SlingShot
                     swinging && broomCombo == 0 -> HeroState.BroomAttack1
                     swinging && broomCombo == 1 -> HeroState.BroomAttack2
                     swinging && broomCombo == 2 -> HeroState.BroomAttack3
@@ -240,6 +269,7 @@ class Hero(
                 when {
                     jumping -> HeroState.Jump
                     running -> HeroState.Run
+                    slingShot -> HeroState.SlingShot
                     swinging && broomCombo == 0 -> HeroState.BroomAttack1
                     swinging && broomCombo == 1 -> HeroState.BroomAttack2
                     swinging && broomCombo == 2 -> HeroState.BroomAttack3

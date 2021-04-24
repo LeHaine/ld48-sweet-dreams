@@ -14,11 +14,11 @@ import com.soywiz.korge.view.anchor
 import com.soywiz.korma.geom.Anchor
 import com.soywiz.korui.UiContainer
 
-inline fun Container.sheep(
+inline fun Container.boss(
     cx: Int, cy: Int,
     level: GenericGameLevelComponent<LevelMark>,
-    callback: Sheep.() -> Unit = {}
-): Sheep = Sheep(
+    callback: Boss.() -> Unit = {}
+): Boss = Boss(
     level = level,
     platformerDynamicComponent = PlatformerDynamicComponentDefault(
         levelComponent = level,
@@ -39,7 +39,7 @@ inline fun Container.sheep(
     dangerousComponent = DangerousComponentDefault(5)
 ).addTo(this).addToLevel().also(callback)
 
-class Sheep(
+class Boss(
     level: GenericGameLevelComponent<LevelMark>,
     platformerDynamicComponent: PlatformerDynamicComponent,
     spriteComponent: SpriteComponent,
@@ -60,13 +60,13 @@ class Sheep(
         private const val IDLE = "idle"
     }
 
-    private sealed class SheepState {
-        object Idle : SheepState()
-        object Attack : SheepState()
-        object MovingToHero : SheepState()
+    private sealed class BossState {
+        object Idle : BossState()
+        object Attack : BossState()
+        object MovingToHero : BossState()
 
-        object NoAffects : SheepState()
-        object Stunned : SheepState()
+        object NoAffects : BossState()
+        object Stunned : BossState()
     }
 
 
@@ -83,12 +83,12 @@ class Sheep(
 
     private val attackingHero get() = distGridTo(level.hero) <= 3 && !cd.has(ATTACK_CD)
 
-    private val entityFSM = stateMachine<SheepState>(SheepState.NoAffects) {
-        state(SheepState.Stunned) {
+    private val entityFSM = stateMachine<BossState>(BossState.NoAffects) {
+        state(BossState.Stunned) {
             transition {
                 when {
-                    hasAffect(Affect.STUN) -> SheepState.Stunned
-                    else -> SheepState.NoAffects
+                    hasAffect(Affect.STUN) -> BossState.Stunned
+                    else -> BossState.NoAffects
                 }
             }
             begin {
@@ -98,11 +98,11 @@ class Sheep(
             }
         }
 
-        state(SheepState.NoAffects) {
+        state(BossState.NoAffects) {
             transition {
                 when {
-                    hasAffect(Affect.STUN) -> SheepState.Stunned
-                    else -> SheepState.NoAffects
+                    hasAffect(Affect.STUN) -> BossState.Stunned
+                    else -> BossState.NoAffects
                 }
             }
             begin {
@@ -117,12 +117,12 @@ class Sheep(
 
     }
 
-    private val controlFSM = stateMachine<SheepState>(SheepState.Idle) {
-        state(SheepState.MovingToHero) {
+    private val controlFSM = stateMachine<BossState>(BossState.Idle) {
+        state(BossState.MovingToHero) {
             transition {
                 when {
-                    attackingHero -> SheepState.Attack
-                    else -> SheepState.MovingToHero
+                    attackingHero -> BossState.Attack
+                    else -> BossState.MovingToHero
                 }
 
             }
@@ -134,11 +134,11 @@ class Sheep(
             }
 
         }
-        state(SheepState.Attack) {
+        state(BossState.Attack) {
             transition {
                 when {
-                    cd.has(ANIM_PLAYING) -> SheepState.Attack
-                    else -> SheepState.Idle
+                    cd.has(ANIM_PLAYING) -> BossState.Attack
+                    else -> BossState.Idle
                 }
             }
             begin {
@@ -153,13 +153,13 @@ class Sheep(
             }
 
         }
-        state(SheepState.Idle) {
+        state(BossState.Idle) {
             var playingAnim = false
             transition {
                 when {
-                    cd.has(IDLE) -> SheepState.Idle
-                    attackingHero -> SheepState.Attack
-                    else -> SheepState.MovingToHero
+                    cd.has(IDLE) -> BossState.Idle
+                    attackingHero -> BossState.Attack
+                    else -> BossState.MovingToHero
                 }
             }
             begin {

@@ -14,7 +14,7 @@ import com.soywiz.korge.view.anchor
 import com.soywiz.korma.geom.Anchor
 import com.soywiz.korui.UiContainer
 
-fun Container.longArm(
+inline fun Container.longArm(
     cx: Int, cy: Int,
     level: GenericGameLevelComponent<LevelMark>,
     callback: LongArm.() -> Unit = {}
