@@ -34,7 +34,8 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             deadZone = 10,
             viewBounds = Rectangle(0, 0, worldLevel.pxWidth, worldLevel.pxHeight),
             clampToViewBounds = true,
-            clip = true
+            clip = true,
+            simpleCull = false
         ) {
             ldtkMapView(ldtkLevel)
             worldLevel.layerEntities.allSpawners.forEach {
@@ -62,7 +63,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             gameLevel._camera = it
         }
 
-        solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#00000096"]) {}
+        solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#0d071baa"]) {}
         addUpdater { dt ->
             val tmod = if (dt == 0.milliseconds) 0.0 else (dt / 16.666666.milliseconds)
             fx.update(dt)

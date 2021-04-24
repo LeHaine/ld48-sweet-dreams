@@ -7,6 +7,7 @@ import com.lehaine.kiwi.stateMachine
 import com.soywiz.kds.iterators.fastForEach
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
+import com.soywiz.klock.seconds
 import com.soywiz.korev.Key
 import com.soywiz.korge.view.Container
 import com.soywiz.korui.UiContainer
@@ -105,10 +106,11 @@ class Hero(
                 level.entities.fastForEach {
                     if (it != this@Hero
                         && dirTo(it) == dir
-                        && distGridTo(it) <= 2.5
+                        && distGridTo(it) <= 3
                         && it is HealthComponent
                     ) {
                         attack(it, -dirTo(it), 1.5)
+                        (it as GameEntity).addAffect(Affect.STUN, 1.seconds)
                     }
                 }
 

@@ -1,16 +1,16 @@
 package com.lehaine.game.entity
 
-import com.lehaine.game.Assets
-import com.lehaine.game.GRID_SIZE
-import com.lehaine.game.GameEntity
-import com.lehaine.game.LevelMark
+import com.lehaine.game.*
 import com.lehaine.game.component.*
 import com.lehaine.kiwi.component.*
+import com.lehaine.kiwi.korge.view.enhancedSprite
 import com.lehaine.kiwi.stateMachine
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.klock.seconds
 import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.anchor
+import com.soywiz.korma.geom.Anchor
 import com.soywiz.korui.UiContainer
 
 fun Container.longArm(
@@ -59,22 +59,64 @@ class LongArm(
         private const val IDLE = "idle"
     }
 
-    init {
-        enableCollisionChecks = true
-        sprite.playAnimationLooped(Assets.longArmIdle)
-    }
-
     private sealed class LongArmState {
         object Idle : LongArmState()
         object Attack : LongArmState()
         object MovingToHero : LongArmState()
+
+        object NoAffects : LongArmState()
+        object Stunned : LongArmState()
     }
 
+
+    private val affectIcon = container.run {
+        enhancedSprite {
+            smoothing = false
+            y -= 15
+            anchor(Anchor.MIDDLE_CENTER)
+            visible = false
+        }
+    }
     private val moveSpeed = 0.015
+
 
     private val attackingHero get() = distGridTo(level.hero) <= 3 && !cd.has(ATTACK_CD)
 
-    private val fsm = stateMachine<LongArmState>(LongArmState.Idle) {
+    private val entityFSM = stateMachine<LongArmState>(LongArmState.NoAffects) {
+        state(LongArmState.Stunned) {
+            transition {
+                when {
+                    hasAffect(Affect.STUN) -> LongArmState.Stunned
+                    else -> LongArmState.NoAffects
+                }
+            }
+            begin {
+                affectIcon.playAnimationLooped(Assets.stunIcon)
+                affectIcon.visible = true
+                sprite.playAnimationLooped(Assets.longArmStunned)
+            }
+        }
+
+        state(LongArmState.NoAffects) {
+            transition {
+                when {
+                    hasAffect(Affect.STUN) -> LongArmState.Stunned
+                    else -> LongArmState.NoAffects
+                }
+            }
+            begin {
+                affectIcon.stopAnimation()
+                affectIcon.visible = false
+            }
+
+            update {
+                controlFSM.update(it)
+            }
+        }
+
+    }
+
+    private val controlFSM = stateMachine<LongArmState>(LongArmState.Idle) {
         state(LongArmState.MovingToHero) {
             transition {
                 when {
@@ -89,25 +131,23 @@ class LongArm(
 
         }
         state(LongArmState.Attack) {
-            var animPlaying = true
             transition {
                 when {
-                    animPlaying -> LongArmState.Attack
+                    cd.has(ANIM_PLAYING) -> LongArmState.Attack
                     else -> LongArmState.Idle
                 }
             }
             begin {
-                animPlaying = true
                 dir = dirTo(level.hero)
                 sprite.playOverlap(Assets.longArmSwing, onAnimationFrameChange = {
                     if (it == 4) {
                         attemptToAttackHero()
                     }
-                }) {
-                    animPlaying = false
-                }
+                })
+                cd(ANIM_PLAYING, Assets.longArmSwing.duration)
                 cd(ATTACK_CD, 3.seconds)
             }
+
         }
         state(LongArmState.Idle) {
             var playingAnim = false
@@ -131,13 +171,22 @@ class LongArm(
         }
     }
 
+    init {
+        enableCollisionChecks = true
+        sprite.playAnimationLooped(Assets.longArmIdle)
+        controlFSM.onStateChanged = {
+            println(it)
+
+        }
+    }
+
     override fun update(dt: TimeSpan) {
         super.update(dt)
         if (isDead) {
             destroy()
         }
 
-        fsm.update(dt)
+        entityFSM.update(dt)
     }
 
     override fun damage(amount: Int, fromDir: Int) {

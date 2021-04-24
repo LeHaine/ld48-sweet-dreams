@@ -29,6 +29,9 @@ object Assets {
 
     lateinit var longArmIdle: SpriteAnimation
     lateinit var longArmSwing: SpriteAnimation
+    lateinit var longArmStunned: SpriteAnimation
+
+    lateinit var stunIcon: SpriteAnimation
 
     object Sfx {
         lateinit var views: Views
@@ -73,6 +76,9 @@ object Assets {
 
         longArmIdle = tiles.getSpriteAnimation("longArmIdle", 500.milliseconds)
         longArmSwing = tiles.getSpriteAnimation("longArmSwing", 100.milliseconds)
+        longArmStunned = tiles.getSpriteAnimation("longArmStunned", 500.milliseconds)
+
+        stunIcon = tiles.getSpriteAnimation("stunIcon", 200.milliseconds)
 
         Sfx.init(views)
     }
