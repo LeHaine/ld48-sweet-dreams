@@ -3,6 +3,7 @@ package com.lehaine.game.entity
 import com.lehaine.game.*
 import com.lehaine.game.component.*
 import com.lehaine.kiwi.component.*
+import com.lehaine.kiwi.component.ext.toGridPosition
 import com.lehaine.kiwi.korge.view.enhancedSprite
 import com.lehaine.kiwi.random
 import com.lehaine.kiwi.stateMachine
@@ -58,15 +59,17 @@ class Ghoul(
         private const val ANIM_PLAYING = "animPlaying"
         private const val ATTACK_CD = "attackCD"
         private const val IDLE = "idle"
+        private const val TELEPORT_CD = "teleportCD"
     }
 
-    private sealed class SheepState {
-        object Idle : SheepState()
-        object Attack : SheepState()
-        object MovingToHero : SheepState()
+    private sealed class GhoulState {
+        object Idle : GhoulState()
+        object Attack : GhoulState()
+        object MovingToHero : GhoulState()
+        object Teleport : GhoulState()
 
-        object NoAffects : SheepState()
-        object Stunned : SheepState()
+        object NoAffects : GhoulState()
+        object Stunned : GhoulState()
     }
 
 
@@ -81,27 +84,28 @@ class Ghoul(
     private val moveSpeed = 0.02
 
     private val attackingHero get() = distGridTo(level.hero) <= 3 && !cd.has(ATTACK_CD)
+    private val teleporting get() = distGridTo(level.hero) <= 10 && !cd.has(TELEPORT_CD)
 
-    private val entityFSM = stateMachine<SheepState>(SheepState.NoAffects) {
-        state(SheepState.Stunned) {
+    private val entityFSM = stateMachine<GhoulState>(GhoulState.NoAffects) {
+        state(GhoulState.Stunned) {
             transition {
                 when {
-                    hasAffect(Affect.STUN) -> SheepState.Stunned
-                    else -> SheepState.NoAffects
+                    hasAffect(Affect.STUN) -> GhoulState.Stunned
+                    else -> GhoulState.NoAffects
                 }
             }
             begin {
                 affectIcon.playAnimationLooped(Assets.stunIcon)
                 affectIcon.visible = true
-                sprite.playAnimationLooped(Assets.sheepStunned)
+                sprite.playAnimationLooped(Assets.ghoulBob)
             }
         }
 
-        state(SheepState.NoAffects) {
+        state(GhoulState.NoAffects) {
             transition {
                 when {
-                    hasAffect(Affect.STUN) -> SheepState.Stunned
-                    else -> SheepState.NoAffects
+                    hasAffect(Affect.STUN) -> GhoulState.Stunned
+                    else -> GhoulState.NoAffects
                 }
             }
             begin {
@@ -116,48 +120,64 @@ class Ghoul(
 
     }
 
-    private val controlFSM = stateMachine<SheepState>(SheepState.Idle) {
-        state(SheepState.MovingToHero) {
+    private val controlFSM = stateMachine<GhoulState>(GhoulState.Idle) {
+        state(GhoulState.Teleport) {
             transition {
                 when {
-                    attackingHero -> SheepState.Attack
-                    else -> SheepState.MovingToHero
+                    attackingHero -> GhoulState.Attack
+                    else -> GhoulState.Idle
+                }
+            }
+
+            begin {
+                toGridPosition(level.hero.cx - level.hero.dir, level.hero.cy)
+                dir = dirTo(level.hero)
+                cd(TELEPORT_CD, 150.milliseconds)
+            }
+
+        }
+        state(GhoulState.MovingToHero) {
+            transition {
+                when {
+                    teleporting -> GhoulState.Teleport
+                    attackingHero -> GhoulState.Attack
+                    else -> GhoulState.MovingToHero
                 }
             }
             begin {
-                sprite.playAnimationLooped(Assets.sheepWalk)
+                sprite.playAnimationLooped(Assets.ghoulBob)
             }
             update {
                 moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, level.hero.cy, moveSpeed * tmod)
             }
 
         }
-        state(SheepState.Attack) {
+        state(GhoulState.Attack) {
             transition {
                 when {
-                    cd.has(ANIM_PLAYING) -> SheepState.Attack
-                    else -> SheepState.Idle
+                    cd.has(ANIM_PLAYING) -> GhoulState.Attack
+                    else -> GhoulState.Idle
                 }
             }
             begin {
                 dir = dirTo(level.hero)
-                sprite.playOverlap(Assets.sheepAttack, onAnimationFrameChange = {
-                    if (it == 8) {
+                sprite.playOverlap(Assets.ghoulAttack, onAnimationFrameChange = {
+                    if (it == 6) {
                         attemptToAttackHero()
                     }
                 })
-                cd(ANIM_PLAYING, Assets.sheepAttack.duration)
+                cd(ANIM_PLAYING, Assets.ghoulAttack.duration)
                 cd(ATTACK_CD, 3.seconds)
             }
 
         }
-        state(SheepState.Idle) {
+        state(GhoulState.Idle) {
             var playingAnim = false
             transition {
                 when {
-                    cd.has(IDLE) -> SheepState.Idle
-                    attackingHero -> SheepState.Attack
-                    else -> SheepState.MovingToHero
+                    cd.has(IDLE) -> GhoulState.Idle
+                    attackingHero -> GhoulState.Attack
+                    else -> GhoulState.MovingToHero
                 }
             }
             begin {
@@ -166,7 +186,7 @@ class Ghoul(
             }
             update {
                 if (!playingAnim && !cd.has(ANIM_PLAYING)) {
-                    sprite.playAnimationLooped(Assets.sheepIdle)
+                    sprite.playAnimationLooped(Assets.ghoulBob)
                     playingAnim = true
                 }
             }

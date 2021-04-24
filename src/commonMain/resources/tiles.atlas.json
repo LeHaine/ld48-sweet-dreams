@@ -234,7 +234,7 @@
 },
 {
 	"filename": "fxImpact0.png",
-	"frame": {"x":30,"y":638,"w":15,"h":9},
+	"frame": {"x":90,"y":627,"w":15,"h":9},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":9},
@@ -330,7 +330,7 @@
 },
 {
 	"filename": "ghoulAttack3.png",
-	"frame": {"x":106,"y":375,"w":16,"h":16},
+	"frame": {"x":106,"y":355,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -338,7 +338,7 @@
 },
 {
 	"filename": "ghoulAttack4.png",
-	"frame": {"x":106,"y":395,"w":16,"h":16},
+	"frame": {"x":106,"y":375,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -346,7 +346,31 @@
 },
 {
 	"filename": "ghoulAttack5.png",
-	"frame": {"x":65,"y":631,"w":16,"h":16},
+	"frame": {"x":106,"y":395,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
+	"filename": "ghoulAttack6.png",
+	"frame": {"x":30,"y":638,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
+	"filename": "ghoulAttack7.png",
+	"frame": {"x":50,"y":638,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
+	"filename": "ghoulAttack8.png",
+	"frame": {"x":70,"y":631,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -354,7 +378,7 @@
 },
 {
 	"filename": "ghoulBob0.png",
-	"frame": {"x":85,"y":631,"w":16,"h":16},
+	"frame": {"x":86,"y":607,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -362,7 +386,7 @@
 },
 {
 	"filename": "ghoulBob1.png",
-	"frame": {"x":105,"y":583,"w":16,"h":16},
+	"frame": {"x":106,"y":607,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -610,22 +634,6 @@
 },
 {
 	"filename": "heroSlingShot1.png",
-	"frame": {"x":30,"y":590,"w":24,"h":20},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
-	"sourceSize": {"w":24,"h":20}
-},
-{
-	"filename": "heroSlingShot2.png",
-	"frame": {"x":30,"y":614,"w":24,"h":20},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
-	"sourceSize": {"w":24,"h":20}
-},
-{
-	"filename": "heroSlingShot3.png",
 	"frame": {"x":58,"y":583,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
@@ -633,8 +641,24 @@
 	"sourceSize": {"w":24,"h":20}
 },
 {
+	"filename": "heroSlingShot2.png",
+	"frame": {"x":30,"y":590,"w":24,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
+	"sourceSize": {"w":24,"h":20}
+},
+{
+	"filename": "heroSlingShot3.png",
+	"frame": {"x":86,"y":583,"w":24,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
+	"sourceSize": {"w":24,"h":20}
+},
+{
 	"filename": "heroSlingShot4.png",
-	"frame": {"x":58,"y":607,"w":24,"h":20},
+	"frame": {"x":30,"y":614,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
@@ -642,7 +666,7 @@
 },
 {
 	"filename": "heroSlingShot5.png",
-	"frame": {"x":102,"y":603,"w":24,"h":20},
+	"frame": {"x":58,"y":607,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
@@ -906,7 +930,7 @@
 },
 {
 	"filename": "sheepWalk0.png",
-	"frame": {"x":49,"y":638,"w":12,"h":8},
+	"frame": {"x":114,"y":583,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -914,7 +938,7 @@
 },
 {
 	"filename": "sheepWalk1.png",
-	"frame": {"x":86,"y":583,"w":12,"h":8},
+	"frame": {"x":114,"y":595,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -922,7 +946,7 @@
 },
 {
 	"filename": "sheepWalk2.png",
-	"frame": {"x":86,"y":595,"w":12,"h":8},
+	"frame": {"x":109,"y":627,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -930,7 +954,7 @@
 },
 {
 	"filename": "sheepWalk3.png",
-	"frame": {"x":86,"y":607,"w":12,"h":8},
+	"frame": {"x":109,"y":639,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -957,8 +981,8 @@
 	"version": "1.0",
 	"image": "tiles.atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":128,"h":649},
+	"size": {"w":128,"h":656},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:e7cba0632aa08dba7b3a8db0ca8c6633:fc0573934ef05c9aa0ca61603c0e0538:5e5ef3518cc1a44e4ed4954a57ade08c$"
+	"smartupdate": "$TexturePacker:SmartUpdate:fbab936e4aa0d6cfc13ca37483752cdc:1a4b91e8b96fd19b5eaa1513178e91bb:5e5ef3518cc1a44e4ed4954a57ade08c$"
 }
 }

@@ -33,17 +33,18 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
         level.camera.content.apply {
             val spawn = level.spawnPoints.random()
             val rng = Random.nextFloat()
-            when {
-                rng > 0.75 -> {
-                    longArm(spawn.cx, spawn.cy, level)
-                }
-                rng > 0.5 -> {
-                    sheep(spawn.cx, spawn.cy, level)
-                }
-                else -> {
-                    dustBunny(spawn.cx, spawn.cy, level)
-                }
-            }
+            ghoul(spawn.cx, spawn.cy, level)
+//            when {
+//                rng > 0.75 -> {
+//                    longArm(spawn.cx, spawn.cy, level)
+//                }
+//                rng > 0.5 -> {
+//                    sheep(spawn.cx, spawn.cy, level)
+//                }
+//                else -> {
+//                    dustBunny(spawn.cx, spawn.cy, level)
+//                }
+//            }
         }
     }
 
