@@ -47,6 +47,7 @@ object Assets {
     lateinit var ghoulAttack: SpriteAnimation
 
     lateinit var stunIcon: SpriteAnimation
+    lateinit var sleepIcon: SpriteAnimation
 
     object Sfx {
         lateinit var views: Views
@@ -109,6 +110,7 @@ object Assets {
         ghoulAttack = tiles.getSpriteAnimation("ghoulAttack", 100.milliseconds)
 
         stunIcon = tiles.getSpriteAnimation("stunIcon", 200.milliseconds)
+        sleepIcon = tiles.getSpriteAnimation("sleepIcon", 150.milliseconds)
 
         Sfx.init(views)
     }

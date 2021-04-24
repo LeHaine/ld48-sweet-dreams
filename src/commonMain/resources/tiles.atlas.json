@@ -234,7 +234,7 @@
 },
 {
 	"filename": "fxImpact0.png",
-	"frame": {"x":108,"y":627,"w":15,"h":9},
+	"frame": {"x":110,"y":627,"w":15,"h":9},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":9},
@@ -362,7 +362,7 @@
 },
 {
 	"filename": "ghoulAttack7.png",
-	"frame": {"x":50,"y":638,"w":16,"h":16},
+	"frame": {"x":30,"y":658,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -370,7 +370,7 @@
 },
 {
 	"filename": "ghoulAttack8.png",
-	"frame": {"x":70,"y":631,"w":16,"h":16},
+	"frame": {"x":50,"y":638,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -378,7 +378,7 @@
 },
 {
 	"filename": "ghoulBob0.png",
-	"frame": {"x":86,"y":607,"w":16,"h":16},
+	"frame": {"x":50,"y":658,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -386,7 +386,7 @@
 },
 {
 	"filename": "ghoulBob1.png",
-	"frame": {"x":106,"y":607,"w":16,"h":16},
+	"frame": {"x":58,"y":607,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -618,22 +618,6 @@
 },
 {
 	"filename": "heroSleeping1.png",
-	"frame": {"x":2,"y":602,"w":24,"h":20},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
-	"sourceSize": {"w":24,"h":20}
-},
-{
-	"filename": "heroSlingShot0.png",
-	"frame": {"x":2,"y":626,"w":24,"h":20},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
-	"sourceSize": {"w":24,"h":20}
-},
-{
-	"filename": "heroSlingShot1.png",
 	"frame": {"x":58,"y":583,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
@@ -641,7 +625,7 @@
 	"sourceSize": {"w":24,"h":20}
 },
 {
-	"filename": "heroSlingShot2.png",
+	"filename": "heroSlingShot0.png",
 	"frame": {"x":30,"y":590,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
@@ -649,7 +633,15 @@
 	"sourceSize": {"w":24,"h":20}
 },
 {
-	"filename": "heroSlingShot3.png",
+	"filename": "heroSlingShot1.png",
+	"frame": {"x":2,"y":602,"w":24,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
+	"sourceSize": {"w":24,"h":20}
+},
+{
+	"filename": "heroSlingShot2.png",
 	"frame": {"x":86,"y":583,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
@@ -657,8 +649,16 @@
 	"sourceSize": {"w":24,"h":20}
 },
 {
+	"filename": "heroSlingShot3.png",
+	"frame": {"x":2,"y":626,"w":24,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
+	"sourceSize": {"w":24,"h":20}
+},
+{
 	"filename": "heroSlingShot4.png",
-	"frame": {"x":30,"y":614,"w":24,"h":20},
+	"frame": {"x":2,"y":650,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
@@ -666,7 +666,7 @@
 },
 {
 	"filename": "heroSlingShot5.png",
-	"frame": {"x":58,"y":607,"w":24,"h":20},
+	"frame": {"x":30,"y":614,"w":24,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":20},
@@ -946,7 +946,7 @@
 },
 {
 	"filename": "sheepWalk2.png",
-	"frame": {"x":90,"y":646,"w":12,"h":8},
+	"frame": {"x":90,"y":647,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -954,15 +954,55 @@
 },
 {
 	"filename": "sheepWalk3.png",
-	"frame": {"x":106,"y":646,"w":12,"h":8},
+	"frame": {"x":90,"y":659,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
 	"sourceSize": {"w":12,"h":8}
 },
 {
+	"filename": "sleepIcon0.png",
+	"frame": {"x":70,"y":627,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
+	"filename": "sleepIcon1.png",
+	"frame": {"x":78,"y":607,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
+	"filename": "sleepIcon2.png",
+	"frame": {"x":70,"y":647,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
+	"filename": "sleepIcon3.png",
+	"frame": {"x":98,"y":607,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
+	"filename": "sleepIcon4.png",
+	"frame": {"x":90,"y":627,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+{
 	"filename": "slingshotIcon0.png",
-	"frame": {"x":90,"y":627,"w":14,"h":15},
+	"frame": {"x":110,"y":640,"w":14,"h":15},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":15},
@@ -989,8 +1029,8 @@
 	"version": "1.0",
 	"image": "tiles.atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":128,"h":656},
+	"size": {"w":128,"h":676},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:7145dd54c374ddd2b7acc30627359541:95e70e231cdb88115976ee89071dbcdd:5e5ef3518cc1a44e4ed4954a57ade08c$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a540e871c48f3f35490937d27c665dd8:925d510c87a647d046921452d2bb0901:5e5ef3518cc1a44e4ed4954a57ade08c$"
 }
 }

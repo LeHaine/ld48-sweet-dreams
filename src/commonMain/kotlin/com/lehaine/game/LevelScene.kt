@@ -19,6 +19,7 @@ import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.view.*
 import com.soywiz.korge.view.fast.*
 import com.soywiz.korim.color.Colors
+import com.soywiz.korim.text.TextAlignment
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korma.geom.Rectangle
 import kotlin.math.floor
@@ -67,7 +68,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             gameLevel._camera = it
         }
         // overlay
-        solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#311d8a51"])
+        solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#51466e74"])
         val timerText = text("0:00") {
             font = Assets.pixelFont
             fontSize = 12.0
@@ -79,6 +80,18 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             alpha(0.65)
         }.alignBottomToBottomOf(this, 3.0)
             .alignLeftToLeftOf(this, 3.0)
+
+        val sleepState = text("Very Light Sleep") {
+            font = Assets.pixelFont
+            fontSize = 8.0
+            alignment = TextAlignment.CENTER
+            y = 4.0
+        }.alignRightToRightOf(this, 3.0)
+
+        val sleepIcon = enhancedSprite(smoothing = false) {
+            playAnimationLooped(Assets.sleepIcon)
+            alignRightToLeftOf(sleepState, 3.0)
+        }
 
         val spawner = enemySpawner(gameLevel)
 
