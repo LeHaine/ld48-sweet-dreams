@@ -6,6 +6,7 @@ import com.lehaine.game.entity.Hero
 import com.lehaine.kiwi.component.GridPositionComponent
 import com.lehaine.kiwi.component.LevelComponent
 import com.lehaine.kiwi.korge.view.CameraContainer
+import com.soywiz.klock.TimeSpan
 
 /**
  * Add any extra references to this LevelComponent such as Hero reference for easier access in other entities.
@@ -17,4 +18,5 @@ interface GenericGameLevelComponent<LevelMark> : LevelComponent<LevelMark> {
     val spawnPoints: List<World.EntitySpawners>
     val levelWidth: Int
     val levelHeight: Int
+    var slingShotCDRemaining:TimeSpan
 }

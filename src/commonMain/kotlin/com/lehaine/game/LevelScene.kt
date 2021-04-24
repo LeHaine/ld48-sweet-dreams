@@ -12,6 +12,7 @@ import com.lehaine.kiwi.korge.view.ldtk.toLDtkLevel
 import com.soywiz.kds.iterators.fastForEach
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
+import com.soywiz.kmem.toIntCeil
 import com.soywiz.kmem.umod
 import com.soywiz.korev.Key
 import com.soywiz.korge.input.keys
@@ -19,7 +20,9 @@ import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.view.*
 import com.soywiz.korge.view.fast.*
 import com.soywiz.korim.color.Colors
+import com.soywiz.korim.text.HorizontalAlign
 import com.soywiz.korim.text.TextAlignment
+import com.soywiz.korim.text.VerticalAlign
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korma.geom.Rectangle
 import kotlin.math.floor
@@ -75,11 +78,32 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             x = 3.0
             y = 3.0
         }
-
-        val slingshotIcon = enhancedSprite(Assets.tiles.getByPrefix("slingshotIcon"), smoothing = false) {
-            alpha(0.65)
+        lateinit var slingshotCDCover: SolidRect
+        lateinit var slingshotCDText: Text
+        container {
+            val slingshotIcon = enhancedSprite(Assets.tiles.getByPrefix("slingshotIcon"), smoothing = false) {
+                alpha(0.65)
+            }
+            slingshotCDCover =
+                solidRect(slingshotIcon.width, slingshotIcon.height, Colors["#151213d0"]) {
+                    alignTopToTopOf(slingshotIcon)
+                    alignLeftToLeftOf(slingshotIcon)
+                    visible = false
+                }
+            slingshotCDText = text("0") {
+                font = Assets.pixelFont
+                fontSize = 12.0
+                alignment = TextAlignment.CENTER
+                verticalAlign = VerticalAlign.MIDDLE
+                horizontalAlign = HorizontalAlign.CENTER
+                y -= 5
+                x -= 2
+                setTextBounds(Rectangle(0.0, 0.0, this@container.width, this@container.height))
+                visible = false
+            }
         }.alignBottomToBottomOf(this, 3.0)
             .alignLeftToLeftOf(this, 3.0)
+
 
         val sleepState = text("Very Light Sleep") {
             font = Assets.pixelFont
@@ -103,6 +127,16 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             val seconds = floor(timer.seconds umod 60.0).toInt()
             timerText.text =
                 "${minutes}:${seconds.toString().padStart(2, '0')}"
+
+            if (gameLevel.slingShotCDRemaining > 0.milliseconds) {
+                gameLevel.slingShotCDRemaining -= dt
+                slingshotCDText.text = gameLevel.slingShotCDRemaining.seconds.toIntCeil().toString()
+                slingshotCDCover.visible = true
+                slingshotCDText.visible = true
+            } else {
+                slingshotCDCover.visible = false
+                slingshotCDText.visible = false
+            }
 
             fx.update(dt)
             gameLevel.entities.fastForEach {

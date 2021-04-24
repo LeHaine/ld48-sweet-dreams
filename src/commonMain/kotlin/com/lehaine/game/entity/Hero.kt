@@ -101,6 +101,7 @@ class Hero(
                 }
             }
             begin {
+                level.slingShotCDRemaining = 5.seconds
                 cd(ATTACK_CD, 300.milliseconds)
                 cd(SLING_SHOT_CD, 5.seconds)
                 cd(ANIM_PLAYING, Assets.heroSlingShot.duration)
