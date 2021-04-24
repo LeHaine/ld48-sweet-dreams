@@ -191,6 +191,7 @@ class LongArm(
     override fun damage(amount: Int, fromDir: Int) {
         healthComponent.damage(amount, fromDir)
         stretchX = 0.6
+        blink()
     }
 
     private fun attemptToAttackHero() {

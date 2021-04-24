@@ -316,6 +316,11 @@ class Hero(
 
     }
 
+    override fun damage(amount: Int, fromDir: Int) {
+        healthComponent.damage(amount, fromDir)
+        blink()
+    }
+
     private fun run() {
         if (running) {
             val speed = if (runningRight) moveSpeed else -moveSpeed

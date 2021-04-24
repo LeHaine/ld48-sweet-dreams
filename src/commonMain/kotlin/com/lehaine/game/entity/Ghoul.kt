@@ -4,19 +4,21 @@ import com.lehaine.game.*
 import com.lehaine.game.component.*
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.korge.view.enhancedSprite
+import com.lehaine.kiwi.random
 import com.lehaine.kiwi.stateMachine
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
+import com.soywiz.klock.seconds
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.anchor
 import com.soywiz.korma.geom.Anchor
 import com.soywiz.korui.UiContainer
 
-inline fun Container.dustBunny(
+inline fun Container.ghoul(
     cx: Int, cy: Int,
     level: GenericGameLevelComponent<LevelMark>,
-    callback: DustBunny.() -> Unit = {}
-): DustBunny = DustBunny(
+    callback: Ghoul.() -> Unit = {}
+): Ghoul = Ghoul(
     level = level,
     platformerDynamicComponent = PlatformerDynamicComponentDefault(
         levelComponent = level,
@@ -37,7 +39,7 @@ inline fun Container.dustBunny(
     dangerousComponent = DangerousComponentDefault(5)
 ).addTo(this).addToLevel().also(callback)
 
-class DustBunny(
+class Ghoul(
     level: GenericGameLevelComponent<LevelMark>,
     platformerDynamicComponent: PlatformerDynamicComponent,
     spriteComponent: SpriteComponent,
@@ -56,16 +58,15 @@ class DustBunny(
         private const val ANIM_PLAYING = "animPlaying"
         private const val ATTACK_CD = "attackCD"
         private const val IDLE = "idle"
-        private const val DUST = "dustCD"
     }
 
-    private sealed class DustBunnyState {
-        object Idle : DustBunnyState()
-        object MovingToHero : DustBunnyState()
-        object Attack : DustBunnyState()
+    private sealed class SheepState {
+        object Idle : SheepState()
+        object Attack : SheepState()
+        object MovingToHero : SheepState()
 
-        object NoAffects : DustBunnyState()
-        object Stunned : DustBunnyState()
+        object NoAffects : SheepState()
+        object Stunned : SheepState()
     }
 
 
@@ -77,30 +78,30 @@ class DustBunny(
             visible = false
         }
     }
-    private val moveSpeed = 0.04
+    private val moveSpeed = 0.02
 
     private val attackingHero get() = distGridTo(level.hero) <= 3 && !cd.has(ATTACK_CD)
 
-    private val entityFSM = stateMachine<DustBunnyState>(DustBunnyState.NoAffects) {
-        state(DustBunnyState.Stunned) {
+    private val entityFSM = stateMachine<SheepState>(SheepState.NoAffects) {
+        state(SheepState.Stunned) {
             transition {
                 when {
-                    hasAffect(Affect.STUN) -> DustBunnyState.Stunned
-                    else -> DustBunnyState.NoAffects
+                    hasAffect(Affect.STUN) -> SheepState.Stunned
+                    else -> SheepState.NoAffects
                 }
             }
             begin {
                 affectIcon.playAnimationLooped(Assets.stunIcon)
                 affectIcon.visible = true
-                sprite.playAnimationLooped(Assets.dustBunnyIdle)
+                sprite.playAnimationLooped(Assets.sheepStunned)
             }
         }
 
-        state(DustBunnyState.NoAffects) {
+        state(SheepState.NoAffects) {
             transition {
                 when {
-                    hasAffect(Affect.STUN) -> DustBunnyState.Stunned
-                    else -> DustBunnyState.NoAffects
+                    hasAffect(Affect.STUN) -> SheepState.Stunned
+                    else -> SheepState.NoAffects
                 }
             }
             begin {
@@ -115,43 +116,48 @@ class DustBunny(
 
     }
 
-    private val controlFSM = stateMachine<DustBunnyState>(DustBunnyState.Idle) {
-        state(DustBunnyState.Attack) {
+    private val controlFSM = stateMachine<SheepState>(SheepState.Idle) {
+        state(SheepState.MovingToHero) {
             transition {
                 when {
-                    attackingHero -> DustBunnyState.Attack
-                    else -> DustBunnyState.MovingToHero
+                    attackingHero -> SheepState.Attack
+                    else -> SheepState.MovingToHero
                 }
             }
             begin {
-                sprite.playOverlap(Assets.dustBunnyAttack) {
-                    attemptToAttackHero()
-                }
-            }
-        }
-        state(DustBunnyState.MovingToHero) {
-            transition {
-                when {
-                    attackingHero -> DustBunnyState.Attack
-                    else -> DustBunnyState.MovingToHero
-                }
-
-            }
-            begin {
-                sprite.playAnimationLooped(Assets.dustBunnyJump)
+                sprite.playAnimationLooped(Assets.sheepWalk)
             }
             update {
                 moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, level.hero.cy, moveSpeed * tmod)
             }
 
         }
-        state(DustBunnyState.Idle) {
+        state(SheepState.Attack) {
+            transition {
+                when {
+                    cd.has(ANIM_PLAYING) -> SheepState.Attack
+                    else -> SheepState.Idle
+                }
+            }
+            begin {
+                dir = dirTo(level.hero)
+                sprite.playOverlap(Assets.sheepAttack, onAnimationFrameChange = {
+                    if (it == 8) {
+                        attemptToAttackHero()
+                    }
+                })
+                cd(ANIM_PLAYING, Assets.sheepAttack.duration)
+                cd(ATTACK_CD, 3.seconds)
+            }
+
+        }
+        state(SheepState.Idle) {
             var playingAnim = false
             transition {
                 when {
-                    cd.has(IDLE) -> DustBunnyState.Idle
-                    attackingHero -> DustBunnyState.Attack
-                    else -> DustBunnyState.MovingToHero
+                    cd.has(IDLE) -> SheepState.Idle
+                    attackingHero -> SheepState.Attack
+                    else -> SheepState.MovingToHero
                 }
             }
             begin {
@@ -160,7 +166,7 @@ class DustBunny(
             }
             update {
                 if (!playingAnim && !cd.has(ANIM_PLAYING)) {
-                    sprite.playAnimationLooped(Assets.dustBunnyIdle)
+                    sprite.playAnimationLooped(Assets.sheepIdle)
                     playingAnim = true
                 }
             }
@@ -174,13 +180,7 @@ class DustBunny(
     override fun update(dt: TimeSpan) {
         super.update(dt)
         if (isDead) {
-            fx.dustExplosion(centerX, centerY)
             destroy()
-        }
-
-        if (!cd.has(DUST)) {
-            cd(DUST, 250.milliseconds)
-            fx.dust(centerX, centerY)
         }
 
         entityFSM.update(dt)
@@ -193,7 +193,7 @@ class DustBunny(
     }
 
     private fun attemptToAttackHero() {
-        if (distGridTo(level.hero) <= (0.5) && dir == dirTo(level.hero)) {
+        if (distGridTo(level.hero) <= (1.5..2.5).random() && dir == dirTo(level.hero)) {
             attack(level.hero, -dirTo(level.hero))
         }
     }

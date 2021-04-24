@@ -43,6 +43,9 @@ object Assets {
     lateinit var dustBunnyJump: SpriteAnimation
     lateinit var dustBunnyAttack: SpriteAnimation
 
+    lateinit var ghoulBob: SpriteAnimation
+    lateinit var ghoulAttack: SpriteAnimation
+
     lateinit var stunIcon: SpriteAnimation
 
     object Sfx {
@@ -101,6 +104,9 @@ object Assets {
         sheepAttack = tiles.getSpriteAnimation("sheepAttack", 100.milliseconds)
         sheepStunned = tiles.getSpriteAnimation("sheepStunned", 500.milliseconds)
         sheepWalk = tiles.getSpriteAnimation("sheepWalk", 100.milliseconds)
+
+        ghoulBob = tiles.getSpriteAnimation("ghoulBob", 500.milliseconds)
+        ghoulAttack = tiles.getSpriteAnimation("ghoulAttack", 100.milliseconds)
 
         stunIcon = tiles.getSpriteAnimation("stunIcon", 200.milliseconds)
 
