@@ -1,10 +1,7 @@
 package com.lehaine.game
 
 import com.soywiz.klock.milliseconds
-import com.soywiz.korau.sound.PlaybackTimes
-import com.soywiz.korau.sound.Sound
-import com.soywiz.korau.sound.playbackTimes
-import com.soywiz.korau.sound.readSound
+import com.soywiz.korau.sound.*
 import com.soywiz.korge.view.SpriteAnimation
 import com.soywiz.korge.view.Views
 import com.soywiz.korge.view.getSpriteAnimation
@@ -68,6 +65,7 @@ object Assets {
         lateinit var ghoulAnticipation: Sound
         lateinit var ghoulSwing: Sound
         lateinit var teleport: Sound
+        lateinit var music: Sound
 
         suspend fun init(views: Views) {
             this.views = views
@@ -82,6 +80,7 @@ object Assets {
             teleport = loadSound("teleport0")
             ghoulAnticipation = loadSound("ghoulAnticipation0")
             ghoulSwing = loadSound("ghoulSwing0")
+            music = resourcesVfs["sfx/music-lower-vol.mp3"].readMusic()
         }
 
         private suspend fun loadSoundsByPrefix(

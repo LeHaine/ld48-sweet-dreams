@@ -44,16 +44,19 @@ class StartScene() : Scene() {
             onClick {
                 if (!launched) {
                     launched = true
+                    Assets.Sfx.music.playForever()
+                    Assets.Sfx.music.volume = 0.5
                     launchImmediately { sceneContainer.changeTo<LevelScene>(time = 2.seconds) }
                 }
             }
-
         }
 
         keys {
             down {
                 if (!launched) {
                     launched = true
+                    Assets.Sfx.music.playForever()
+                    Assets.Sfx.music.volume = 0.5
                     launchImmediately { sceneContainer.changeTo<LevelScene>(time = 2.seconds) }
                 }
             }
