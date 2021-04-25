@@ -81,7 +81,7 @@ class Ghoul(
             visible = false
         }
     }
-    private val moveSpeed = 0.02
+    private val moveSpeed = 0.01
     private val attackRange = 1.5
 
     private val attackingHero get() = distGridTo(level.hero) <= attackRange && !cd.has(ATTACK_CD)
