@@ -23,6 +23,7 @@ import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.view.*
 import com.soywiz.korge.view.fast.*
 import com.soywiz.korim.color.Colors
+import com.soywiz.korim.color.RGBA
 import com.soywiz.korim.text.HorizontalAlign
 import com.soywiz.korim.text.TextAlignment
 import com.soywiz.korim.text.VerticalAlign
@@ -85,7 +86,12 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
 
         // overlay
         val overlay =
-            solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#51466e58"])
+            solidRect(
+                GameModule.size.width.toDouble(),
+                GameModule.size.height.toDouble(),
+                Colors["#221e3d1b"]
+            )
+//        Colors["#221e3d72"]
         val timerText = text("0:00") {
             font = Assets.pixelFont
             fontSize = 12.0
@@ -141,8 +147,12 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
 
         var showDeathScreen = false
         var transitionToEndScene = false
-
         val transitionOut = solidRect(GameModule.size.width, GameModule.size.height, Colors["#00000000"])
+
+        var newOverlayAlpha = 0.1
+        var originalOverlayAlpha = 0.1
+
+
         addUpdater { dt ->
             val tmod = if (dt == 0.milliseconds) 0.0 else (dt / 16.666666.milliseconds)
             if (gameLevel.gameFinshed && !transitionToEndScene && !cd.has("GAME_DONE_CD")) {
@@ -151,11 +161,20 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                 }
             }
             if (cd.has("GAME_DONE_CD")) {
-                transitionOut.color = Colors["#00000000"].withAd(1-cd.ratio("GAME_DONE_CD"))
+                transitionOut.color = Colors["#00000000"].withAd(1 - cd.ratio("GAME_DONE_CD"))
             }
             if (transitionToEndScene) {
                 launchImmediately { sceneContainer.changeTo<EndScene>() }
                 return@addUpdater
+            }
+            if (originalOverlayAlpha != newOverlayAlpha && !cd.has("OVERLAY_TRANSITION")) {
+                cd("OVERLAY_TRANSITION", 5.seconds) {
+                    originalOverlayAlpha = newOverlayAlpha
+                }
+            }
+            if (cd.has("OVERLAY_TRANSITION")) {
+                val diff = newOverlayAlpha - originalOverlayAlpha
+                overlay.color = RGBA(overlay.color).withAd(cd.ratio("OVERLAY_TRANSITION") * diff + originalOverlayAlpha)
             }
             if (!hero.isDead) {
                 timer += dt
@@ -167,26 +186,32 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                 sleepState.text = when {
                     timer >= SleepState.DeepestSleep.time -> {
                         gameLevel.sleepState = SleepState.DeepestSleep
+                        newOverlayAlpha = 0.44
                         "Deepest SLEEP!"
                     }
                     timer >= SleepState.EvenDeeperSleep.time -> {
                         gameLevel.sleepState = SleepState.EvenDeeperSleep
+                        newOverlayAlpha = 0.35
                         "Even Deeper Sleep"
                     }
                     timer >= SleepState.DeeperSleep.time -> {
                         gameLevel.sleepState = SleepState.DeeperSleep
+                        newOverlayAlpha = 0.3
                         "Deeper Sleep"
                     }
                     timer >= SleepState.MediumSleep.time -> {
                         gameLevel.sleepState = SleepState.MediumSleep
+                        newOverlayAlpha = 0.2
                         "Medium Sleep"
                     }
                     timer >= SleepState.LightSleep.time -> {
                         gameLevel.sleepState = SleepState.LightSleep
+                        newOverlayAlpha = 0.15
                         "Light Sleep"
                     }
                     else -> {
                         gameLevel.sleepState = SleepState.VeryLightSleep
+                        newOverlayAlpha = 0.1
                         "Very Light Sleep"
                     }
                 } + "\n(${((timer.seconds / SleepState.DeepestSleep.time.seconds) * 100).toIntFloor()}%)"

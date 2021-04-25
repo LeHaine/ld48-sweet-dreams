@@ -8,6 +8,7 @@ import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.klock.seconds
 import com.soywiz.kmem.clamp
+import com.soywiz.korim.color.RGBA
 
 class GameLevel(val level: World.WorldLevel) : GenericGameLevelComponent<LevelMark> {
     var _camera: CameraContainer? = null
@@ -126,5 +127,5 @@ sealed class SleepState(val time: TimeSpan) {
     object MediumSleep : SleepState(20.seconds)
     object DeeperSleep : SleepState(30.seconds)
     object EvenDeeperSleep : SleepState(40.seconds)
-    object DeepestSleep : SleepState(0.seconds)
+    object DeepestSleep : SleepState(50.seconds)
 }
