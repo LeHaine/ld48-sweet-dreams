@@ -115,7 +115,7 @@ class Hero(
                 addAffect(Affect.INVULNERABLE, 1.seconds)
             }
             update {
-                velocityX += moveSpeed * 2.0 * dir * tmod
+                velocityX += moveSpeed * 1.25 * dir * tmod
                 if (!cd.has(RUN_DUST)) {
                     cd(RUN_DUST, 100.milliseconds)
                     fx.runDust(centerX, bottom, -dir)
