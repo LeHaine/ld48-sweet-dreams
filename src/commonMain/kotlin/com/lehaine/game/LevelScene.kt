@@ -72,7 +72,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             gameLevel._camera = it
         }
         // overlay
-        solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#51466e58"])
+       val overlay =  solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#51466e58"])
         val timerText = text("0:00") {
             font = Assets.pixelFont
             fontSize = 12.0
@@ -123,51 +123,55 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             alignRightToLeftOf(sleepState, 3.0)
         }
 
-        val spawner = enemySpawner(gameLevel)
-
+        enemySpawner(gameLevel)
         var timer = TimeSpan.ZERO
+
+        var showDeathScreen = false
+
         addUpdater { dt ->
             val tmod = if (dt == 0.milliseconds) 0.0 else (dt / 16.666666.milliseconds)
-            timer += dt
-            val minutes = floor((timer.seconds / 60) umod 60.0).toInt()
-            val seconds = floor(timer.seconds umod 60.0).toInt()
-            timerText.text =
-                "${minutes}:${seconds.toString().padStart(2, '0')}"
+            if (!hero.isDead) {
+                timer += dt
+                val minutes = floor((timer.seconds / 60) umod 60.0).toInt()
+                val seconds = floor(timer.seconds umod 60.0).toInt()
+                timerText.text =
+                    "${minutes}:${seconds.toString().padStart(2, '0')}"
 
-            sleepState.text = when {
-                timer >= SleepState.DeepestSleep.time -> {
-                    gameLevel.sleepState = SleepState.DeepestSleep
-                    "Deepest SLEEP!"
+                sleepState.text = when {
+                    timer >= SleepState.DeepestSleep.time -> {
+                        gameLevel.sleepState = SleepState.DeepestSleep
+                        "Deepest SLEEP!"
+                    }
+                    timer >= SleepState.EvenDeeperSleep.time -> {
+                        gameLevel.sleepState = SleepState.EvenDeeperSleep
+                        "Even Deeper Sleep"
+                    }
+                    timer >= SleepState.DeeperSleep.time -> {
+                        gameLevel.sleepState = SleepState.DeeperSleep
+                        "Deeper Sleep"
+                    }
+                    timer >= SleepState.MediumSleep.time -> {
+                        gameLevel.sleepState = SleepState.MediumSleep
+                        "Medium Sleep"
+                    }
+                    timer >= SleepState.LightSleep.time -> {
+                        gameLevel.sleepState = SleepState.LightSleep
+                        "Light Sleep"
+                    }
+                    else -> {
+                        gameLevel.sleepState = SleepState.VeryLightSleep
+                        "Very Light Sleep"
+                    }
+                } + "\n(${((timer.seconds / SleepState.DeepestSleep.time.seconds) * 100).toIntFloor()}%)"
+                if (gameLevel.slingShotCDRemaining > 0.milliseconds) {
+                    gameLevel.slingShotCDRemaining -= dt
+                    slingshotCDText.text = gameLevel.slingShotCDRemaining.seconds.toIntCeil().toString()
+                    slingshotCDCover.visible = true
+                    slingshotCDText.visible = true
+                } else {
+                    slingshotCDCover.visible = false
+                    slingshotCDText.visible = false
                 }
-                timer >= SleepState.EvenDeeperSleep.time -> {
-                    gameLevel.sleepState = SleepState.EvenDeeperSleep
-                    "Even Deeper Sleep"
-                }
-                timer >= SleepState.DeeperSleep.time -> {
-                    gameLevel.sleepState = SleepState.DeeperSleep
-                    "Deeper Sleep"
-                }
-                timer >= SleepState.MediumSleep.time -> {
-                    gameLevel.sleepState = SleepState.MediumSleep
-                    "Medium Sleep"
-                }
-                timer >= SleepState.LightSleep.time -> {
-                    gameLevel.sleepState = SleepState.LightSleep
-                    "Light Sleep"
-                }
-                else -> {
-                    gameLevel.sleepState = SleepState.VeryLightSleep
-                    "Very Light Sleep"
-                }
-            } + "\n(${((timer.seconds / SleepState.DeepestSleep.time.seconds) * 100).toIntFloor()}%)"
-            if (gameLevel.slingShotCDRemaining > 0.milliseconds) {
-                gameLevel.slingShotCDRemaining -= dt
-                slingshotCDText.text = gameLevel.slingShotCDRemaining.seconds.toIntCeil().toString()
-                slingshotCDCover.visible = true
-                slingshotCDText.visible = true
-            } else {
-                slingshotCDCover.visible = false
-                slingshotCDText.visible = false
             }
 
             fx.update(dt)
@@ -177,6 +181,26 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             }
             gameLevel.entities.fastForEach {
                 it.postUpdate(dt)
+            }
+
+            if (hero.isDead && !showDeathScreen) {
+                overlay.color = Colors["#000000cc"]
+                container {
+                    centerOnStage()
+                    val t1 = text("Your nightmare consumed you!") {
+                        font = Assets.pixelFont
+                        fontSize = 16.0
+                        alignment = TextAlignment.CENTER
+
+                    }
+                    text("Press 'Shift+R' to restart!") {
+                        font = Assets.pixelFont
+                        fontSize = 16.0
+                        alignment = TextAlignment.CENTER
+
+                    }.alignTopToBottomOf(t1, 10)
+                        .centerOn(this)
+                }
             }
         }
 
