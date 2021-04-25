@@ -211,8 +211,9 @@ class Hero(
                 cd(ATTACK_CD, 400.milliseconds)
                 cd(ANIM_PLAYING, Assets.heroBroomAttack3.duration)
                 broomCombo = 0
-                sfx.swing.playSfx()
-                damageEntities(true, 2.0)
+                sfx.strongSwing.playSfx()
+                camera.shake(50.milliseconds, 0.5)
+                damageEntities(true, 3.0)
             }
         }
         state(HeroState.BroomAttack2) {
@@ -232,7 +233,7 @@ class Hero(
                 cd(ANIM_PLAYING, Assets.heroBroomAttack2.duration)
                 broomCombo++
                 sfx.swing.playSfx()
-                damageEntities(true, 1.25)
+                damageEntities(true, 2.0)
             }
         }
         state(HeroState.BroomAttack1) {
@@ -381,7 +382,7 @@ class Hero(
 
         if (level.sleepState != currentSleepState) {
             health += (maxHealth * 0.25).toInt()
-            if(health > maxHealth) {
+            if (health > maxHealth) {
                 health = maxHealth
             }
             healthBar.setHealthRatio(healthRatio)

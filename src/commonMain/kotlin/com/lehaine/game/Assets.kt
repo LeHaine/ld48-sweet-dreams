@@ -60,19 +60,21 @@ object Assets {
 
         lateinit var hit: List<Sound>
         lateinit var swing: List<Sound>
+        lateinit var strongSwing: List<Sound>
         lateinit var shoot: Sound
         lateinit var land: Sound
         lateinit var footstep: Sound
         lateinit var bossYell: Sound
-        lateinit var ghoulAnticipation:Sound
-        lateinit var ghoulSwing:Sound
-        lateinit var teleport:Sound
+        lateinit var ghoulAnticipation: Sound
+        lateinit var ghoulSwing: Sound
+        lateinit var teleport: Sound
 
         suspend fun init(views: Views) {
             this.views = views
             // define sounds here
             hit = loadSoundsByPrefix("hit", 3, volume = 0.6)
             swing = loadSoundsByPrefix("swing", 6, volume = 0.8)
+            strongSwing = loadSoundsByPrefix("strongSwing", 4, volume = 0.8)
             bossYell = loadSound("bossYell0")
             footstep = loadSound("footstep0", volume = 0.4)
             land = loadSound("land0")
