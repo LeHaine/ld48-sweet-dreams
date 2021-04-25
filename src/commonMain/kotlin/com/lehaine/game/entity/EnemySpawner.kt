@@ -107,6 +107,7 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                 }
             }
         }
+        level.hero.container.parent?.sendChildToFront(level.hero.container)
     }
 
 }

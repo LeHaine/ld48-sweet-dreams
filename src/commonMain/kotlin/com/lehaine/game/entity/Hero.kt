@@ -6,6 +6,8 @@ import com.lehaine.game.component.*
 import com.lehaine.game.view.HealthBar
 import com.lehaine.game.view.healthBar
 import com.lehaine.kiwi.component.*
+import com.lehaine.kiwi.korge.getByPrefix
+import com.lehaine.kiwi.korge.view.enhancedSprite
 import com.lehaine.kiwi.random
 import com.lehaine.kiwi.stateMachine
 import com.soywiz.kds.iterators.fastForEach
@@ -15,10 +17,10 @@ import com.soywiz.klock.seconds
 import com.soywiz.korev.Key
 import com.soywiz.korge.tween.get
 import com.soywiz.korge.tween.tween
-import com.soywiz.korge.view.Container
-import com.soywiz.korge.view.alignBottomToTopOf
+import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korio.async.launchImmediately
+import com.soywiz.korma.geom.Anchor
 import com.soywiz.korui.UiContainer
 import kotlin.math.pow
 
@@ -374,7 +376,16 @@ class Hero(
         }
     }
 
+
     init {
+        container.apply {
+            enhancedSprite(Assets.tiles.getByPrefix("fxGlow")) {
+                blendMode = BlendMode.LIGHTEN
+                alpha = 0.25
+                anchor(Anchor.MIDDLE_CENTER)
+                parent?.sendChildToBack(this)
+            }
+        }
         dir = -1
         enableCollisionChecks = true
     }
