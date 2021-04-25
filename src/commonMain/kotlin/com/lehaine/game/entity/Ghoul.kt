@@ -3,6 +3,8 @@ package com.lehaine.game.entity
 import com.lehaine.game.*
 import com.lehaine.game.Assets.Sfx.playSfx
 import com.lehaine.game.component.*
+import com.lehaine.game.view.HealthBar
+import com.lehaine.game.view.healthBar
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.component.ext.toGridPosition
 import com.lehaine.kiwi.korge.view.enhancedSprite
@@ -11,7 +13,9 @@ import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.klock.seconds
 import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.alignBottomToTopOf
 import com.soywiz.korge.view.anchor
+import com.soywiz.korge.view.centerXOn
 import com.soywiz.korim.color.Colors
 import com.soywiz.korma.geom.Anchor
 import com.soywiz.korui.UiContainer
@@ -201,6 +205,14 @@ class Ghoul(
         }
     }
 
+    val healthBar: HealthBar = container.run {
+        healthBar(health / 10.0, 2.0) {
+            centerXOn(sprite)
+            alignBottomToTopOf(sprite, 13)
+            visible = false
+        }
+    }
+
     init {
         enableCollisionChecks = true
     }
@@ -209,6 +221,10 @@ class Ghoul(
         super.update(dt)
         if (isDead) {
             destroy()
+        }
+
+        if (healthRatio != 1.0) {
+            healthBar.visible = true
         }
 
         entityFSM.update(dt)
@@ -222,6 +238,7 @@ class Ghoul(
     override fun damage(amount: Int, fromDir: Int) {
         sfx.hit.playSfx()
         healthComponent.damage(amount, fromDir)
+        healthBar.setHealthRatio(healthRatio)
         stretchX = 0.6
         blink()
     }

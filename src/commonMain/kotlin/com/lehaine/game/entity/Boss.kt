@@ -3,6 +3,8 @@ package com.lehaine.game.entity
 import com.lehaine.game.*
 import com.lehaine.game.Assets.Sfx.playSfx
 import com.lehaine.game.component.*
+import com.lehaine.game.view.HealthBar
+import com.lehaine.game.view.healthBar
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.korge.view.enhancedSprite
 import com.lehaine.kiwi.random
@@ -11,7 +13,9 @@ import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.klock.seconds
 import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.alignBottomToTopOf
 import com.soywiz.korge.view.anchor
+import com.soywiz.korge.view.centerXOn
 import com.soywiz.korma.geom.Anchor
 import com.soywiz.korui.UiContainer
 
@@ -163,6 +167,14 @@ class Boss(
         }
     }
 
+    val healthBar: HealthBar = container.run {
+        healthBar(health / 10.0, 4.0) {
+            centerXOn(sprite)
+            alignBottomToTopOf(sprite, 42)
+            visible = false
+        }
+    }
+
     init {
         width = 32.0
         height = 32.0
@@ -178,6 +190,9 @@ class Boss(
             cd(DUST, 500.milliseconds)
             fx.bossDust(centerX, centerY)
         }
+        if (healthRatio != 1.0) {
+            healthBar.visible = true
+        }
 
         entityFSM.update(dt)
     }
@@ -186,6 +201,7 @@ class Boss(
         blink()
         sfx.hit.playSfx()
         healthComponent.damage(amount, fromDir)
+        healthBar.setHealthRatio(healthRatio)
         stretchX = 0.6
     }
 

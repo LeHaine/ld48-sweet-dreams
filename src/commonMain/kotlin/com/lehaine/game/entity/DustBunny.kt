@@ -179,7 +179,7 @@ class DustBunny(
         }
     }
     val healthBar: HealthBar = container.run {
-        healthBar(5.0, 2.0) {
+        healthBar(health / 10.0, 2.0) {
             centerXOn(sprite)
             alignBottomToTopOf(sprite, 10)
             visible = false
