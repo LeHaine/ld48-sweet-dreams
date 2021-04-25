@@ -63,7 +63,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                     container {
                         text(it.text ?: "").apply {
                             font = Assets.pixelFont
-                            fontSize = 8.0
+                            fontSize = 6.0
                             alignment = TextAlignment.CENTER
                         }
                         x = it.pixelX.toDouble()
@@ -78,6 +78,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             fx = Fx(gameLevel, particleContainer).also { gameLevel._fx = it }
 
         }.apply {
+            cameraZoom = 1.3
             // follow newly created entity or do something with camera
             follow(hero)
         }.also {
@@ -304,7 +305,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                         alignment = TextAlignment.CENTER
 
                     }
-                    text("Press 'Shift+R' to restart!") {
+                    text("Press 'ALT+R' to restart!") {
                         font = Assets.pixelFont
                         fontSize = 16.0
                         alignment = TextAlignment.CENTER
@@ -314,7 +315,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                 }
             }
 
-            if (views.input.keys.pressing(Key.LEFT_SHIFT) && views.input.keys.justPressed(Key.R)) {
+            if (views.input.keys.pressing(Key.LEFT_ALT) && views.input.keys.justPressed(Key.R)) {
                 launchImmediately { sceneContainer.changeTo<LevelScene>() }
             }
         }

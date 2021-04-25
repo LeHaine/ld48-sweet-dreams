@@ -22,7 +22,7 @@ class EndScene() : Scene() {
             horizontalAlign = HorizontalAlign.CENTER
             centerOnStage()
         }
-        val t2 = text("You can play again if you so choose by pressing 'Shift-R' on this screen!") {
+        val t2 = text("You can play again if you so choose by pressing 'ALT + R' on this screen!") {
             font = Assets.pixelFont
             fontSize = 8.0
             alignment = TextAlignment.CENTER
@@ -31,7 +31,7 @@ class EndScene() : Scene() {
             centerOnStage()
         }.alignTopToBottomOf(t1, 5)
 
-       val t3 = text("I sincerely hope you enjoyed it. Even a little bit.") {
+        val t3 = text("I sincerely hope you enjoyed it. Even a little bit.") {
             font = Assets.pixelFont
             fontSize = 8.0
             alignment = TextAlignment.CENTER
@@ -47,10 +47,10 @@ class EndScene() : Scene() {
             centerOnStage()
         }.alignTopToBottomOf(t3, 5)
 
-       addUpdater {
-           if(views.input.keys.pressing(Key.LEFT_SHIFT) && views.input.keys.justPressed(Key.R)) {
-               launchImmediately { sceneContainer.changeTo<LevelScene>() }
-           }
-       }
+        addUpdater {
+            if (views.input.keys.pressing(Key.LEFT_ALT) && views.input.keys.justPressed(Key.R)) {
+                launchImmediately { sceneContainer.changeTo<LevelScene>() }
+            }
+        }
     }
 }
