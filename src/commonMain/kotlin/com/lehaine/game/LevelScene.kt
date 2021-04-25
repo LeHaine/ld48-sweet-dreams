@@ -4,6 +4,7 @@ import GameModule
 import com.lehaine.game.entity.Hero
 import com.lehaine.game.entity.enemySpawner
 import com.lehaine.game.entity.hero
+import com.lehaine.kiwi.korge.cd
 import com.lehaine.kiwi.korge.getByPrefix
 import com.lehaine.kiwi.korge.view.cameraContainer
 import com.lehaine.kiwi.korge.view.enhancedSprite
@@ -12,6 +13,7 @@ import com.lehaine.kiwi.korge.view.ldtk.toLDtkLevel
 import com.soywiz.kds.iterators.fastForEach
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
+import com.soywiz.klock.seconds
 import com.soywiz.kmem.toIntCeil
 import com.soywiz.kmem.toIntFloor
 import com.soywiz.kmem.umod
@@ -138,9 +140,23 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
         var timer = TimeSpan.ZERO
 
         var showDeathScreen = false
+        var transitionToEndScene = false
 
+        val transitionOut = solidRect(GameModule.size.width, GameModule.size.height, Colors["#00000000"])
         addUpdater { dt ->
             val tmod = if (dt == 0.milliseconds) 0.0 else (dt / 16.666666.milliseconds)
+            if (gameLevel.gameFinshed && !transitionToEndScene && !cd.has("GAME_DONE_CD")) {
+                cd("GAME_DONE_CD", 3.seconds) {
+                    transitionToEndScene = true
+                }
+            }
+            if (cd.has("GAME_DONE_CD")) {
+                transitionOut.color = Colors["#00000000"].withAd(1-cd.ratio("GAME_DONE_CD"))
+            }
+            if (transitionToEndScene) {
+                launchImmediately { sceneContainer.changeTo<EndScene>() }
+                return@addUpdater
+            }
             if (!hero.isDead) {
                 timer += dt
                 val minutes = floor((timer.seconds / 60) umod 60.0).toInt()

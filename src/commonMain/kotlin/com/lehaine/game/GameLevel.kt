@@ -14,6 +14,7 @@ class GameLevel(val level: World.WorldLevel) : GenericGameLevelComponent<LevelMa
     var _fx: Fx? = null
     var _hero: Hero? = null
 
+    override var gameFinshed: Boolean = false
     override var slingShotCDRemaining: TimeSpan = TimeSpan.ZERO
     override var sleepState: SleepState = SleepState.VeryLightSleep
 
