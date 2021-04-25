@@ -37,7 +37,7 @@ fun Container.hero(
         anchorX = data.pivotX.toDouble(),
         anchorY = data.pivotY.toDouble()
     ),
-    healthComponent = HealthComponentDefault(50),
+    healthComponent = HealthComponentDefault(150),
     dangerousComponent = DangerousComponentDefault(25)
 ).addTo(this).addToLevel().also(callback)
 

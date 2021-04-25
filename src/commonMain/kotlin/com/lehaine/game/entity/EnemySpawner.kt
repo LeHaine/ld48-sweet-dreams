@@ -53,10 +53,10 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                 SleepState.LightSleep -> {
                     when {
                         rng > 0.8 -> {
-                            sheep(spawn.cx, spawn.cy, level)
+                            sheep(spawn.cx, spawn.cy, level, 2.0, 2.0)
                         }
                         else -> {
-                            dustBunny(spawn.cx, spawn.cy, level)
+                            dustBunny(spawn.cx, spawn.cy, level, 2.0, 2.0)
                         }
                     }
                     cd(SPAWN_CD, (0.25..1.0).random().seconds)
@@ -64,7 +64,7 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                 SleepState.MediumSleep -> {
                     when {
                         rng > 0.6 -> {
-                            dustBunny(spawn.cx, spawn.cy, level)
+                            dustBunny(spawn.cx, spawn.cy, level, 2.5, 2.5)
                         }
                         else -> {
                             ghoul(spawn.cx, spawn.cy, level)
@@ -75,10 +75,10 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                 SleepState.DeeperSleep -> {
                     when {
                         rng > 0.8 -> {
-                            dustBunny(spawn.cx, spawn.cy, level)
+                            dustBunny(spawn.cx, spawn.cy, level, 3.0, 3.0)
                         }
                         rng > 0.4 -> {
-                            ghoul(spawn.cx, spawn.cy, level)
+                            ghoul(spawn.cx, spawn.cy, level, 2.0, 1.5)
                         }
                         else -> {
                             longArm(spawn.cx, spawn.cy, level)
@@ -89,10 +89,10 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                 SleepState.EvenDeeperSleep -> {
                     when {
                         rng > 0.5 -> {
-                            ghoul(spawn.cx, spawn.cy, level)
+                            ghoul(spawn.cx, spawn.cy, level, 2.5, 1.75)
                         }
                         else -> {
-                            longArm(spawn.cx, spawn.cy, level)
+                            longArm(spawn.cx, spawn.cy, level, 2.0, 1.5)
                         }
                     }
                     cd(SPAWN_CD, (1.0..2.5).random().seconds)

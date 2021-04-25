@@ -18,6 +18,8 @@ import com.soywiz.korui.UiContainer
 inline fun Container.sheep(
     cx: Int, cy: Int,
     level: GenericGameLevelComponent<LevelMark>,
+    healthMultiplier: Double = 1.0,
+    damageMultiplier: Double = 1.0,
     callback: Sheep.() -> Unit = {}
 ): Sheep = Sheep(
     level = level,
@@ -36,8 +38,8 @@ inline fun Container.sheep(
         anchorY = 1.0,
     ),
     targetComponent = TargetComponentDefault(),
-    healthComponent = HealthComponentDefault(30),
-    dangerousComponent = DangerousComponentDefault(5)
+    healthComponent = HealthComponentDefault((30*healthMultiplier).toInt()),
+    dangerousComponent = DangerousComponentDefault((5*damageMultiplier).toInt())
 ).addTo(this).addToLevel().also(callback)
 
 class Sheep(

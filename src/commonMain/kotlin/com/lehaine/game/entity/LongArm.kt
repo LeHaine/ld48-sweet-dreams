@@ -18,6 +18,8 @@ import com.soywiz.korui.UiContainer
 inline fun Container.longArm(
     cx: Int, cy: Int,
     level: GenericGameLevelComponent<LevelMark>,
+    healthMultiplier: Double = 1.0,
+    damageMultiplier: Double = 1.0,
     callback: LongArm.() -> Unit = {}
 ): LongArm = LongArm(
     level = level,
@@ -36,8 +38,8 @@ inline fun Container.longArm(
         anchorY = 1.0,
     ),
     targetComponent = TargetComponentDefault(),
-    healthComponent = HealthComponentDefault(100),
-    dangerousComponent = DangerousComponentDefault(35)
+    healthComponent = HealthComponentDefault((100*healthMultiplier).toInt()),
+    dangerousComponent = DangerousComponentDefault((35*damageMultiplier).toInt())
 ).addTo(this).addToLevel().also(callback)
 
 class LongArm(

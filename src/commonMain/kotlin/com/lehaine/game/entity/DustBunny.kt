@@ -17,6 +17,8 @@ import com.soywiz.korui.UiContainer
 inline fun Container.dustBunny(
     cx: Int, cy: Int,
     level: GenericGameLevelComponent<LevelMark>,
+    healthMultiplier: Double = 1.0,
+    damageMultiplier: Double = 1.0,
     callback: DustBunny.() -> Unit = {}
 ): DustBunny = DustBunny(
     level = level,
@@ -35,8 +37,8 @@ inline fun Container.dustBunny(
         anchorY = 1.0,
     ),
     targetComponent = TargetComponentDefault(),
-    healthComponent = HealthComponentDefault(25),
-    dangerousComponent = DangerousComponentDefault(15)
+    healthComponent = HealthComponentDefault((25 * healthMultiplier).toInt()),
+    dangerousComponent = DangerousComponentDefault((15 * damageMultiplier).toInt())
 ).addTo(this).addToLevel().also(callback)
 
 class DustBunny(

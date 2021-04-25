@@ -18,6 +18,8 @@ import com.soywiz.korui.UiContainer
 inline fun Container.ghoul(
     cx: Int, cy: Int,
     level: GenericGameLevelComponent<LevelMark>,
+    healthMultiplier: Double = 1.0,
+    damageMultiplier: Double = 1.0,
     callback: Ghoul.() -> Unit = {}
 ): Ghoul = Ghoul(
     level = level,
@@ -36,8 +38,8 @@ inline fun Container.ghoul(
         anchorY = 1.0,
     ),
     targetComponent = TargetComponentDefault(),
-    healthComponent = HealthComponentDefault(75),
-    dangerousComponent = DangerousComponentDefault(50)
+    healthComponent = HealthComponentDefault((75 * healthMultiplier).toInt()),
+    dangerousComponent = DangerousComponentDefault((50 * damageMultiplier).toInt())
 ).addTo(this).addToLevel().also(callback)
 
 class Ghoul(
