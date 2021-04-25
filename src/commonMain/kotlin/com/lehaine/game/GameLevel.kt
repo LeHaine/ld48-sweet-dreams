@@ -114,11 +114,11 @@ enum class LevelMark {
 
 sealed class SleepState(val time: TimeSpan) {
 //    object VeryLightSleep : SleepState(0.milliseconds)
-//    object LightSleep : SleepState(60.seconds)
-//    object MediumSleep : SleepState(120.seconds)
-//    object DeeperSleep : SleepState(180.seconds)
-//    object EvenDeeperSleep : SleepState(240.seconds)
-//    object DeepestSleep : SleepState(300.seconds)
+//    object LightSleep : SleepState(30.seconds)
+//    object MediumSleep : SleepState(60.seconds)
+//    object DeeperSleep : SleepState(90.seconds)
+//    object EvenDeeperSleep : SleepState(120.seconds)
+//    object DeepestSleep : SleepState(180.seconds)
 
     // debug
     object VeryLightSleep : SleepState(0.milliseconds)
