@@ -364,6 +364,7 @@ class Hero(
         if (hasAffect(Affect.INVULNERABLE) || isDead) {
             return
         }
+        sfx.hit.playSfx()
         healthComponent.damage(amount, fromDir)
         blink()
     }

@@ -1,6 +1,7 @@
 package com.lehaine.game.entity
 
 import com.lehaine.game.*
+import com.lehaine.game.Assets.Sfx.playSfx
 import com.lehaine.game.component.*
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.korge.view.enhancedSprite
@@ -192,6 +193,7 @@ class DustBunny(
     }
 
     override fun damage(amount: Int, fromDir: Int) {
+        sfx.hit.playSfx()
         healthComponent.damage(amount, fromDir)
         stretchX = 0.6
         blink()
