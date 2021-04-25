@@ -346,7 +346,7 @@
 },
 {
 	"filename": "fxGib0.png",
-	"frame": {"x":1307,"y":121,"w":8,"h":5},
+	"frame": {"x":1314,"y":97,"w":8,"h":5},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":5},
@@ -354,7 +354,7 @@
 },
 {
 	"filename": "fxGib1.png",
-	"frame": {"x":1319,"y":121,"w":8,"h":5},
+	"frame": {"x":1362,"y":109,"w":8,"h":5},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":5},
@@ -362,7 +362,7 @@
 },
 {
 	"filename": "fxGib2.png",
-	"frame": {"x":1347,"y":117,"w":8,"h":5},
+	"frame": {"x":1374,"y":109,"w":8,"h":5},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":5},
@@ -1154,7 +1154,7 @@
 },
 {
 	"filename": "sheepAttack4.png",
-	"frame": {"x":1281,"y":100,"w":12,"h":8},
+	"frame": {"x":1278,"y":117,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1170,7 +1170,7 @@
 },
 {
 	"filename": "sheepAttack6.png",
-	"frame": {"x":1281,"y":100,"w":12,"h":8},
+	"frame": {"x":1278,"y":117,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1178,7 +1178,7 @@
 },
 {
 	"filename": "sheepAttack7.png",
-	"frame": {"x":1275,"y":112,"w":12,"h":8},
+	"frame": {"x":1326,"y":93,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1186,7 +1186,7 @@
 },
 {
 	"filename": "sheepAttack8.png",
-	"frame": {"x":1297,"y":100,"w":12,"h":8},
+	"frame": {"x":1342,"y":93,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1194,7 +1194,7 @@
 },
 {
 	"filename": "sheepIdle0.png",
-	"frame": {"x":1291,"y":112,"w":12,"h":8},
+	"frame": {"x":1298,"y":100,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1202,7 +1202,7 @@
 },
 {
 	"filename": "sheepIdle1.png",
-	"frame": {"x":1313,"y":97,"w":12,"h":8},
+	"frame": {"x":1298,"y":112,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1210,7 +1210,7 @@
 },
 {
 	"filename": "sheepStunned0.png",
-	"frame": {"x":1329,"y":93,"w":12,"h":8},
+	"frame": {"x":1314,"y":106,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1218,7 +1218,7 @@
 },
 {
 	"filename": "sheepStunned1.png",
-	"frame": {"x":1345,"y":93,"w":12,"h":8},
+	"frame": {"x":1314,"y":118,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1226,7 +1226,7 @@
 },
 {
 	"filename": "sheepWalk0.png",
-	"frame": {"x":1329,"y":105,"w":12,"h":8},
+	"frame": {"x":1330,"y":105,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1234,7 +1234,7 @@
 },
 {
 	"filename": "sheepWalk1.png",
-	"frame": {"x":1345,"y":105,"w":12,"h":8},
+	"frame": {"x":1330,"y":117,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1242,7 +1242,7 @@
 },
 {
 	"filename": "sheepWalk2.png",
-	"frame": {"x":1313,"y":109,"w":12,"h":8},
+	"frame": {"x":1346,"y":105,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1250,7 +1250,7 @@
 },
 {
 	"filename": "sheepWalk3.png",
-	"frame": {"x":1331,"y":117,"w":12,"h":8},
+	"frame": {"x":1346,"y":117,"w":12,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":8},
@@ -1298,7 +1298,7 @@
 },
 {
 	"filename": "slingshotIcon0.png",
-	"frame": {"x":1258,"y":112,"w":13,"h":13},
+	"frame": {"x":1281,"y":100,"w":13,"h":13},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":13},
@@ -1319,6 +1319,14 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":4},
 	"sourceSize": {"w":8,"h":4}
+},
+{
+	"filename": "uiWindow.png",
+	"frame": {"x":1258,"y":112,"w":16,"h":12},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":12},
+	"sourceSize": {"w":16,"h":12}
 }],
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
@@ -1327,6 +1335,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1384,"h":128},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:eccfef2ad8b5171054ff8f8f10b991e2:cf8aa8d2f55ad17c2b78d3e9d3d18726:5e5ef3518cc1a44e4ed4954a57ade08c$"
+	"smartupdate": "$TexturePacker:SmartUpdate:12473a5bc9b979bd71e978a48fcd28be:0b5d875f9463049ef30687dc4b1d2248:5e5ef3518cc1a44e4ed4954a57ade08c$"
 }
 }

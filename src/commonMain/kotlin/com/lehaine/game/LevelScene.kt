@@ -56,6 +56,17 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                 name = "EntityContainer"
 
                 // instantiate and add entities to game level list here
+                worldLevel.layerEntities.allText.fastForEach {
+                    container {
+                        text(it.text ?: "").apply {
+                            font = Assets.pixelFont
+                            fontSize = 8.0
+                            alignment = TextAlignment.CENTER
+                        }
+                        x = it.pixelX.toDouble()
+                        y = it.pixelY.toDouble()
+                    }
+                }
 
                 hero = hero(worldLevel.layerEntities.allHero[0], gameLevel).also { gameLevel._hero = it }
             }
@@ -207,7 +218,6 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             if (views.input.keys.pressing(Key.LEFT_SHIFT) && views.input.keys.justPressed(Key.R)) {
                 launchImmediately { sceneContainer.changeTo<LevelScene>() }
             }
-
         }
 
         keys {
