@@ -40,7 +40,7 @@ class StartScene() : Scene() {
 
         keys {
             down {
-                //      launchImmediately { sceneContainer.changeTo<LevelScene>() }
+                launchImmediately { sceneContainer.changeTo<LevelScene>() }
             }
         }
     }
