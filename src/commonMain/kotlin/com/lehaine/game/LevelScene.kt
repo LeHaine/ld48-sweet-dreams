@@ -4,7 +4,6 @@ import GameModule
 import com.lehaine.game.entity.Hero
 import com.lehaine.game.entity.enemySpawner
 import com.lehaine.game.entity.hero
-import com.lehaine.game.view.healthBar
 import com.lehaine.kiwi.korge.cd
 import com.lehaine.kiwi.korge.getByPrefix
 import com.lehaine.kiwi.korge.view.cameraContainer
@@ -85,6 +84,17 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             gameLevel._camera = it
         }
 
+        text("Face your nightmare! \nThey are coming! MOVE!") {
+            font = Assets.pixelFont
+            fontSize = 16.0
+            alignment = TextAlignment.CENTER
+            centerOnStage()
+            alignTopToTopOf(this@sceneInit, 15)
+            cd("HIDE_START_TEXT", 10.seconds) {
+                visible = false
+            }
+        }
+
         // overlay
         val overlay =
             solidRect(
@@ -92,7 +102,6 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                 GameModule.size.height.toDouble(),
                 Colors["#221e3d1b"]
             )
-//        Colors["#221e3d72"]
         val timerText = text("0:00") {
             font = Assets.pixelFont
             fontSize = 12.0
@@ -152,10 +161,6 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
 
         var newOverlayAlpha = 0.1
         var originalOverlayAlpha = 0.1
-
-//        healthBar(35.0, 10.0) {
-//            setHealthRatio(0.5)
-//        }
 
         addUpdater { dt ->
             val tmod = if (dt == 0.milliseconds) 0.0 else (dt / 16.666666.milliseconds)

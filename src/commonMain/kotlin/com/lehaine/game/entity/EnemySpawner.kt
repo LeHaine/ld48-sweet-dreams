@@ -23,6 +23,10 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
 
     var shouldSpawn = true
 
+    init {
+        cd(SPAWN_CD, 5.seconds)
+    }
+
     override fun update(dt: TimeSpan) {
         super.update(dt)
 
