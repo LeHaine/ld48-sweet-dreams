@@ -3,6 +3,8 @@ package com.lehaine.game.entity
 import com.lehaine.game.*
 import com.lehaine.game.Assets.Sfx.playSfx
 import com.lehaine.game.component.*
+import com.lehaine.game.view.HealthBar
+import com.lehaine.game.view.healthBar
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.random
 import com.lehaine.kiwi.stateMachine
@@ -14,6 +16,10 @@ import com.soywiz.korev.Key
 import com.soywiz.korge.tween.get
 import com.soywiz.korge.tween.tween
 import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.alignBottomToTopOf
+import com.soywiz.korge.view.centerOn
+import com.soywiz.korge.view.centerXOn
+import com.soywiz.korim.color.Colors
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korui.UiContainer
 import kotlin.math.pow
@@ -109,6 +115,7 @@ class Hero(
     private val fsm = stateMachine<HeroState>(HeroState.Sleep) {
         state(HeroState.Dead) {
             begin {
+                healthBar.visible = false
                 sprite.playAnimation(Assets.heroDie) {
                     sprite.playAnimationLooped(Assets.heroSleep)
                 }
@@ -343,6 +350,13 @@ class Hero(
             }
         }
     }
+    val healthBar: HealthBar = container.run {
+        healthBar(health / 10.0, 2.0, Colors["#3ae200"]) {
+            x = -10.0
+            alignBottomToTopOf(sprite, 10)
+            visible = false
+        }
+    }
 
     init {
         dir = -1
@@ -375,6 +389,8 @@ class Hero(
         velocityY = -(0.2..0.3).random()
         sfx.hit.playSfx()
         healthComponent.damage(amount, fromDir)
+        healthBar.setHealthRatio(healthRatio)
+        healthBar.visible = true
         blink()
     }
 
