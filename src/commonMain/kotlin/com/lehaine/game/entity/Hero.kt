@@ -104,7 +104,7 @@ class Hero(
             DODGE
         )
 
-    private val slingShot get() = input.keys.justPressed(Key.Q) && !cd.has(SLING_SHOT_CD)
+    private val slingShot get() = input.keys.justPressed(Key.F) && !cd.has(SLING_SHOT_CD)
 
     private val jumping get() = input.keys.justPressed(Key.SPACE) && cd.has(ON_GROUND_RECENTLY)
     private val jumpingExtra get() = input.keys.justPressed(Key.SPACE) && cd.has(JUMP_EXTRA)

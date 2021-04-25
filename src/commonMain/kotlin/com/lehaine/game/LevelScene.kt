@@ -134,7 +134,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
         }.alignBottomToBottomOf(this, 3.0)
             .alignLeftToLeftOf(this, 3.0)
 
-        text("Q") {
+        text("F") {
             font = Assets.pixelFont
             fontSize = 8.0
             x = 7.0
