@@ -184,6 +184,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             }
 
             if (hero.isDead && !showDeathScreen) {
+                showDeathScreen = true
                 overlay.color = Colors["#000000cc"]
                 container {
                     centerOnStage()
