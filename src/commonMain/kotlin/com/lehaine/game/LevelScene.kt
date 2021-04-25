@@ -4,6 +4,7 @@ import GameModule
 import com.lehaine.game.entity.Hero
 import com.lehaine.game.entity.enemySpawner
 import com.lehaine.game.entity.hero
+import com.lehaine.game.view.healthBar
 import com.lehaine.kiwi.korge.cd
 import com.lehaine.kiwi.korge.getByPrefix
 import com.lehaine.kiwi.korge.view.cameraContainer
@@ -152,6 +153,9 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
         var newOverlayAlpha = 0.1
         var originalOverlayAlpha = 0.1
 
+//        healthBar(35.0, 10.0) {
+//            setHealthRatio(0.5)
+//        }
 
         addUpdater { dt ->
             val tmod = if (dt == 0.milliseconds) 0.0 else (dt / 16.666666.milliseconds)
