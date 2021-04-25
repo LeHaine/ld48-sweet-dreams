@@ -38,8 +38,8 @@ inline fun Container.longArm(
         anchorY = 1.0,
     ),
     targetComponent = TargetComponentDefault(),
-    healthComponent = HealthComponentDefault((100*healthMultiplier).toInt()),
-    dangerousComponent = DangerousComponentDefault((35*damageMultiplier).toInt())
+    healthComponent = HealthComponentDefault((100 * healthMultiplier).toInt()),
+    dangerousComponent = DangerousComponentDefault((35 * damageMultiplier).toInt())
 ).addTo(this).addToLevel().also(callback)
 
 class LongArm(

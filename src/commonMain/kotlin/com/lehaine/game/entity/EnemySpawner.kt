@@ -78,7 +78,7 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                             dustBunny(spawn.cx, spawn.cy, level, 3.0, 3.0)
                         }
                         rng > 0.4 -> {
-                            ghoul(spawn.cx, spawn.cy, level, 2.0, 1.5)
+                            ghoul(spawn.cx, spawn.cy, level, 1.25, 1.25)
                         }
                         else -> {
                             longArm(spawn.cx, spawn.cy, level)
@@ -89,10 +89,10 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                 SleepState.EvenDeeperSleep -> {
                     when {
                         rng > 0.5 -> {
-                            ghoul(spawn.cx, spawn.cy, level, 2.5, 1.75)
+                            ghoul(spawn.cx, spawn.cy, level, 1.5, 1.5)
                         }
                         else -> {
-                            longArm(spawn.cx, spawn.cy, level, 2.0, 1.5)
+                            longArm(spawn.cx, spawn.cy, level, 1.5, 1.5)
                         }
                     }
                     cd(SPAWN_CD, (1.0..2.5).random().seconds)

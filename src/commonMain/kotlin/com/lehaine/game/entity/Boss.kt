@@ -164,6 +164,8 @@ class Boss(
 
     init {
         enableCollisionChecks = true
+        width = 32.0
+        height = 32.0
     }
 
     override fun update(dt: TimeSpan) {
