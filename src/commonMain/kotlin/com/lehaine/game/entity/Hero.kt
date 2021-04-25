@@ -263,7 +263,11 @@ class Hero(
         state(HeroState.Fall) {
             transition {
                 when {
-                    onGround -> HeroState.Idle
+                    onGround -> {
+                        camera.shake(25.milliseconds, 0.3)
+                        sfx.land.playSfx()
+                        HeroState.Idle
+                    }
                     else -> HeroState.Fall
                 }
             }
