@@ -78,7 +78,7 @@ object Assets {
             swing = loadSoundsByPrefix("swing", 6, volume = 0.8)
             strongSwing = loadSoundsByPrefix("strongSwing", 4, volume = 0.8)
             bossYell = loadSound("bossYell0")
-            footstep = loadSound("footstep0", volume = 0.4)
+            footstep = loadSound("footstep0")
             land = loadSound("land0")
             shoot = loadSound("shoot0")
             teleport = loadSound("teleport0")
