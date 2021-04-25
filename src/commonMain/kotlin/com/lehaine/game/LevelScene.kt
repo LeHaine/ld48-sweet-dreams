@@ -17,6 +17,7 @@ import com.soywiz.klock.seconds
 import com.soywiz.kmem.toIntCeil
 import com.soywiz.kmem.toIntFloor
 import com.soywiz.kmem.umod
+import com.soywiz.korau.sound.playbackTimes
 import com.soywiz.korev.Key
 import com.soywiz.korge.input.keys
 import com.soywiz.korge.scene.Scene
@@ -329,6 +330,9 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                 }
             }
 
+            down(Key.M) {
+                Assets.Sfx.musicChannel.togglePaused()
+            }
             down(Key.PAGE_UP) {
                 cam.cameraZoom += 0.1
             }

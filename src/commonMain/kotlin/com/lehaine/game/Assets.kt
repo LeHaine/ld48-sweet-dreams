@@ -67,6 +67,8 @@ object Assets {
         lateinit var teleport: Sound
         lateinit var music: Sound
 
+        lateinit var musicChannel: SoundChannel
+
         suspend fun init(views: Views) {
             this.views = views
             // define sounds here
@@ -80,7 +82,12 @@ object Assets {
             teleport = loadSound("teleport0")
             ghoulAnticipation = loadSound("ghoulAnticipation0")
             ghoulSwing = loadSound("ghoulSwing0")
-            music = resourcesVfs["sfx/music-lower-vol.mp3"].readMusic()
+            music = resourcesVfs["sfx/music.mp3"].readMusic()
+        }
+
+        suspend fun playMusic() {
+            musicChannel = music.playForever()
+            musicChannel.volume = 0.1
         }
 
         private suspend fun loadSoundsByPrefix(
