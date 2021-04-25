@@ -27,6 +27,18 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
         frame++
     }
 
+    fun runDust(x: Double, y: Double, dir: Int) {
+        create(5) {
+            val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), x, y)
+            p.scale((0.1..0.3).random())
+            p.color = Colors["#efddc0"]
+            p.xDelta = (0.25..0.75).random()
+            p.yDelta = -(0.05..0.15).random()
+            p.life = (0.05..0.15).random().seconds
+            p.scaleDelta = (0.005..0.015).random()
+        }
+    }
+
     fun dust(x: Double, y: Double) {
         create(10) {
             val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), ((x - 4)..(x + 4)).random(), y)

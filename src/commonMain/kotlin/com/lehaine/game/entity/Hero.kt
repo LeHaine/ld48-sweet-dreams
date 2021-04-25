@@ -59,6 +59,7 @@ class Hero(
         private const val COMBO = "combo"
         private const val SLING_SHOT_CD = "slingShotCD"
         private const val DODGE = "dodge"
+        private const val RUN_DUST = "runDust"
     }
 
     private sealed class HeroState {
@@ -363,6 +364,10 @@ class Hero(
 
     private fun run() {
         if (running) {
+            if(!cd.has(RUN_DUST) && onGround) {
+                cd(RUN_DUST, 100.milliseconds)
+                fx.runDust(centerX, bottom, -dir)
+            }
             val speed = if (runningRight) moveSpeed else -moveSpeed
             dir = if (runningRight) 1 else -1
             velocityX += speed * tmod
