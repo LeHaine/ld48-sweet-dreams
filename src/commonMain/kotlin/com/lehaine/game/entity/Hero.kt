@@ -116,7 +116,6 @@ class Hero(
                 while (i < level.entities.size) {
                     val entity = level.entities[i]
                     if (entity is MobComponent) {
-                        fx.heroDeathDust(entity.gridPositionComponent.centerX, entity.gridPositionComponent.centerY)
                         i--
                         entity.destroy()
                     }

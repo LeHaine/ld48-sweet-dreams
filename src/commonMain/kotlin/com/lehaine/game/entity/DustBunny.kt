@@ -11,6 +11,7 @@ import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.anchor
+import com.soywiz.korim.color.Colors
 import com.soywiz.korma.geom.Anchor
 import com.soywiz.korui.UiContainer
 
@@ -182,7 +183,6 @@ class DustBunny(
     override fun update(dt: TimeSpan) {
         super.update(dt)
         if (isDead) {
-            fx.dustExplosion(centerX, centerY)
             destroy()
         }
 
@@ -199,6 +199,12 @@ class DustBunny(
         healthComponent.damage(amount, fromDir)
         stretchX = 0.6
         blink()
+    }
+
+
+    override fun destroy() {
+        fx.dustExplosion(centerX, centerY)
+        super.destroy()
     }
 
     private fun attemptToAttackHero() {

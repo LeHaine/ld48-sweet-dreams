@@ -12,6 +12,7 @@ import com.soywiz.klock.milliseconds
 import com.soywiz.klock.seconds
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.anchor
+import com.soywiz.korim.color.Colors
 import com.soywiz.korma.geom.Anchor
 import com.soywiz.korui.UiContainer
 
@@ -190,6 +191,12 @@ class LongArm(
         }
 
         entityFSM.update(dt)
+    }
+
+
+    override fun destroy() {
+        fx.poofDust(centerX, centerY, Colors["#6e0506"])
+        super.destroy()
     }
 
     override fun damage(amount: Int, fromDir: Int) {

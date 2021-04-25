@@ -40,15 +40,21 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
         }
     }
 
-    fun heroDeathDust(x: Double, y: Double) {
+    fun poofDust(x: Double, y: Double, color: RGBA = Colors.RED) {
         create(50) {
             val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), ((x - 4)..(x + 4)).random(), y)
-            p.scale((0.1..0.3).random())
-            p.color = RGBA((198..218).random(), (54..74).random(), (80..100).random(), (0..255).random())
+            p.scale((0.3..0.5).random())
+            p.color = RGBA(
+                (color.r - 10..color.r + 10).random(),
+                (color.g - 10..color.g + 10).random(),
+                (color.b - 10..color.b + 10).random(),
+                (0..255).random()
+            )
             p.yDelta = (-0.25..0.0).random()
             p.xDelta = (0.25..1.25).random() * if (it umod 2 == 0) 1 else -1
             p.frictionX = 0.9
             p.rotationDelta = (0.0..(PI * 2)).random()
+            p.scaleDelta = -(0.0025..0.004).random()
             p.life = (1.0..1.25).random().seconds
         }
     }
@@ -66,7 +72,7 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
     }
 
     fun dust(x: Double, y: Double) {
-        create(10) {
+        create(5) {
             val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), ((x - 4)..(x + 4)).random(), y)
             p.scale((0.1..0.3).random())
             p.color = RGBA((198..218).random(), (157..177).random(), (136..156).random(), (225..255).random())
@@ -78,7 +84,7 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
     }
 
     fun dustExplosion(x: Double, y: Double) {
-        create(30) {
+        create(15) {
             val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), ((x - 4)..(x + 4)).random(), y)
             p.scale((0.1..0.3).random())
             p.color = RGBA((198..218).random(), (157..177).random(), (136..156).random(), (225..255).random())

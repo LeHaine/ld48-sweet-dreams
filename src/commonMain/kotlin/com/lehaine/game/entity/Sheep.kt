@@ -12,6 +12,7 @@ import com.soywiz.klock.milliseconds
 import com.soywiz.klock.seconds
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.anchor
+import com.soywiz.korim.color.Colors
 import com.soywiz.korma.geom.Anchor
 import com.soywiz.korui.UiContainer
 
@@ -189,6 +190,11 @@ class Sheep(
         }
 
         entityFSM.update(dt)
+    }
+
+    override fun destroy() {
+        fx.poofDust(centerX, centerY, Colors["#c3c0b0"])
+        super.destroy()
     }
 
     override fun damage(amount: Int, fromDir: Int) {
