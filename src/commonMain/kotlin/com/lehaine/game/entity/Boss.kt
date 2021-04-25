@@ -60,6 +60,7 @@ class Boss(
         private const val ANIM_PLAYING = "animPlaying"
         private const val ATTACK_CD = "attackCD"
         private const val IDLE = "idle"
+        private const val DUST = "dust"
     }
 
     private sealed class BossState {
@@ -173,6 +174,10 @@ class Boss(
         if (isDead) {
             destroy()
         }
+        if (!cd.has(DUST)) {
+            cd(DUST, 500.milliseconds)
+            fx.bossDust(centerX, centerY)
+        }
 
         entityFSM.update(dt)
     }
@@ -181,6 +186,11 @@ class Boss(
         sfx.hit.playSfx()
         healthComponent.damage(amount, fromDir)
         stretchX = 0.6
+    }
+
+    override fun destroy() {
+        fx.bossDeath(centerX, centerY)
+        super.destroy()
     }
 
     private fun attemptToAttackHero() {

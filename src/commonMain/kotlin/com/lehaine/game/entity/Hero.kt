@@ -38,8 +38,8 @@ fun Container.hero(
         anchorX = data.pivotX.toDouble(),
         anchorY = data.pivotY.toDouble()
     ),
-    healthComponent = HealthComponentDefault(150),
-    dangerousComponent = DangerousComponentDefault(25)
+    healthComponent = HealthComponentDefault(200),
+    dangerousComponent = DangerousComponentDefault(35)
 ).addTo(this).addToLevel().also(callback)
 
 
@@ -381,7 +381,7 @@ class Hero(
         var hasHit = false
         level.entities.fastForEach {
             if (it != this@Hero
-                && distGridTo(it) <= 2
+                && (distGridTo(it) <= 2 || (it is Boss && distGridTo(it) <= 4.5))
                 && it is HealthComponent
             ) {
                 if (!hasHit) {

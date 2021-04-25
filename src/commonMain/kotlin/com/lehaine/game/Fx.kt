@@ -71,6 +71,46 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
         }
     }
 
+    fun bossDeath(x:Double, y:Double) {
+        val color = Colors["#3d3a45"]
+        create(100) {
+            val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), ((x - 4)..(x + 4)).random(), y)
+            p.scale((0.5..0.7).random())
+            p.color = RGBA(
+                (color.r - 10..color.r + 10).random(),
+                (color.g - 10..color.g + 10).random(),
+                (color.b - 10..color.b + 10).random(),
+                (200..255).random()
+            )
+            p.yDelta = (-0.85..0.0).random()
+            p.xDelta = (0.45..1.45).random() * if (it umod 2 == 0) 1 else -1
+            p.frictionX = 0.95
+            p.rotationDelta = (0.0..(PI * 2)).random()
+            p.scaleDelta = -(0.0025..0.004).random()
+            p.life = (1.5..2.0).random().seconds
+        }
+    }
+
+    fun bossDust(x: Double, y: Double) {
+        val color = Colors["#3d3a45"]
+        create(10) {
+            val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), ((x - 4)..(x + 4)).random(), y)
+            p.scale((0.5..0.7).random())
+            p.color = RGBA(
+                (color.r - 10..color.r + 10).random(),
+                (color.g - 10..color.g + 10).random(),
+                (color.b - 10..color.b + 10).random(),
+                (200..255).random()
+            )
+            p.yDelta = (-0.85..0.0).random()
+            p.xDelta = (0.45..1.45).random() * if (it umod 2 == 0) 1 else -1
+            p.frictionX = 0.95
+            p.rotationDelta = (0.0..(PI * 2)).random()
+            p.scaleDelta = -(0.0025..0.004).random()
+            p.life = (1.5..2.0).random().seconds
+        }
+    }
+
     fun dust(x: Double, y: Double) {
         create(5) {
             val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), ((x - 4)..(x + 4)).random(), y)
