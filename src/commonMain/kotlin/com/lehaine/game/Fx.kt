@@ -31,13 +31,25 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
         create(15) {
             val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), x, y)
             p.scale((0.1..0.3).random())
-            p.color = Colors["#edea32"]
             p.color = RGBA((227..247).random(), (224..244).random(), (40..60).random(), (0..255).random())
             p.xDelta = (0.15..0.25).random() * if (it umod 2 == 0) 1 else -1
             p.yDelta = (-1..1).randomd()
             p.life = (0.25..0.35).random().seconds
             p.gravityY = (0.025..0.04).random()
             p.onUpdate = ::hardPhysics
+        }
+    }
+
+    fun heroDeathDust(x: Double, y: Double) {
+        create(50) {
+            val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), ((x - 4)..(x + 4)).random(), y)
+            p.scale((0.1..0.3).random())
+            p.color = RGBA((198..218).random(), (54..74).random(), (80..100).random(), (0..255).random())
+            p.yDelta = (-0.25..0.0).random()
+            p.xDelta = (0.25..1.25).random() * if (it umod 2 == 0) 1 else -1
+            p.frictionX = 0.9
+            p.rotationDelta = (0.0..(PI * 2)).random()
+            p.life = (1.0..1.25).random().seconds
         }
     }
 

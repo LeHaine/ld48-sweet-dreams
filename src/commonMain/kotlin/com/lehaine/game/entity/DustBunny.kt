@@ -46,6 +46,7 @@ class DustBunny(
     private val dangerousComponent: DangerousComponent
 ) :
     GameEntity(level, spriteComponent, platformerDynamicComponent),
+    MobComponent,
     SpriteComponent by spriteComponent,
     PlatformerDynamicComponent by platformerDynamicComponent,
     TargetComponent by targetComponent,
@@ -119,14 +120,17 @@ class DustBunny(
         state(DustBunnyState.Attack) {
             transition {
                 when {
-                    attackingHero -> DustBunnyState.Attack
+                    cd.has(ANIM_PLAYING) -> DustBunnyState.Attack
                     else -> DustBunnyState.MovingToHero
                 }
             }
             begin {
-                sprite.playOverlap(Assets.dustBunnyAttack) {
-                    attemptToAttackHero()
-                }
+                cd(ANIM_PLAYING, Assets.dustBunnyAttack.duration)
+                sprite.playOverlap(Assets.dustBunnyAttack, onAnimationFrameChange = {
+                    if (it == 4) {
+                        attemptToAttackHero()
+                    }
+                })
             }
         }
         state(DustBunnyState.MovingToHero) {
@@ -135,7 +139,6 @@ class DustBunny(
                     attackingHero -> DustBunnyState.Attack
                     else -> DustBunnyState.MovingToHero
                 }
-
             }
             begin {
                 sprite.playAnimationLooped(Assets.dustBunnyJump)
@@ -193,7 +196,7 @@ class DustBunny(
     }
 
     private fun attemptToAttackHero() {
-        if (distGridTo(level.hero) <= (0.5) && dir == dirTo(level.hero)) {
+        if (distGridTo(level.hero) <= 1.5 && dir == dirTo(level.hero)) {
             attack(level.hero, -dirTo(level.hero))
         }
     }

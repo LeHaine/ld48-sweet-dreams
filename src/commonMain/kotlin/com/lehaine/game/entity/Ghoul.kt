@@ -5,7 +5,6 @@ import com.lehaine.game.component.*
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.component.ext.toGridPosition
 import com.lehaine.kiwi.korge.view.enhancedSprite
-import com.lehaine.kiwi.random
 import com.lehaine.kiwi.stateMachine
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
@@ -49,6 +48,7 @@ class Ghoul(
     private val dangerousComponent: DangerousComponent
 ) :
     GameEntity(level, spriteComponent, platformerDynamicComponent),
+    MobComponent,
     SpriteComponent by spriteComponent,
     PlatformerDynamicComponent by platformerDynamicComponent,
     TargetComponent by targetComponent,
@@ -213,7 +213,7 @@ class Ghoul(
     }
 
     private fun attemptToAttackHero() {
-        if (distGridTo(level.hero) <= (1.5..2.5).random() && dir == dirTo(level.hero)) {
+        if (distGridTo(level.hero) <= 1.5 && dir == dirTo(level.hero)) {
             attack(level.hero, -dirTo(level.hero))
         }
     }

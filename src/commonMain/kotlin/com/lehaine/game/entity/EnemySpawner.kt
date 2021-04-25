@@ -21,6 +21,7 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
         const val SPAWN_CD = "spawnCD"
     }
 
+    var shouldSpawn = true
 
     override fun update(dt: TimeSpan) {
         super.update(dt)
@@ -31,6 +32,8 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
     }
 
     fun spawn() {
+        if (!shouldSpawn) return
+
         level.camera.content.apply {
             val spawn = level.spawnPoints.random()
             val rng = Random.nextFloat()
@@ -45,7 +48,7 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                             dustBunny(spawn.cx, spawn.cy, level)
                         }
                     }
-                    cd(SPAWN_CD, (2..5).random().seconds)
+                    cd(SPAWN_CD, (1..2).random().seconds)
                 }
                 SleepState.LightSleep -> {
                     when {
@@ -56,7 +59,7 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                             dustBunny(spawn.cx, spawn.cy, level)
                         }
                     }
-                    cd(SPAWN_CD, (1.5..4.5).random().seconds)
+                    cd(SPAWN_CD, (0.25..1.0).random().seconds)
                 }
                 SleepState.MediumSleep -> {
                     when {

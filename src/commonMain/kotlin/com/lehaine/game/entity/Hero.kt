@@ -69,6 +69,7 @@ class Hero(
         object Dodge : HeroState()
         object Fall : HeroState()
         object Sleep : HeroState()
+        object Dead : HeroState()
         object BroomAttack1 : HeroState()
         object BroomAttack2 : HeroState()
         object BroomAttack3 : HeroState()
@@ -100,6 +101,28 @@ class Hero(
     private var broomCombo = 0
 
     private val fsm = stateMachine<HeroState>(HeroState.Sleep) {
+        state(HeroState.Dead) {
+            begin {
+                sprite.playAnimation(Assets.heroDie) {
+                    sprite.playAnimationLooped(Assets.heroSleep)
+                }
+                var i = 0
+                while (i < level.entities.size) {
+                    val entity = level.entities[i]
+                    if (entity is MobComponent) {
+                        fx.heroDeathDust(entity.gridPositionComponent.centerX, entity.gridPositionComponent.centerY)
+                        i--
+                        entity.destroy()
+                    }
+                    if (entity is EnemySpawner) {
+                        entity.shouldSpawn = false
+                        i--
+                        entity.destroy()
+                    }
+                    i++
+                }
+            }
+        }
         state(HeroState.Dodge) {
             var animFinished = false
             transition {
@@ -214,13 +237,9 @@ class Hero(
         state(HeroState.Sleep) {
             transition {
                 when {
-                    input.keys.justPressed(Key.SPACE) -> {
-                        dir = -1
-                        HeroState.Idle
-                    }
+                    input.keys.justPressed(Key.SPACE) -> HeroState.Idle
                     else -> HeroState.Sleep
                 }
-
             }
             begin {
                 sprite.playAnimationLooped(Assets.heroSleep)
@@ -261,6 +280,7 @@ class Hero(
         state(HeroState.Run) {
             transition {
                 when {
+                    isDead -> HeroState.Dead
                     dodging -> HeroState.Dodge
                     jumping -> HeroState.Jump
                     slingShot -> HeroState.SlingShot
@@ -280,6 +300,7 @@ class Hero(
             var playingAnim = false
             transition {
                 when {
+                    isDead -> HeroState.Dead
                     dodging -> HeroState.Dodge
                     jumping -> HeroState.Jump
                     running -> HeroState.Run
@@ -303,6 +324,35 @@ class Hero(
         }
     }
 
+    init {
+        dir = -1
+        enableCollisionChecks = true
+    }
+
+    override fun update(dt: TimeSpan) {
+        super.update(dt)
+        if (onGround) {
+            cd(ON_GROUND_RECENTLY, 150.milliseconds)
+        }
+
+        if (input.mouseButtons == 0) {
+            canSwing = true
+        }
+
+        if (!cd.has(COMBO)) {
+            broomCombo = 0
+        }
+        fsm.update(dt)
+    }
+
+    override fun damage(amount: Int, fromDir: Int) {
+        if (hasAffect(Affect.INVULNERABLE) || isDead) {
+            return
+        }
+        healthComponent.damage(amount, fromDir)
+        blink()
+    }
+
     private fun damageEntities(stunEnemy: Boolean, damageMultiplier: Double) {
         var hasHit = false
         level.entities.fastForEach {
@@ -323,40 +373,6 @@ class Hero(
                 }
             }
         }
-    }
-
-    init {
-        enableCollisionChecks = true
-    }
-
-    override fun update(dt: TimeSpan) {
-        super.update(dt)
-        if (onGround) {
-            cd(ON_GROUND_RECENTLY, 150.milliseconds)
-        }
-
-        if (input.mouseButtons == 0) {
-            canSwing = true
-        }
-
-        if (!cd.has(COMBO)) {
-            broomCombo = 0
-        }
-
-        if (isDead) {
-            destroy()
-        }
-
-        fsm.update(dt)
-
-    }
-
-    override fun damage(amount: Int, fromDir: Int) {
-        if (hasAffect(Affect.INVULNERABLE)) {
-            return
-        }
-        healthComponent.damage(amount, fromDir)
-        blink()
     }
 
     private fun run() {

@@ -47,6 +47,7 @@ class Boss(
     private val dangerousComponent: DangerousComponent
 ) :
     GameEntity(level, spriteComponent, platformerDynamicComponent),
+    MobComponent,
     SpriteComponent by spriteComponent,
     PlatformerDynamicComponent by platformerDynamicComponent,
     TargetComponent by targetComponent,
