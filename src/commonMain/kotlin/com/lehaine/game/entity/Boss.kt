@@ -135,6 +135,7 @@ class Boss(
                 sprite.playOverlap(Assets.bossAttack, onAnimationFrameChange = {
                     if (it in 6..11) {
                         if (it == 6) {
+                            sfx.bossYell.playSfx()
                             camera.shake(300.milliseconds, 0.3)
                         }
                         attemptToAttackHero()

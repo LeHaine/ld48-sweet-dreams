@@ -68,7 +68,7 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                 SleepState.MediumSleep -> {
                     when {
                         rng > 0.6 -> {
-                            dustBunny(spawn.cx, spawn.cy, level, 2.5, 2.5)
+                            dustBunny(spawn.cx, spawn.cy, level, 2.25, 2.25)
                         }
                         else -> {
                             ghoul(spawn.cx, spawn.cy, level)
@@ -79,10 +79,10 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                 SleepState.DeeperSleep -> {
                     when {
                         rng > 0.8 -> {
-                            dustBunny(spawn.cx, spawn.cy, level, 3.0, 3.0)
+                            dustBunny(spawn.cx, spawn.cy, level, 2.5, 2.5)
                         }
                         rng > 0.4 -> {
-                            ghoul(spawn.cx, spawn.cy, level, 1.25, 1.25)
+                            ghoul(spawn.cx, spawn.cy, level)
                         }
                         else -> {
                             longArm(spawn.cx, spawn.cy, level)
@@ -93,10 +93,10 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                 SleepState.EvenDeeperSleep -> {
                     when {
                         rng > 0.5 -> {
-                            ghoul(spawn.cx, spawn.cy, level, 1.5, 1.5)
+                            ghoul(spawn.cx, spawn.cy, level, 1.25, 1.25)
                         }
                         else -> {
-                            longArm(spawn.cx, spawn.cy, level, 1.5, 1.5)
+                            longArm(spawn.cx, spawn.cy, level, 1.25, 1.25)
                         }
                     }
                     cd(SPAWN_CD, (1.0..2.5).random().seconds)
@@ -107,7 +107,6 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                 }
             }
         }
-        level.hero.container.parent?.sendChildToFront(level.hero.container)
     }
 
 }
