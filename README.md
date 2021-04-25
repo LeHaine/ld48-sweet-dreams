@@ -11,7 +11,10 @@ face more nightmares.
 - **WASD / ZQSD / Arrows** = Move
 - **F** = Fire slingshot
 - **Shift** = Dodge/Roll
-- **Left & Right Mouse Button**s = Primary attack combo
+- **Left & Right Mouse Buttons** = Primary attack combo
+    - 1st attack does normal damage
+    - 2nd attack does double damage and stuns for 1 second
+    - 3rd attack does triple damage and stuns for 1 second
 - **M** = Toggle Music
 
 ***
