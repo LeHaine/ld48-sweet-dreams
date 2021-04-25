@@ -379,10 +379,12 @@ class Hero(
 
     init {
         container.apply {
-            enhancedSprite(Assets.tiles.getByPrefix("fxGlow")) {
-                blendMode = BlendMode.LIGHTEN
-                alpha = 0.25
-                anchor(Anchor.MIDDLE_CENTER)
+            enhancedSprite(Assets.tiles.getByPrefix("backShadow")) {
+                alpha = 0.35
+                smoothing = false
+                x = 0.5
+                y  = 0.5
+                anchor(0.5, 1.0)
                 parent?.sendChildToBack(this)
             }
         }
