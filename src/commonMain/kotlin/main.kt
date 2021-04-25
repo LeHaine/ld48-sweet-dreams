@@ -1,5 +1,6 @@
 import com.lehaine.game.Assets
 import com.lehaine.game.LevelScene
+import com.lehaine.game.StartScene
 import com.lehaine.game.World
 import com.soywiz.korge.Korge
 import com.soywiz.korge.scene.Module
@@ -12,7 +13,7 @@ import com.soywiz.korma.geom.SizeInt
 suspend fun main() = Korge(Korge.Config(module = GameModule))
 
 object GameModule : Module() {
-    override val mainScene = LevelScene::class
+    override val mainScene = StartScene::class
 
     override val windowSize: SizeInt = SizeInt(Size(320 * 4, 180 * 4))
     override val size: SizeInt = SizeInt(Size(320, 180))
@@ -22,6 +23,7 @@ object GameModule : Module() {
         Assets.init(views())
         mapSingleton { World().apply { loadAsync() } }
         mapInstance(0) // load first level
+        mapPrototype { StartScene() }
         mapPrototype { LevelScene(get(), get()) }
     }
 }

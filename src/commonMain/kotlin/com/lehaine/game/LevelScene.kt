@@ -52,7 +52,6 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                 gameLevel.spawnPoints += it
             }
 
-
             container EntityContainer@{
                 name = "EntityContainer"
 
@@ -60,7 +59,6 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
 
                 hero = hero(worldLevel.layerEntities.allHero[0], gameLevel).also { gameLevel._hero = it }
             }
-
 
             val particleContainer = fastSpriteContainer(useRotation = true, smoothing = false)
             fx = Fx(gameLevel, particleContainer).also { gameLevel._fx = it }
@@ -71,6 +69,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
         }.also {
             gameLevel._camera = it
         }
+
         // overlay
        val overlay =  solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#51466e58"])
         val timerText = text("0:00") {
