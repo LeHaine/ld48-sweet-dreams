@@ -69,9 +69,9 @@ object Assets {
             this.views = views
             // define sounds here
             hit = loadSoundsByPrefix("hit", 3)
-            swing = loadSoundsByPrefix("swing", 4, volume = 0.6)
+            swing = loadSoundsByPrefix("swing", 6, volume = 0.8)
             bossYell = loadSound("bossYell0")
-            footstep = loadSound("footstep0", volume = 0.6)
+            footstep = loadSound("footstep0", volume = 0.4)
             land = loadSound("land0")
             shoot = loadSound("shoot0")
         }
