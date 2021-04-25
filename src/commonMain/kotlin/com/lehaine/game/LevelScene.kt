@@ -13,6 +13,7 @@ import com.soywiz.kds.iterators.fastForEach
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.kmem.toIntCeil
+import com.soywiz.kmem.toIntFloor
 import com.soywiz.kmem.umod
 import com.soywiz.korev.Key
 import com.soywiz.korge.input.keys
@@ -158,7 +159,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                     gameLevel.sleepState = SleepState.VeryLightSleep
                     "Very Light Sleep"
                 }
-            }
+            } + "\n(${((timer.seconds / SleepState.DeepestSleep.time.seconds) * 100).toIntFloor()}%)"
             if (gameLevel.slingShotCDRemaining > 0.milliseconds) {
                 gameLevel.slingShotCDRemaining -= dt
                 slingshotCDText.text = gameLevel.slingShotCDRemaining.seconds.toIntCeil().toString()
