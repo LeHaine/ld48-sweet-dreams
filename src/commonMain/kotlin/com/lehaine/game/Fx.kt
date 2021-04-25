@@ -27,12 +27,25 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
         frame++
     }
 
+    fun broomDust(x: Double, y: Double, dir: Int) {
+        create(5) {
+            val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), x, y)
+            p.scale((0.05..0.15).random())
+            p.color = Colors["#edea32"]
+            p.color = RGBA((227..247).random(), (224..244).random(), (40..60).random(), (0..255).random())
+            p.xDelta = (0.25..0.75).random() * dir
+            p.yDelta = -(0.05..0.15).random()
+            p.life = (0.05..0.15).random().seconds
+            p.scaleDelta = (0.005..0.015).random()
+        }
+    }
+
     fun runDust(x: Double, y: Double, dir: Int) {
         create(5) {
             val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), x, y)
             p.scale((0.05..0.15).random())
             p.color = Colors["#efddc0"]
-            p.xDelta = (0.25..0.75).random()
+            p.xDelta = (0.25..0.75).random() * dir
             p.yDelta = -(0.05..0.15).random()
             p.life = (0.05..0.15).random().seconds
             p.scaleDelta = (0.005..0.015).random()
@@ -43,7 +56,7 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
         create(10) {
             val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), ((x - 4)..(x + 4)).random(), y)
             p.scale((0.1..0.3).random())
-            p.color = Colors["#999999"]
+            p.color = RGBA((198..218).random(), (157..177).random(), (136..156).random(), (225..255).random())
             p.yDelta = (0.025..0.075).random()
             p.xDelta = (0.125..0.2).random() * if (it umod 2 == 0) 1 else -1
             p.life = (0.5..1.5).random().seconds
@@ -55,7 +68,8 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
         create(30) {
             val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), ((x - 4)..(x + 4)).random(), y)
             p.scale((0.1..0.3).random())
-            p.color = Colors["#999999"]
+            Colors["#cfa692"]
+            p.color = RGBA((198..218).random(), (157..177).random(), (136..156).random(), (225..255).random())
             p.yDelta = (-1..1).randomd()
             p.xDelta = (1.0..2.0).random() * if (it umod 2 == 0) 1 else -1
             p.gravityY = (0.07..0.1).random()
