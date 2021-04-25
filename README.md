@@ -9,9 +9,12 @@ face more nightmares.
 ### Controls
 
 - **WASD / ZQSD / Arrows** = Move
+- **Space** = Jump
 - **F** = Fire slingshot
+    - Fires three projectiles at once with a 2 second cooldown.
 - **Shift** = Dodge/Roll
-- **Left & Right Mouse Buttons** = Primary attack combo
+    - Makes you invulnerable to damage for 1 second! This is your friend!
+- **Left & Right Mouse Buttons** = Primary attack combo - HIT YOUR COMBOS!
     - 1st attack does normal damage
     - 2nd attack does double damage and stuns for 1 second
     - 3rd attack does triple damage and stuns for 1 second
