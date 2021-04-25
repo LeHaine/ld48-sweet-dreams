@@ -71,7 +71,8 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
         }
 
         // overlay
-       val overlay =  solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#51466e58"])
+        val overlay =
+            solidRect(GameModule.size.width.toDouble(), GameModule.size.height.toDouble(), Colors["#51466e58"])
         val timerText = text("0:00") {
             font = Assets.pixelFont
             fontSize = 12.0
@@ -202,6 +203,11 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                         .centerOn(this)
                 }
             }
+
+            if (views.input.keys.pressing(Key.LEFT_SHIFT) && views.input.keys.justPressed(Key.R)) {
+                launchImmediately { sceneContainer.changeTo<LevelScene>() }
+            }
+
         }
 
         keys {
@@ -210,11 +216,6 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                 stage?.gameWindow?.run {
                     debug = false
                     close()
-                }
-            }
-            down(Key.R) {
-                launchImmediately {
-                    sceneContainer.changeTo<LevelScene>(world, levelIdx)
                 }
             }
 

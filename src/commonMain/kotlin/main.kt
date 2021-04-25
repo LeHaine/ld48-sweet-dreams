@@ -1,7 +1,4 @@
-import com.lehaine.game.Assets
-import com.lehaine.game.LevelScene
-import com.lehaine.game.StartScene
-import com.lehaine.game.World
+import com.lehaine.game.*
 import com.soywiz.korge.Korge
 import com.soywiz.korge.scene.Module
 import com.soywiz.korge.view.views
@@ -25,5 +22,6 @@ object GameModule : Module() {
         mapInstance(0) // load first level
         mapPrototype { StartScene() }
         mapPrototype { LevelScene(get(), get()) }
+        mapPrototype { EndScene() }
     }
 }
