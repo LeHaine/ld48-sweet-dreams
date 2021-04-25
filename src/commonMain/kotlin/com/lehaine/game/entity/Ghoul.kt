@@ -82,8 +82,9 @@ class Ghoul(
         }
     }
     private val moveSpeed = 0.02
+    private val attackRange = 1.5
 
-    private val attackingHero get() = distGridTo(level.hero) <= 3 && !cd.has(ATTACK_CD)
+    private val attackingHero get() = distGridTo(level.hero) <= attackRange && !cd.has(ATTACK_CD)
     private val teleporting get() = distGridTo(level.hero) <= 10 && !cd.has(TELEPORT_CD)
 
     private val entityFSM = stateMachine<GhoulState>(GhoulState.NoAffects) {
@@ -213,7 +214,7 @@ class Ghoul(
     }
 
     private fun attemptToAttackHero() {
-        if (distGridTo(level.hero) <= 1.5 && dir == dirTo(level.hero)) {
+        if (distGridTo(level.hero) <= attackRange && dir == dirTo(level.hero)) {
             attack(level.hero, -dirTo(level.hero))
         }
     }

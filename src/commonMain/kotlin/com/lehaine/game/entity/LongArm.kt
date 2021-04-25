@@ -4,6 +4,7 @@ import com.lehaine.game.*
 import com.lehaine.game.component.*
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.korge.view.enhancedSprite
+import com.lehaine.kiwi.random
 import com.lehaine.kiwi.stateMachine
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
@@ -79,9 +80,9 @@ class LongArm(
         }
     }
     private val moveSpeed = 0.015
+    private val attackRange = 2.5
 
-
-    private val attackingHero get() = distGridTo(level.hero) <= 3 && !cd.has(ATTACK_CD)
+    private val attackingHero get() = distGridTo(level.hero) <= (0.0..attackRange).random() && !cd.has(ATTACK_CD)
 
     private val entityFSM = stateMachine<LongArmState>(LongArmState.NoAffects) {
         state(LongArmState.Stunned) {
@@ -195,7 +196,7 @@ class LongArm(
     }
 
     private fun attemptToAttackHero() {
-        if (distGridTo(level.hero) <= 2.5 && dir == dirTo(level.hero)) {
+        if (distGridTo(level.hero) <= attackRange && dir == dirTo(level.hero)) {
             attack(level.hero, -dirTo(level.hero))
         }
     }
