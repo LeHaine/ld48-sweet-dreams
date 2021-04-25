@@ -212,6 +212,7 @@ class Hero(
                 cd(ANIM_PLAYING, Assets.heroBroomAttack3.duration)
                 broomCombo = 0
                 sfx.strongSwing.playSfx()
+                velocityX += 0.05 * dir
                 camera.shake(50.milliseconds, 0.5)
                 damageEntities(true, 3.0)
             }
@@ -232,6 +233,7 @@ class Hero(
                 cd(ATTACK_CD, 400.milliseconds)
                 cd(ANIM_PLAYING, Assets.heroBroomAttack2.duration)
                 broomCombo++
+                velocityX += 0.05 * dir
                 sfx.swing.playSfx()
                 damageEntities(true, 2.0)
             }
@@ -252,6 +254,7 @@ class Hero(
                 cd(ANIM_PLAYING, Assets.heroBroomAttack1.duration)
                 cd(COMBO, 800.milliseconds)
                 broomCombo++
+                velocityX += 0.05 * dir
                 sfx.swing.playSfx()
                 damageEntities(false, 1.0)
             }

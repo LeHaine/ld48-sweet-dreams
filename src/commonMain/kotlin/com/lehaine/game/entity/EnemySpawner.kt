@@ -63,7 +63,7 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                             dustBunny(spawn.cx, spawn.cy, level, 2.0, 2.0)
                         }
                     }
-                    cd(SPAWN_CD, (0.25..1.0).random().seconds)
+                    cd(SPAWN_CD, (1.0..1.5).random().seconds)
                 }
                 SleepState.MediumSleep -> {
                     when {

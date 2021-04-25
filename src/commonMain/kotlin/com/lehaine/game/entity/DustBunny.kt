@@ -77,7 +77,6 @@ class DustBunny(
         object Stunned : DustBunnyState()
     }
 
-
     private val affectIcon = container.run {
         enhancedSprite {
             smoothing = false
@@ -210,6 +209,8 @@ class DustBunny(
 
     override fun damage(amount: Int, fromDir: Int) {
         sfx.hit.playSfx()
+        velocityX = (0.15..0.25).random() * -fromDir
+        velocityY = -(0.2..0.3).random()
         healthComponent.damage(amount, fromDir)
         healthBar.setHealthRatio(healthRatio)
         stretchX = 0.6
