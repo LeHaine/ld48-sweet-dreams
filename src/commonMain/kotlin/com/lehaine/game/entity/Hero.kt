@@ -202,7 +202,7 @@ class Hero(
                 cd.remove(COMBO)
                 canSwing = false
                 sprite.playOverlap(Assets.heroBroomAttack3)
-                cd(ATTACK_CD, 300.milliseconds)
+                cd(ATTACK_CD, 400.milliseconds)
                 cd(ANIM_PLAYING, Assets.heroBroomAttack3.duration)
                 broomCombo = 0
                 sfx.swing.playSfx()
@@ -221,8 +221,8 @@ class Hero(
             begin {
                 canSwing = false
                 sprite.playOverlap(Assets.heroBroomAttack2)
-                cd(COMBO, 600.milliseconds)
-                cd(ATTACK_CD, 300.milliseconds)
+                cd(COMBO, 800.milliseconds)
+                cd(ATTACK_CD, 400.milliseconds)
                 cd(ANIM_PLAYING, Assets.heroBroomAttack2.duration)
                 broomCombo++
                 sfx.swing.playSfx()
@@ -241,9 +241,9 @@ class Hero(
             begin {
                 canSwing = false
                 sprite.playOverlap(Assets.heroBroomAttack1)
-                cd(ATTACK_CD, 300.milliseconds)
+                cd(ATTACK_CD, 400.milliseconds)
                 cd(ANIM_PLAYING, Assets.heroBroomAttack1.duration)
-                cd(COMBO, 600.milliseconds)
+                cd(COMBO, 800.milliseconds)
                 broomCombo++
                 sfx.swing.playSfx()
                 damageEntities(false, 1.0)
@@ -377,7 +377,7 @@ class Hero(
         var hasHit = false
         level.entities.fastForEach {
             if (it != this@Hero
-                && distGridTo(it) <= 2.5
+                && distGridTo(it) <= 2
                 && it is HealthComponent
             ) {
                 if (!hasHit) {
@@ -385,7 +385,7 @@ class Hero(
                     fx.broomDust(x, centerY, dir)
                     hasHit = true
                 }
-                if (dirTo(it) == dir || distGridTo(it) <= 2) {
+                if (dirTo(it) == dir || distGridTo(it) <= 1) {
                     attack(it, -dirTo(it), damageMultiplier)
                     if (stunEnemy) {
                         (it as GameEntity).addAffect(Affect.STUN, 1.seconds)

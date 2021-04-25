@@ -36,8 +36,8 @@ inline fun Container.boss(
         anchorY = 1.0,
     ),
     targetComponent = TargetComponentDefault(),
-    healthComponent = HealthComponentDefault(25),
-    dangerousComponent = DangerousComponentDefault(5)
+    healthComponent = HealthComponentDefault(500),
+    dangerousComponent = DangerousComponentDefault(25)
 ).addTo(this).addToLevel().also(callback)
 
 class Boss(
@@ -86,26 +86,9 @@ class Boss(
     private val attackingHero get() = distGridTo(level.hero) <= (0.0..attackRange).random() && !cd.has(ATTACK_CD)
 
     private val entityFSM = stateMachine<BossState>(BossState.NoAffects) {
-        state(BossState.Stunned) {
-            transition {
-                when {
-                    hasAffect(Affect.STUN) -> BossState.Stunned
-                    else -> BossState.NoAffects
-                }
-            }
-            begin {
-                affectIcon.playAnimationLooped(Assets.stunIcon)
-                affectIcon.visible = true
-                sprite.playAnimationLooped(Assets.bossIdle)
-            }
-        }
-
         state(BossState.NoAffects) {
             transition {
-                when {
-                    hasAffect(Affect.STUN) -> BossState.Stunned
-                    else -> BossState.NoAffects
-                }
+                BossState.NoAffects
             }
             begin {
                 affectIcon.stopAnimation()
