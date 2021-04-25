@@ -1,6 +1,7 @@
 package com.lehaine.game
 
 import GameModule
+import com.soywiz.klock.seconds
 import com.soywiz.korge.input.keys
 import com.soywiz.korge.input.mouse
 import com.soywiz.korge.scene.Scene
@@ -31,16 +32,23 @@ class StartScene() : Scene() {
             centerOnStage()
         }.alignTopToBottomOf(t1, 10)
 
+        var launched = false
         mouse {
             onClick {
-                launchImmediately { sceneContainer.changeTo<LevelScene>() }
+                if (!launched) {
+                    launched = true
+                    launchImmediately { sceneContainer.changeTo<LevelScene>(time = 2.seconds) }
+                }
             }
 
         }
 
         keys {
             down {
-                launchImmediately { sceneContainer.changeTo<LevelScene>() }
+                if (!launched) {
+                    launched = true
+                    launchImmediately { sceneContainer.changeTo<LevelScene>(time = 2.seconds) }
+                }
             }
         }
     }
