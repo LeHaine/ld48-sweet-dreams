@@ -65,8 +65,10 @@ object Assets {
         lateinit var ghoulAnticipation: Sound
         lateinit var ghoulSwing: Sound
         lateinit var teleport: Sound
-        lateinit var music: Sound
+        lateinit var roll: Sound
+        lateinit var longArmSwing: Sound
 
+        lateinit var music: Sound
         lateinit var musicChannel: SoundChannel
 
         suspend fun init(views: Views) {
@@ -82,6 +84,9 @@ object Assets {
             teleport = loadSound("teleport0")
             ghoulAnticipation = loadSound("ghoulAnticipation0")
             ghoulSwing = loadSound("ghoulSwing0")
+            roll = loadSound("roll0")
+            longArmSwing = loadSound("longArmSwing0")
+
             music = resourcesVfs["sfx/music.mp3"].readMusic()
         }
 

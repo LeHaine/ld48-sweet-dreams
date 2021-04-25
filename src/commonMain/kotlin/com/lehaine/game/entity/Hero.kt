@@ -149,6 +149,7 @@ class Hero(
                 }
             }
             begin {
+                sfx.roll.playSfx()
                 sprite.playOverlap(Assets.heroRoll) {
                     animFinished = true
                 }

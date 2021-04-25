@@ -154,6 +154,7 @@ class LongArm(
                 dir = dirTo(level.hero)
                 sprite.playOverlap(Assets.longArmSwing, onAnimationFrameChange = {
                     if (it == 7) {
+                        sfx.longArmSwing.playSfx()
                         attemptToAttackHero()
                     }
                 })
