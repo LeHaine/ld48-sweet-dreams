@@ -258,7 +258,7 @@ class Hero(
         state(HeroState.Sleep) {
             transition {
                 when {
-                    running || jumping  || input.mouseButtons != 0 -> HeroState.Idle
+                    running || jumping || input.mouseButtons != 0 -> HeroState.Idle
                     else -> HeroState.Sleep
                 }
             }
@@ -348,6 +348,10 @@ class Hero(
             }
         }
     }
+
+
+    private var currentSleepState = level.sleepState
+
     val healthBar: HealthBar = container.run {
         healthBar(health / 10.0, 2.0, Colors["#066d00"]) {
             x = -10.0
@@ -373,6 +377,15 @@ class Hero(
 
         if (!cd.has(COMBO)) {
             broomCombo = 0
+        }
+
+        if (level.sleepState != currentSleepState) {
+            health += (maxHealth * 0.25).toInt()
+            if(health > maxHealth) {
+                health = maxHealth
+            }
+            healthBar.setHealthRatio(healthRatio)
+            currentSleepState = level.sleepState
         }
         fsm.update(dt)
     }

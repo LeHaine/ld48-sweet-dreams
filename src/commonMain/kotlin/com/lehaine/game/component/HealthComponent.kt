@@ -3,7 +3,7 @@ package com.lehaine.game.component
 import com.lehaine.kiwi.component.Component
 
 interface HealthComponent : Component {
-    val health: Int
+    var health: Int
     val maxHealth: Int
     val healthRatio: Double
     val isDead: Boolean
@@ -14,7 +14,6 @@ interface HealthComponent : Component {
 class HealthComponentDefault(initialHealth: Int) : HealthComponent {
 
     override var health: Int = initialHealth
-        private set
 
     override val maxHealth: Int = initialHealth
 
