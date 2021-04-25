@@ -9,7 +9,10 @@ import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.klock.seconds
 import com.soywiz.korev.Key
+import com.soywiz.korge.tween.get
+import com.soywiz.korge.tween.tween
 import com.soywiz.korge.view.Container
+import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korui.UiContainer
 import kotlin.math.pow
 
@@ -120,6 +123,13 @@ class Hero(
                         entity.destroy()
                     }
                     i++
+                }
+
+                container.stage?.views?.launchImmediately {
+                    level.camera.tween(
+                        level.camera::cameraZoom[1.0, 3.0],
+                        time = 500.milliseconds
+                    )
                 }
             }
         }
