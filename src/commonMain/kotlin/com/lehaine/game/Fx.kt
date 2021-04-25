@@ -28,15 +28,16 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
     }
 
     fun broomDust(x: Double, y: Double, dir: Int) {
-        create(5) {
+        create(15) {
             val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), x, y)
-            p.scale((0.05..0.15).random())
+            p.scale((0.1..0.3).random())
             p.color = Colors["#edea32"]
             p.color = RGBA((227..247).random(), (224..244).random(), (40..60).random(), (0..255).random())
-            p.xDelta = (0.25..0.75).random() * dir
-            p.yDelta = -(0.05..0.15).random()
-            p.life = (0.05..0.15).random().seconds
-            p.scaleDelta = (0.005..0.015).random()
+            p.xDelta = (0.15..0.25).random() * if (it umod 2 == 0) 1 else -1
+            p.yDelta = (-1..1).randomd()
+            p.life = (0.25..0.35).random().seconds
+            p.gravityY = (0.025..0.04).random()
+            p.onUpdate = ::hardPhysics
         }
     }
 

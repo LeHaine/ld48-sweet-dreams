@@ -67,7 +67,6 @@ class Hero(
         object Run : HeroState()
         object Jump : HeroState()
         object Dodge : HeroState()
-        object DoubleJump : HeroState()
         object Fall : HeroState()
         object Sleep : HeroState()
         object BroomAttack1 : HeroState()
@@ -167,12 +166,18 @@ class Hero(
                 cd(ATTACK_CD, 300.milliseconds)
                 cd(ANIM_PLAYING, Assets.heroBroomAttack3.duration)
                 broomCombo = 0
+                var hasHit = false
                 level.entities.fastForEach {
                     if (it != this@Hero
                         && dirTo(it) == dir
                         && distGridTo(it) <= 3
                         && it is HealthComponent
                     ) {
+                        if (!hasHit) {
+                            val x = if (dir == 1) right else left
+                            fx.broomDust(x, centerY, dir)
+                            hasHit = true
+                        }
                         attack(it, -dirTo(it), 2.0)
                         (it as GameEntity).addAffect(Affect.STUN, 1.seconds)
                     }
@@ -188,7 +193,6 @@ class Hero(
                     else -> HeroState.Idle
                 }
             }
-
             begin {
                 canSwing = false
                 sprite.playOverlap(Assets.heroBroomAttack2)
@@ -196,17 +200,22 @@ class Hero(
                 cd(ATTACK_CD, 300.milliseconds)
                 cd(ANIM_PLAYING, Assets.heroBroomAttack2.duration)
                 broomCombo++
+                var hasHit = false
                 level.entities.fastForEach {
                     if (it != this@Hero
                         && dirTo(it) == dir
                         && distGridTo(it) <= 3
                         && it is HealthComponent
                     ) {
+                        if (!hasHit) {
+                            val x = if (dir == 1) right else left
+                            fx.broomDust(x, centerY, dir)
+                            hasHit = true
+                        }
                         attack(it, -dirTo(it), 1.25)
                         (it as GameEntity).addAffect(Affect.STUN, 1.seconds)
                     }
                 }
-
             }
         }
         state(HeroState.BroomAttack1) {
@@ -217,7 +226,6 @@ class Hero(
                     swinging && cd.has(COMBO) -> HeroState.BroomAttack2
                     else -> HeroState.Idle
                 }
-
             }
             begin {
                 canSwing = false
@@ -226,12 +234,18 @@ class Hero(
                 cd(ANIM_PLAYING, Assets.heroBroomAttack1.duration)
                 cd(COMBO, 600.milliseconds)
                 broomCombo++
+                var hasHit = false
                 level.entities.fastForEach {
                     if (it != this@Hero
                         && dirTo(it) == dir
                         && distGridTo(it) <= 2.5
                         && it is HealthComponent
                     ) {
+                        if (!hasHit) {
+                            val x = if (dir == 1) right else left
+                            fx.broomDust(x, centerY, dir)
+                            hasHit = true
+                        }
                         attack(it, -dirTo(it))
                     }
                 }
