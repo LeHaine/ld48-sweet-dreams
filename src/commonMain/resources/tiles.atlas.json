@@ -338,7 +338,7 @@
 },
 {
 	"filename": "fxDot0.png",
-	"frame": {"x":154,"y":696,"w":3,"h":3},
+	"frame": {"x":245,"y":691,"w":3,"h":3},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":3,"h":3},
@@ -439,6 +439,14 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":11},
 	"sourceSize": {"w":33,"h":11}
+},
+{
+	"filename": "fxZ0.png",
+	"frame": {"x":154,"y":696,"w":6,"h":6},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":6,"h":6},
+	"sourceSize": {"w":6,"h":6}
 },
 {
 	"filename": "ghoulAttack0.png",
@@ -1343,6 +1351,6 @@
 	"format": "RGBA8888",
 	"size": {"w":253,"h":742},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:ae698a109b14b8b02919ec71005c5bcc:97936a4cbb6dc3dcb50b189d25e93bc4:5e5ef3518cc1a44e4ed4954a57ade08c$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a3f57ad196461c91bf4f984617edec7b:917fdc80d930aa12222698c2e1b86e40:5e5ef3518cc1a44e4ed4954a57ade08c$"
 }
 }

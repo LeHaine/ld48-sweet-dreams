@@ -27,6 +27,17 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
         frame++
     }
 
+    fun sleepyZs(x: Double, y: Double) {
+        create(1) {
+            val p = alloc(Assets.tiles.getByPrefix("fxZ"), (x - 2..x + 2).random(), y)
+            p.scale((0.2..0.4).random())
+            p.yDelta = -0.25
+            p.life = 0.5.seconds
+            p.color = Colors["#ffe358"]
+            p.scaleDelta = (0.004..0.007).random()
+        }
+    }
+
     fun broomDust(x: Double, y: Double, dir: Int) {
         create(15) {
             val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), x, y)
@@ -71,7 +82,7 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
         }
     }
 
-    fun bossDeath(x:Double, y:Double) {
+    fun bossDeath(x: Double, y: Double) {
         val color = Colors["#3d3a45"]
         create(100) {
             val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), ((x - 4)..(x + 4)).random(), y)
@@ -90,6 +101,7 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
             p.life = (1.5..2.0).random().seconds
         }
     }
+
 
     fun bossDust(x: Double, y: Double) {
         val color = Colors["#3d3a45"]
@@ -186,7 +198,7 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
     }
 
     private fun create(num: Int, createParticle: (index: Int) -> Unit) {
-        for (i in 0..num) {
+        for (i in 0 until num) {
             createParticle(i)
         }
     }

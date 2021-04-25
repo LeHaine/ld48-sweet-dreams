@@ -207,7 +207,9 @@ class Boss(
 
     override fun destroy() {
         fx.bossDeath(centerX, centerY)
-        level.gameFinshed = true
+        if(health <= 0) {
+            level.gameFinshed = true
+        }
         super.destroy()
     }
 

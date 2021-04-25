@@ -70,6 +70,7 @@ class Hero(
         private const val DODGE = "dodge"
         private const val RUN_DUST = "runDust"
         private const val FOOTSTEP_SOUND = "footstepSound"
+        private const val SLEEPY_Z = "sleepyZ"
     }
 
     private sealed class HeroState {
@@ -269,6 +270,14 @@ class Hero(
             }
             begin {
                 sprite.playAnimationLooped(Assets.heroSleep)
+            }
+
+            update {
+                if(!cd.has(SLEEPY_Z)) {
+                    cd(SLEEPY_Z, 500.milliseconds)
+                    fx.sleepyZs(centerX, centerY)
+                }
+
             }
         }
         state(HeroState.Fall) {

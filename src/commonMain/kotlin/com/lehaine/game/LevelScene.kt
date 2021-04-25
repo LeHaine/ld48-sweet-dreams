@@ -11,13 +11,11 @@ import com.lehaine.kiwi.korge.view.enhancedSprite
 import com.lehaine.kiwi.korge.view.ldtk.ldtkMapView
 import com.lehaine.kiwi.korge.view.ldtk.toLDtkLevel
 import com.soywiz.kds.iterators.fastForEach
-import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.klock.seconds
 import com.soywiz.kmem.toIntCeil
 import com.soywiz.kmem.toIntFloor
 import com.soywiz.kmem.umod
-import com.soywiz.korau.sound.playbackTimes
 import com.soywiz.korev.Key
 import com.soywiz.korge.input.keys
 import com.soywiz.korge.scene.Scene
@@ -154,7 +152,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
         }
 
         enemySpawner(gameLevel)
-        var timer = TimeSpan.ZERO
+        var timer = 120.seconds
 
         var showDeathScreen = false
         var transitionToEndScene = false
@@ -216,7 +214,6 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                                 visible = true
                                 cd("WARNING", 5.seconds) {
                                     visible = false
-
                                 }
                             }
                         }
