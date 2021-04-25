@@ -64,6 +64,9 @@ object Assets {
         lateinit var land: Sound
         lateinit var footstep: Sound
         lateinit var bossYell: Sound
+        lateinit var ghoulAnticipation:Sound
+        lateinit var ghoulSwing:Sound
+        lateinit var teleport:Sound
 
         suspend fun init(views: Views) {
             this.views = views
@@ -74,6 +77,9 @@ object Assets {
             footstep = loadSound("footstep0", volume = 0.4)
             land = loadSound("land0")
             shoot = loadSound("shoot0")
+            teleport = loadSound("teleport0")
+            ghoulAnticipation = loadSound("ghoulAnticipation0")
+            ghoulSwing = loadSound("ghoulSwing0")
         }
 
         private suspend fun loadSoundsByPrefix(

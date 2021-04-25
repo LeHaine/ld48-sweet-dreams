@@ -135,6 +135,7 @@ class Ghoul(
                 toGridPosition(level.hero.cx - level.hero.dir, level.hero.cy)
                 dir = dirTo(level.hero)
                 cd(TELEPORT_CD, 150.milliseconds)
+                sfx.teleport.playSfx()
             }
 
         }
@@ -163,8 +164,10 @@ class Ghoul(
             }
             begin {
                 dir = dirTo(level.hero)
+                sfx.ghoulAnticipation.playSfx()
                 sprite.playOverlap(Assets.ghoulAttack, onAnimationFrameChange = {
                     if (it == 10) {
+                        sfx.ghoulSwing.playSfx()
                         attemptToAttackHero()
                     }
                 })
