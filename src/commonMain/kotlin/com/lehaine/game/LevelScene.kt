@@ -84,13 +84,13 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             gameLevel._camera = it
         }
 
-        text("Face your nightmare! \nThey are coming! MOVE!") {
+        val warningText = text("Face your nightmare! \nThey are coming! MOVE!") {
             font = Assets.pixelFont
             fontSize = 16.0
             alignment = TextAlignment.CENTER
             centerOnStage()
             alignTopToTopOf(this@sceneInit, 15)
-            cd("HIDE_START_TEXT", 10.seconds) {
+            cd("WARNING", 10.seconds) {
                 visible = false
             }
         }
@@ -194,26 +194,76 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
 
                 sleepState.text = when {
                     timer >= SleepState.DeepestSleep.time -> {
+                        if (gameLevel.sleepState != SleepState.DeepestSleep) {
+                            warningText.apply {
+                                text = "Entering REM - the deepest sleep stage.\nFace your nightmare!"
+                                visible = true
+                                cd("WARNING", 5.seconds) {
+                                    visible = false
+
+                                }
+                            }
+                        }
                         gameLevel.sleepState = SleepState.DeepestSleep
                         newOverlayAlpha = 0.44
                         "Deepest SLEEP!"
                     }
                     timer >= SleepState.EvenDeeperSleep.time -> {
+                        if (gameLevel.sleepState != SleepState.LightSleep) {
+                            warningText.apply {
+                                text = "Entering an even deeper sleep state"
+                                visible = true
+                                cd("WARNING", 5.seconds) {
+                                    visible = false
+
+                                }
+                            }
+                        }
                         gameLevel.sleepState = SleepState.EvenDeeperSleep
                         newOverlayAlpha = 0.35
                         "Even Deeper Sleep"
                     }
                     timer >= SleepState.DeeperSleep.time -> {
+                        if (gameLevel.sleepState != SleepState.LightSleep) {
+                            warningText.apply {
+                                text = "Entering a deeper sleep state"
+                                visible = true
+                                cd("WARNING", 5.seconds) {
+                                    visible = false
+
+                                }
+                            }
+                        }
                         gameLevel.sleepState = SleepState.DeeperSleep
                         newOverlayAlpha = 0.3
                         "Deeper Sleep"
                     }
                     timer >= SleepState.MediumSleep.time -> {
+                        if (gameLevel.sleepState != SleepState.LightSleep) {
+                            warningText.apply {
+                                text = "Entering a medium sleep state"
+                                visible = true
+                                cd("WARNING", 5.seconds) {
+                                    visible = false
+
+                                }
+                            }
+                        }
                         gameLevel.sleepState = SleepState.MediumSleep
                         newOverlayAlpha = 0.2
                         "Medium Sleep"
                     }
                     timer >= SleepState.LightSleep.time -> {
+                        if (gameLevel.sleepState != SleepState.LightSleep) {
+                            warningText.apply {
+                                text = "Entering a light sleep state"
+                                visible = true
+                                cd("WARNING", 5.seconds) {
+                                    visible = false
+
+                                }
+                            }
+                        }
                         gameLevel.sleepState = SleepState.LightSleep
                         newOverlayAlpha = 0.15
                         "Light Sleep"
