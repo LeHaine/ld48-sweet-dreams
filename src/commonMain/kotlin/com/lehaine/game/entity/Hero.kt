@@ -413,7 +413,7 @@ class Hero(
         var hasHit = false
         level.entities.fastForEach {
             if (it != this@Hero
-                && (distGridTo(it) <= 2 || (it is Boss && distGridTo(it) <= 4.5))
+                && (distGridTo(it) <= 2.5 || (it is Boss && distGridTo(it) <= 4.5))
                 && it is HealthComponent
             ) {
                 if (!hasHit) {
