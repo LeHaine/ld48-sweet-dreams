@@ -17,8 +17,6 @@ import com.soywiz.korge.tween.get
 import com.soywiz.korge.tween.tween
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.alignBottomToTopOf
-import com.soywiz.korge.view.centerOn
-import com.soywiz.korge.view.centerXOn
 import com.soywiz.korim.color.Colors
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korui.UiContainer
@@ -260,7 +258,7 @@ class Hero(
         state(HeroState.Sleep) {
             transition {
                 when {
-                    input.keys.justPressed(Key.SPACE) -> HeroState.Idle
+                    running || jumping  || input.mouseButtons != 0 -> HeroState.Idle
                     else -> HeroState.Sleep
                 }
             }
@@ -351,7 +349,7 @@ class Hero(
         }
     }
     val healthBar: HealthBar = container.run {
-        healthBar(health / 10.0, 2.0, Colors["#3ae200"]) {
+        healthBar(health / 10.0, 2.0, Colors["#066d00"]) {
             x = -10.0
             alignBottomToTopOf(sprite, 10)
             visible = false
