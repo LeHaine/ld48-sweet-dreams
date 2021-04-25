@@ -88,7 +88,7 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                             longArm(spawn.cx, spawn.cy, level)
                         }
                     }
-                    cd(SPAWN_CD, (1.0..3.5).random().seconds)
+                    cd(SPAWN_CD, (2.0..3.5).random().seconds)
                 }
                 SleepState.EvenDeeperSleep -> {
                     when {
@@ -99,7 +99,7 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                             longArm(spawn.cx, spawn.cy, level, 1.25, 1.25)
                         }
                     }
-                    cd(SPAWN_CD, (1.0..2.5).random().seconds)
+                    cd(SPAWN_CD, (2.0..3.5).random().seconds)
                 }
                 SleepState.DeepestSleep -> {
                     boss(spawn.cx, spawn.cy, level)
