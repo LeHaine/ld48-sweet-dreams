@@ -40,8 +40,8 @@ inline fun Container.boss(
         anchorY = 1.0,
     ),
     targetComponent = TargetComponentDefault(),
-    healthComponent = HealthComponentDefault(500),
-    dangerousComponent = DangerousComponentDefault(25)
+    healthComponent = HealthComponentDefault(750),
+    dangerousComponent = DangerousComponentDefault(35)
 ).addTo(this).addToLevel().also(callback)
 
 class Boss(
