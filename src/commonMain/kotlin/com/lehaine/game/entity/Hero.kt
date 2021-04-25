@@ -1,6 +1,7 @@
 package com.lehaine.game.entity
 
 import com.lehaine.game.*
+import com.lehaine.game.Assets.Sfx.playSfx
 import com.lehaine.game.component.*
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.stateMachine
@@ -63,6 +64,7 @@ class Hero(
         private const val SLING_SHOT_CD = "slingShotCD"
         private const val DODGE = "dodge"
         private const val RUN_DUST = "runDust"
+        private const val FOOTSTEP_SOUND = "footstepSound"
     }
 
     private sealed class HeroState {
@@ -203,6 +205,7 @@ class Hero(
                 cd(ATTACK_CD, 300.milliseconds)
                 cd(ANIM_PLAYING, Assets.heroBroomAttack3.duration)
                 broomCombo = 0
+                sfx.swing.playSfx()
                 damageEntities(true, 2.0)
             }
         }
@@ -222,6 +225,7 @@ class Hero(
                 cd(ATTACK_CD, 300.milliseconds)
                 cd(ANIM_PLAYING, Assets.heroBroomAttack2.duration)
                 broomCombo++
+                sfx.swing.playSfx()
                 damageEntities(true, 1.25)
             }
         }
@@ -241,6 +245,7 @@ class Hero(
                 cd(ANIM_PLAYING, Assets.heroBroomAttack1.duration)
                 cd(COMBO, 600.milliseconds)
                 broomCombo++
+                sfx.swing.playSfx()
                 damageEntities(false, 1.0)
             }
         }
@@ -390,6 +395,10 @@ class Hero(
             if (!cd.has(RUN_DUST) && onGround) {
                 cd(RUN_DUST, 100.milliseconds)
                 fx.runDust(centerX, bottom, -dir)
+            }
+            if (!cd.has(FOOTSTEP_SOUND) && onGround) {
+                cd(FOOTSTEP_SOUND, 350.milliseconds)
+                sfx.footstep.playSfx()
             }
             val speed = if (runningRight) moveSpeed else -moveSpeed
             dir = if (runningRight) 1 else -1

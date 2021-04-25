@@ -58,30 +58,57 @@ object Assets {
     object Sfx {
         lateinit var views: Views
 
+        lateinit var hit: List<Sound>
+        lateinit var swing: List<Sound>
+        lateinit var shoot: Sound
+        lateinit var land: Sound
+        lateinit var footstep: Sound
+        lateinit var bossYell: Sound
+
         suspend fun init(views: Views) {
             this.views = views
             // define sounds here
+            hit = loadSoundsByPrefix("hit", 3)
+            swing = loadSoundsByPrefix("swing", 4, volume = 0.6)
+            bossYell = loadSound("bossYell0")
+            footstep = loadSound("footstep0", volume = 0.6)
+            land = loadSound("land0")
+            shoot = loadSound("shoot0")
         }
 
         private suspend fun loadSoundsByPrefix(
             prefix: String,
             total: Int = 1,
             dir: String = "sfx/",
-            fileType: String = ".wav"
+            fileType: String = ".wav",
+            volume: Double = 1.0
         ): List<Sound> {
             val sounds = mutableListOf<Sound>()
             for (i in 0 until total) {
-                sounds += resourcesVfs["$dir$prefix$i$fileType"].readSound()
+                sounds += resourcesVfs["$dir$prefix$i$fileType"].readSound().apply { this.volume = volume }
             }
             return sounds.toList()
         }
 
-        private suspend fun loadSound(file: String) = resourcesVfs[file].readSound()
+        private suspend fun loadSound(
+            file: String,
+            dir: String = "sfx/",
+            fileType: String = ".wav",
+            volume: Double = 1.0
+        ) = resourcesVfs["$dir$file$fileType"].readSound().apply { this.volume = volume }
 
         fun play(sound: Sound, times: PlaybackTimes = 1.playbackTimes) {
             views.launch {
                 sound.play(times)
             }
+        }
+
+        fun List<Sound>.playSfx(times: PlaybackTimes = 1.playbackTimes) {
+            play(this.random(), times)
+        }
+
+        fun Sound.playSfx(times: PlaybackTimes = 1.playbackTimes) {
+            play(this, times)
         }
     }
 
