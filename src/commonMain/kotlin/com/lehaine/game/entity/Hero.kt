@@ -4,6 +4,7 @@ import com.lehaine.game.*
 import com.lehaine.game.Assets.Sfx.playSfx
 import com.lehaine.game.component.*
 import com.lehaine.kiwi.component.*
+import com.lehaine.kiwi.random
 import com.lehaine.kiwi.stateMachine
 import com.soywiz.kds.iterators.fastForEach
 import com.soywiz.klock.TimeSpan
@@ -368,6 +369,10 @@ class Hero(
         if (hasAffect(Affect.INVULNERABLE) || isDead) {
             return
         }
+        addAffect(Affect.INVULNERABLE, 200.milliseconds)
+        camera.shake(50.milliseconds, 0.5)
+        velocityX = (0.3..0.5).random() * -fromDir
+        velocityY = -(0.2..0.3).random()
         sfx.hit.playSfx()
         healthComponent.damage(amount, fromDir)
         blink()
