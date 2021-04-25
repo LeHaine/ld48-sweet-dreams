@@ -321,23 +321,23 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
         }
 
         keys {
-            down(Key.ESCAPE) {
-                stage?.views?.debugViews = false
-                stage?.gameWindow?.run {
-                    debug = false
-                    close()
-                }
-            }
+//            down(Key.ESCAPE) {
+//                stage?.views?.debugViews = false
+//                stage?.gameWindow?.run {
+//                    debug = false
+//                    close()
+//                }
+//            }
 
             down(Key.M) {
                 Assets.Sfx.musicChannel.togglePaused()
             }
-            down(Key.PAGE_UP) {
-                cam.cameraZoom += 0.1
-            }
-            down(Key.PAGE_DOWN) {
-                cam.cameraZoom -= 0.1
-            }
+//            down(Key.PAGE_UP) {
+//                cam.cameraZoom += 0.1
+//            }
+//            down(Key.PAGE_DOWN) {
+//                cam.cameraZoom -= 0.1
+//            }
         }
     }
 }
