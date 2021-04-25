@@ -68,7 +68,6 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
         create(30) {
             val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), ((x - 4)..(x + 4)).random(), y)
             p.scale((0.1..0.3).random())
-            Colors["#cfa692"]
             p.color = RGBA((198..218).random(), (157..177).random(), (136..156).random(), (225..255).random())
             p.yDelta = (-1..1).randomd()
             p.xDelta = (1.0..2.0).random() * if (it umod 2 == 0) 1 else -1
