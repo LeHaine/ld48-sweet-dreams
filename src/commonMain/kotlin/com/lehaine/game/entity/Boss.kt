@@ -119,7 +119,7 @@ class Boss(
                 sprite.playAnimationLooped(Assets.bossRun)
             }
             update {
-                moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, level.hero.cy, moveSpeed * tmod)
+                moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, cy, moveSpeed * tmod)
             }
 
         }

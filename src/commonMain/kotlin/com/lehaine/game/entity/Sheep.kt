@@ -43,8 +43,8 @@ inline fun Container.sheep(
         anchorY = 1.0,
     ),
     targetComponent = TargetComponentDefault(),
-    healthComponent = HealthComponentDefault((30*healthMultiplier).toInt()),
-    dangerousComponent = DangerousComponentDefault((5*damageMultiplier).toInt())
+    healthComponent = HealthComponentDefault((30 * healthMultiplier).toInt()),
+    dangerousComponent = DangerousComponentDefault((5 * damageMultiplier).toInt())
 ).addTo(this).addToLevel().also(callback)
 
 class Sheep(
@@ -138,7 +138,7 @@ class Sheep(
                 sprite.playAnimationLooped(Assets.sheepWalk)
             }
             update {
-                moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, level.hero.cy, moveSpeed * tmod)
+                moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, cy, moveSpeed * tmod)
             }
 
         }

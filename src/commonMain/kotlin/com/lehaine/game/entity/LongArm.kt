@@ -139,7 +139,7 @@ class LongArm(
                 sprite.playAnimationLooped(Assets.longArmWalk)
             }
             update {
-                moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, level.hero.cy, moveSpeed * tmod)
+                moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, cy, moveSpeed * tmod)
             }
 
         }
