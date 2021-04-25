@@ -116,6 +116,10 @@ class Hero(
             }
             update {
                 velocityX += moveSpeed * 2.0 * dir * tmod
+                if (!cd.has(RUN_DUST)) {
+                    cd(RUN_DUST, 100.milliseconds)
+                    fx.runDust(centerX, bottom, -dir)
+                }
             }
             end {
                 cd(DODGE, 200.milliseconds)
