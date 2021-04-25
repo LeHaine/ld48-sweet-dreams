@@ -30,7 +30,7 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
     fun runDust(x: Double, y: Double, dir: Int) {
         create(5) {
             val p = alloc(Assets.tiles.getByPrefix("fxSmallCircle"), x, y)
-            p.scale((0.1..0.3).random())
+            p.scale((0.05..0.15).random())
             p.color = Colors["#efddc0"]
             p.xDelta = (0.25..0.75).random()
             p.yDelta = -(0.05..0.15).random()
