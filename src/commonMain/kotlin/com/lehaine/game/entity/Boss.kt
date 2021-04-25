@@ -183,6 +183,7 @@ class Boss(
     }
 
     override fun damage(amount: Int, fromDir: Int) {
+        blink()
         sfx.hit.playSfx()
         healthComponent.damage(amount, fromDir)
         stretchX = 0.6
