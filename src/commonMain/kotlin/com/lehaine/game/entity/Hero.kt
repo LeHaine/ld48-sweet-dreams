@@ -109,7 +109,6 @@ class Hero(
                     else -> HeroState.Dodge
                 }
             }
-
             begin {
                 sprite.playOverlap(Assets.heroRoll) {
                     animFinished = true
@@ -242,7 +241,10 @@ class Hero(
         state(HeroState.Sleep) {
             transition {
                 when {
-                    input.keys.justPressed(Key.SPACE) -> HeroState.Idle
+                    input.keys.justPressed(Key.SPACE) -> {
+                        dir = -1
+                        HeroState.Idle
+                    }
                     else -> HeroState.Sleep
                 }
 
@@ -364,7 +366,7 @@ class Hero(
 
     private fun run() {
         if (running) {
-            if(!cd.has(RUN_DUST) && onGround) {
+            if (!cd.has(RUN_DUST) && onGround) {
                 cd(RUN_DUST, 100.milliseconds)
                 fx.runDust(centerX, bottom, -dir)
             }
