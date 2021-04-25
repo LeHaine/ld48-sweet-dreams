@@ -99,7 +99,7 @@ class Hero(
             DODGE
         )
 
-    private val slingShot get() = input.keys.pressing(Key.Q) && !cd.has(SLING_SHOT_CD)
+    private val slingShot get() = input.keys.justPressed(Key.Q) && !cd.has(SLING_SHOT_CD)
 
     private val jumping get() = input.keys.justPressed(Key.SPACE) && cd.has(ON_GROUND_RECENTLY)
     private val jumpingExtra get() = input.keys.justPressed(Key.SPACE) && cd.has(JUMP_EXTRA)
@@ -170,9 +170,10 @@ class Hero(
                 }
             }
             begin {
-                level.slingShotCDRemaining = 5.seconds
+                sfx.shoot.playSfx()
                 cd(ATTACK_CD, 300.milliseconds)
-                cd(SLING_SHOT_CD, 5.seconds)
+                level.slingShotCDRemaining = 2.seconds
+                cd(SLING_SHOT_CD, 2.seconds)
                 cd(ANIM_PLAYING, Assets.heroSlingShot.duration)
                 sprite.playOverlap(Assets.heroSlingShot)
                 repeat(3) {
