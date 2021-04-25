@@ -95,8 +95,8 @@ class Hero(
     private var canSwing = true
     private val swinging get() = input.mouseButtons == 1 && canSwing
 
-    private val runningLeft get() = input.keys.pressing(Key.A)
-    private val runningRight get() = input.keys.pressing(Key.D)
+    private val runningLeft get() = input.keys.pressing(Key.A) || input.keys.pressing(Key.Q) || input.keys.pressing(Key.LEFT)
+    private val runningRight get() = input.keys.pressing(Key.D) || input.keys.pressing(Key.RIGHT)
     private val running get() = runningLeft || runningRight
 
     private val dodging
