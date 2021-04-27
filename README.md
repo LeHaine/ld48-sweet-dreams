@@ -2,6 +2,8 @@
 
 **Play it on [itch.io](https://lehaine.itch.io/sweet-dreams)!**
 
+Made for [Ludum Dare 48](https://ldjam.com/events/ludum-dare/48/sweet-dreams)!
+
 ![gif](/screenshots/gif_6.gif)
 
 You are a Sally a young girl that just needs to sleep! You, Sally, have terrible nightmares every night that always wake
