@@ -1,6 +1,7 @@
 ## Sweet Dreams
 
-***
+**Play it on [itch.io](https://lehaine.itch.io/sweet-dreams)!**
+
 You are a Sally a young girl that just needs to sleep! You, Sally, have terrible nightmares every night that always wake
 you up. You haven't had a good night of sleep in a very long time and are sick of not getting any rest. You will face
 your nightmares by allowing yourself to fall deeper and deeper into sleep. Everytime you fall deeper into sleep you will
