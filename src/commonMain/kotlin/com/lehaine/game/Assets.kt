@@ -1,10 +1,10 @@
 package com.lehaine.game
 
+import com.lehaine.kiwi.korge.view.EnhancedSpriteAnimation
+import com.lehaine.kiwi.korge.view.getEnhancedSpriteAnimation
 import com.soywiz.klock.milliseconds
 import com.soywiz.korau.sound.*
-import com.soywiz.korge.view.SpriteAnimation
 import com.soywiz.korge.view.Views
-import com.soywiz.korge.view.getSpriteAnimation
 import com.soywiz.korim.atlas.Atlas
 import com.soywiz.korim.atlas.readAtlas
 import com.soywiz.korim.font.Font
@@ -18,39 +18,39 @@ object Assets {
 
     lateinit var pixelFont: Font
 
-    lateinit var bossIdle: SpriteAnimation
-    lateinit var bossRun: SpriteAnimation
-    lateinit var bossAttack: SpriteAnimation
+    lateinit var bossIdle: EnhancedSpriteAnimation
+    lateinit var bossRun: EnhancedSpriteAnimation
+    lateinit var bossAttack: EnhancedSpriteAnimation
 
-    lateinit var heroIdle: SpriteAnimation
-    lateinit var heroRun: SpriteAnimation
-    lateinit var heroSleep: SpriteAnimation
-    lateinit var heroBroomAttack1: SpriteAnimation
-    lateinit var heroBroomAttack2: SpriteAnimation
-    lateinit var heroBroomAttack3: SpriteAnimation
-    lateinit var heroSlingShot: SpriteAnimation
-    lateinit var heroRoll: SpriteAnimation
-    lateinit var heroDie: SpriteAnimation
+    lateinit var heroIdle: EnhancedSpriteAnimation
+    lateinit var heroRun: EnhancedSpriteAnimation
+    lateinit var heroSleep: EnhancedSpriteAnimation
+    lateinit var heroBroomAttack1: EnhancedSpriteAnimation
+    lateinit var heroBroomAttack2: EnhancedSpriteAnimation
+    lateinit var heroBroomAttack3: EnhancedSpriteAnimation
+    lateinit var heroSlingShot: EnhancedSpriteAnimation
+    lateinit var heroRoll: EnhancedSpriteAnimation
+    lateinit var heroDie: EnhancedSpriteAnimation
 
-    lateinit var longArmIdle: SpriteAnimation
-    lateinit var longArmSwing: SpriteAnimation
-    lateinit var longArmStunned: SpriteAnimation
-    lateinit var longArmWalk: SpriteAnimation
+    lateinit var longArmIdle: EnhancedSpriteAnimation
+    lateinit var longArmSwing: EnhancedSpriteAnimation
+    lateinit var longArmStunned: EnhancedSpriteAnimation
+    lateinit var longArmWalk: EnhancedSpriteAnimation
 
-    lateinit var sheepIdle: SpriteAnimation
-    lateinit var sheepAttack: SpriteAnimation
-    lateinit var sheepStunned: SpriteAnimation
-    lateinit var sheepWalk: SpriteAnimation
+    lateinit var sheepIdle: EnhancedSpriteAnimation
+    lateinit var sheepAttack: EnhancedSpriteAnimation
+    lateinit var sheepStunned: EnhancedSpriteAnimation
+    lateinit var sheepWalk: EnhancedSpriteAnimation
 
-    lateinit var dustBunnyIdle: SpriteAnimation
-    lateinit var dustBunnyJump: SpriteAnimation
-    lateinit var dustBunnyAttack: SpriteAnimation
+    lateinit var dustBunnyIdle: EnhancedSpriteAnimation
+    lateinit var dustBunnyJump: EnhancedSpriteAnimation
+    lateinit var dustBunnyAttack: EnhancedSpriteAnimation
 
-    lateinit var ghoulBob: SpriteAnimation
-    lateinit var ghoulAttack: SpriteAnimation
+    lateinit var ghoulBob: EnhancedSpriteAnimation
+    lateinit var ghoulAttack: EnhancedSpriteAnimation
 
-    lateinit var stunIcon: SpriteAnimation
-    lateinit var sleepIcon: SpriteAnimation
+    lateinit var stunIcon: EnhancedSpriteAnimation
+    lateinit var sleepIcon: EnhancedSpriteAnimation
 
     object Sfx {
         lateinit var views: Views
@@ -135,40 +135,40 @@ object Assets {
         tiles = resourcesVfs["tiles.atlas.json"].readAtlas()
         pixelFont = TtfFont(resourcesVfs["m5x7.ttf"].readAll())
 
-        bossIdle = tiles.getSpriteAnimation("bossIdle", 500.milliseconds)
-        bossAttack = tiles.getSpriteAnimation("bossAttack", 150.milliseconds)
-        bossRun = tiles.getSpriteAnimation("bossRun", 100.milliseconds)
+        bossIdle = tiles.getEnhancedSpriteAnimation("bossIdle", 500.milliseconds)
+        bossAttack = tiles.getEnhancedSpriteAnimation("bossAttack", 150.milliseconds)
+        bossRun = tiles.getEnhancedSpriteAnimation("bossRun", 100.milliseconds)
 
         // define animations and other assets here
-        heroIdle = tiles.getSpriteAnimation("heroIdle", 500.milliseconds)
-        heroRun = tiles.getSpriteAnimation("heroRun", 100.milliseconds)
-        heroSleep = tiles.getSpriteAnimation("heroSleep", 500.milliseconds)
-        heroBroomAttack1 = tiles.getSpriteAnimation("heroBroomAttack1", 100.milliseconds)
-        heroBroomAttack2 = tiles.getSpriteAnimation("heroBroomAttack2", 100.milliseconds)
-        heroBroomAttack3 = tiles.getSpriteAnimation("heroBroomAttack3", 100.milliseconds)
-        heroSlingShot = tiles.getSpriteAnimation("heroSlingShot", 100.milliseconds)
-        heroRoll = tiles.getSpriteAnimation("heroRoll", 100.milliseconds)
-        heroDie = tiles.getSpriteAnimation("heroDie", 100.milliseconds)
+        heroIdle = tiles.getEnhancedSpriteAnimation("heroIdle", 500.milliseconds)
+        heroRun = tiles.getEnhancedSpriteAnimation("heroRun", 100.milliseconds)
+        heroSleep = tiles.getEnhancedSpriteAnimation("heroSleep", 500.milliseconds)
+        heroBroomAttack1 = tiles.getEnhancedSpriteAnimation("heroBroomAttack1", 100.milliseconds)
+        heroBroomAttack2 = tiles.getEnhancedSpriteAnimation("heroBroomAttack2", 100.milliseconds)
+        heroBroomAttack3 = tiles.getEnhancedSpriteAnimation("heroBroomAttack3", 100.milliseconds)
+        heroSlingShot = tiles.getEnhancedSpriteAnimation("heroSlingShot", 100.milliseconds)
+        heroRoll = tiles.getEnhancedSpriteAnimation("heroRoll", 100.milliseconds)
+        heroDie = tiles.getEnhancedSpriteAnimation("heroDie", 100.milliseconds)
 
-        longArmIdle = tiles.getSpriteAnimation("longArmIdle", 500.milliseconds)
-        longArmSwing = tiles.getSpriteAnimation("longArmSwing", 100.milliseconds)
-        longArmStunned = tiles.getSpriteAnimation("longArmStunned", 500.milliseconds)
-        longArmWalk = tiles.getSpriteAnimation("longArmWalk", 100.milliseconds)
+        longArmIdle = tiles.getEnhancedSpriteAnimation("longArmIdle", 500.milliseconds)
+        longArmSwing = tiles.getEnhancedSpriteAnimation("longArmSwing", 100.milliseconds)
+        longArmStunned = tiles.getEnhancedSpriteAnimation("longArmStunned", 500.milliseconds)
+        longArmWalk = tiles.getEnhancedSpriteAnimation("longArmWalk", 100.milliseconds)
 
-        dustBunnyIdle = tiles.getSpriteAnimation("dustBunnyIdle", 500.milliseconds)
-        dustBunnyJump = tiles.getSpriteAnimation("dustBunnyJump", 100.milliseconds)
-        dustBunnyAttack = tiles.getSpriteAnimation("dustBunnyAttack", 100.milliseconds)
+        dustBunnyIdle = tiles.getEnhancedSpriteAnimation("dustBunnyIdle", 500.milliseconds)
+        dustBunnyJump = tiles.getEnhancedSpriteAnimation("dustBunnyJump", 100.milliseconds)
+        dustBunnyAttack = tiles.getEnhancedSpriteAnimation("dustBunnyAttack", 100.milliseconds)
 
-        sheepIdle = tiles.getSpriteAnimation("sheepIdle", 500.milliseconds)
-        sheepAttack = tiles.getSpriteAnimation("sheepAttack", 100.milliseconds)
-        sheepStunned = tiles.getSpriteAnimation("sheepStunned", 500.milliseconds)
-        sheepWalk = tiles.getSpriteAnimation("sheepWalk", 100.milliseconds)
+        sheepIdle = tiles.getEnhancedSpriteAnimation("sheepIdle", 500.milliseconds)
+        sheepAttack = tiles.getEnhancedSpriteAnimation("sheepAttack", 100.milliseconds)
+        sheepStunned = tiles.getEnhancedSpriteAnimation("sheepStunned", 500.milliseconds)
+        sheepWalk = tiles.getEnhancedSpriteAnimation("sheepWalk", 100.milliseconds)
 
-        ghoulBob = tiles.getSpriteAnimation("ghoulBob", 500.milliseconds)
-        ghoulAttack = tiles.getSpriteAnimation("ghoulAttack", 100.milliseconds)
+        ghoulBob = tiles.getEnhancedSpriteAnimation("ghoulBob", 500.milliseconds)
+        ghoulAttack = tiles.getEnhancedSpriteAnimation("ghoulAttack", 100.milliseconds)
 
-        stunIcon = tiles.getSpriteAnimation("stunIcon", 200.milliseconds)
-        sleepIcon = tiles.getSpriteAnimation("sleepIcon", 150.milliseconds)
+        stunIcon = tiles.getEnhancedSpriteAnimation("stunIcon", 200.milliseconds)
+        sleepIcon = tiles.getEnhancedSpriteAnimation("sleepIcon", 150.milliseconds)
 
         Sfx.init(views)
     }
