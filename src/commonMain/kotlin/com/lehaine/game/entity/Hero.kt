@@ -91,7 +91,7 @@ class Hero(
 
     private var moveX = 0.0
 
-    private val jumpHeight = -0.5
+    private val jumpHeight = -0.65
 
     private var canSwing = true
     private val swinging get() = input.mouseDown() && canSwing
