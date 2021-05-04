@@ -58,6 +58,9 @@ class Game(private val world: World, private val levelIdx: Int = 0) : Scene(), G
     lateinit var controller: InputController<GameInput>
 
     override var fixedProgressionRatio: Double = 1.0
+    var tmod = 1.0
+        private set
+    val targetFps = 60
 
     override suspend fun Container.sceneInit() {
         controller = InputController(views)
@@ -187,7 +190,7 @@ class Game(private val world: World, private val levelIdx: Int = 0) : Scene(), G
         var originalOverlayAlpha = 0.1
 
         addUpdater { dt ->
-            val tmod = if (dt == 0.milliseconds) 0.0 else (dt / 16.666666.milliseconds)
+            tmod = dt.seconds * targetFps
             if (gameFinshed && !transitionToEndScene && !cd.has("GAME_DONE_CD")) {
                 cd("GAME_DONE_CD", 3.seconds) {
                     transitionToEndScene = true
