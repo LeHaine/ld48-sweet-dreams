@@ -6,10 +6,7 @@ import com.lehaine.game.entity.enemySpawner
 import com.lehaine.game.entity.hero
 import com.lehaine.kiwi.component.Entity
 import com.lehaine.kiwi.component.GameComponent
-import com.lehaine.kiwi.korge.InputController
-import com.lehaine.kiwi.korge.addFixedInterpUpdater
-import com.lehaine.kiwi.korge.cd
-import com.lehaine.kiwi.korge.getByPrefix
+import com.lehaine.kiwi.korge.*
 import com.lehaine.kiwi.korge.view.CameraContainer
 import com.lehaine.kiwi.korge.view.cameraContainer
 import com.lehaine.kiwi.korge.view.enhancedSprite
@@ -60,7 +57,6 @@ class Game(private val world: World, private val levelIdx: Int = 0) : Scene(), G
     override var fixedProgressionRatio: Double = 1.0
     var tmod = 1.0
         private set
-    val targetFps = 60
 
     override suspend fun Container.sceneInit() {
         controller = InputController(views)
@@ -103,7 +99,7 @@ class Game(private val world: World, private val levelIdx: Int = 0) : Scene(), G
             }
 
             val particleContainer = fastSpriteContainer(useRotation = true, smoothing = false)
-            fx = Fx(level, particleContainer)
+            fx = Fx(this@Game, particleContainer)
 
         }.apply {
             cameraZoom = 1.3
@@ -189,8 +185,8 @@ class Game(private val world: World, private val levelIdx: Int = 0) : Scene(), G
         var newOverlayAlpha = 0.1
         var originalOverlayAlpha = 0.1
 
-        addUpdater { dt ->
-            tmod = dt.seconds * targetFps
+        addTmodUpdater(60) { dt, tmod ->
+            this@Game.tmod = tmod
             if (gameFinshed && !transitionToEndScene && !cd.has("GAME_DONE_CD")) {
                 cd("GAME_DONE_CD", 3.seconds) {
                     transitionToEndScene = true
@@ -201,7 +197,7 @@ class Game(private val world: World, private val levelIdx: Int = 0) : Scene(), G
             }
             if (transitionToEndScene) {
                 launchImmediately { sceneContainer.changeTo<EndScene>() }
-                return@addUpdater
+                return@addTmodUpdater
             }
             if (originalOverlayAlpha != newOverlayAlpha && !cd.has("OVERLAY_TRANSITION")) {
                 cd("OVERLAY_TRANSITION", 5.seconds) {

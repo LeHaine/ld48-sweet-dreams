@@ -15,7 +15,7 @@ import com.soywiz.korim.color.Colors
 import com.soywiz.korim.color.RGBA
 import kotlin.math.PI
 
-class Fx(val level: GameLevel, private val particleContainer: FastSpriteContainer) {
+class Fx(val game: Game, private val particleContainer: FastSpriteContainer) {
 
     private val particleSimulator = ParticleSimulator(2048)
     private var frame = 0
@@ -23,7 +23,7 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
     private fun alloc(slice: BmpSlice, x: Double, y: Double) = particleSimulator.alloc(particleContainer, slice, x, y)
 
     fun update(dt: TimeSpan) {
-        particleSimulator.simulate(dt)
+        particleSimulator.simulate(dt, game.tmod)
         frame++
     }
 
@@ -204,5 +204,5 @@ class Fx(val level: GameLevel, private val particleContainer: FastSpriteContaine
     }
 
     private fun Particle.isColliding(offsetX: Int = 0, offsetY: Int = 0) =
-        level.hasCollision(((x + offsetX) / GRID_SIZE).toInt(), ((y + offsetY) / GRID_SIZE).toInt())
+        game.level.hasCollision(((x + offsetX) / GRID_SIZE).toInt(), ((y + offsetY) / GRID_SIZE).toInt())
 }
