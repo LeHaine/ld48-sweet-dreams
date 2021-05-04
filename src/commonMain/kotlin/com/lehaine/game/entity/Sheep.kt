@@ -138,8 +138,9 @@ class Sheep(
                 sprite.playAnimationLooped(Assets.sheepWalk)
             }
             update {
-                moveTo(platformerDynamicComponent, spriteComponent, hero.cx, cy, moveSpeed * it.seconds)
+                moveTo(platformerDynamicComponent, spriteComponent, hero.cx)
             }
+            end { moveDir = 0 }
 
         }
         state(SheepState.Attack) {
@@ -206,6 +207,15 @@ class Sheep(
 
         entityFSM.update(dt)
     }
+    override fun fixedUpdate() {
+        super.fixedUpdate()
+        if (moveDir != 0) {
+            velocityX += moveDir * moveSpeed
+        } else {
+            velocityX *= 0.6
+        }
+    }
+
 
     override fun destroy() {
         fx.poofDust(centerX, centerY, Colors["#c3c0b0"])

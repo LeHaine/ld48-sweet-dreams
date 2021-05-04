@@ -89,7 +89,7 @@ class Hero(
 
     private val speed = 0.08
 
-    private var moveX = 0.0
+    private var moveDir = 0.0
 
     private val jumpHeight = -0.65
 
@@ -156,7 +156,7 @@ class Hero(
                 addAffect(Affect.INVULNERABLE, 1.seconds)
             }
             update {
-                moveX = speed * 1.25 * dir
+                velocityX = 0.5 * dir
                 if (!cd.has(RUN_DUST)) {
                     cd(RUN_DUST, 100.milliseconds)
                     fx.runDust(centerX, bottom, -dir)
@@ -213,7 +213,7 @@ class Hero(
                 cd(ANIM_PLAYING, Assets.heroBroomAttack3.duration)
                 broomCombo = 0
                 sfx.strongSwing.playSfx()
-                moveX = 0.05 * dir
+                velocityX = 0.1 * dir
                 camera.shake(50.milliseconds, 0.5)
                 damageEntities(true, 3.0)
             }
@@ -234,7 +234,7 @@ class Hero(
                 cd(ATTACK_CD, 400.milliseconds)
                 cd(ANIM_PLAYING, Assets.heroBroomAttack2.duration)
                 broomCombo++
-                moveX = 0.05 * dir
+                velocityX = 0.1 * dir
                 sfx.swing.playSfx()
                 damageEntities(true, 2.0)
             }
@@ -255,7 +255,7 @@ class Hero(
                 cd(ANIM_PLAYING, Assets.heroBroomAttack1.duration)
                 cd(COMBO, 800.milliseconds)
                 broomCombo++
-                moveX = 0.05 * dir
+                velocityX = 0.1 * dir
                 sfx.swing.playSfx()
                 damageEntities(false, 1.0)
             }
@@ -388,7 +388,7 @@ class Hero(
 
     override fun update(dt: TimeSpan) {
         super.update(dt)
-        moveX = 0.0
+        moveDir = 0.0
 
         if (onGround) {
             cd(ON_GROUND_RECENTLY, 150.milliseconds)
@@ -415,8 +415,8 @@ class Hero(
 
     override fun fixedUpdate() {
         super.fixedUpdate()
-        if(moveX != 0.0) {
-            velocityX += moveX
+        if (moveDir != 0.0) {
+            velocityX += moveDir * speed
         } else {
             velocityX *= 0.3
         }
@@ -470,7 +470,7 @@ class Hero(
                 sfx.footstep.playSfx()
             }
             dir = if (runningRight) 1 else -1
-            moveX = speed * input.strength(GameInput.Horizontal)
+            moveDir = input.strength(GameInput.Horizontal)
         }
     }
 

@@ -122,8 +122,9 @@ class Boss(
                 sprite.playAnimationLooped(Assets.bossRun)
             }
             update {
-                moveTo(platformerDynamicComponent, spriteComponent, hero.cx, cy, moveSpeed * it.seconds)
+                moveTo(platformerDynamicComponent, spriteComponent, hero.cx)
             }
+            end { moveDir = 0 }
 
         }
         state(BossState.Attack) {
@@ -201,6 +202,15 @@ class Boss(
         entityFSM.update(dt)
     }
 
+    override fun fixedUpdate() {
+        super.fixedUpdate()
+        if (moveDir != 0) {
+            velocityX += moveDir * moveSpeed
+        } else {
+            velocityX *= 0.6
+        }
+    }
+
     override fun damage(amount: Int, fromDir: Int) {
         blink()
         sfx.hit.playSfx()
@@ -211,7 +221,7 @@ class Boss(
 
     override fun destroy() {
         fx.bossDeath(centerX, centerY)
-        if(health <= 0) {
+        if (health <= 0) {
             game.gameFinshed = true
         }
         super.destroy()

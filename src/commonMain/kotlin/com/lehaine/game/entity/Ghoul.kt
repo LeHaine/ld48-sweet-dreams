@@ -158,9 +158,9 @@ class Ghoul(
                 sprite.playAnimationLooped(Assets.ghoulBob)
             }
             update {
-                moveTo(platformerDynamicComponent, spriteComponent, hero.cx, cy, moveSpeed * it.seconds)
+                moveTo(platformerDynamicComponent, spriteComponent, hero.cx)
             }
-
+            end { moveDir = 0 }
         }
         state(GhoulState.Attack) {
             transition {
@@ -228,6 +228,15 @@ class Ghoul(
         }
 
         entityFSM.update(dt)
+    }
+
+    override fun fixedUpdate() {
+        super.fixedUpdate()
+        if (moveDir != 0) {
+            velocityX += moveDir * moveSpeed
+        } else {
+            velocityX *= 0.6
+        }
     }
 
     override fun destroy() {

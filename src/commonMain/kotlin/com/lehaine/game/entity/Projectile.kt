@@ -59,7 +59,7 @@ class Projectile(
     LevelDynamicComponent by levelDynamicComponent,
     DangerousComponent by dangerousComponent {
 
-    private val speed = 0.75
+    private val speed = 1.5
 
     init {
         width = 1.0

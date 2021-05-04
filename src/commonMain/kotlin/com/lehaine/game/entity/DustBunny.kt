@@ -20,7 +20,7 @@ import com.soywiz.korui.UiContainer
 
 inline fun Container.dustBunny(
     cx: Int, cy: Int,
-    game:Game,
+    game: Game,
     healthMultiplier: Double = 1.0,
     damageMultiplier: Double = 1.0,
     callback: DustBunny.() -> Unit = {}
@@ -152,8 +152,9 @@ class DustBunny(
                 sprite.playAnimationLooped(Assets.dustBunnyJump)
             }
             update {
-                moveTo(platformerDynamicComponent, spriteComponent, hero.cx, cy, moveSpeed * it.seconds)
+                moveTo(platformerDynamicComponent, spriteComponent, hero.cx)
             }
+            end { moveDir = 0 }
 
         }
         state(DustBunnyState.Idle) {
@@ -205,6 +206,15 @@ class DustBunny(
         }
 
         entityFSM.update(dt)
+    }
+
+    override fun fixedUpdate() {
+        super.fixedUpdate()
+        if (moveDir != 0) {
+            velocityX += moveDir * moveSpeed
+        } else {
+            velocityX *= 0.6
+        }
     }
 
     override fun damage(amount: Int, fromDir: Int) {

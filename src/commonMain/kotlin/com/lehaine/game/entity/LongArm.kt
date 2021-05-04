@@ -139,8 +139,9 @@ class LongArm(
                 sprite.playAnimationLooped(Assets.longArmWalk)
             }
             update {
-                moveTo(platformerDynamicComponent, spriteComponent, hero.cx, cy, moveSpeed * it.seconds)
+                moveTo(platformerDynamicComponent, spriteComponent, hero.cx)
             }
+            end { moveDir = 0 }
 
         }
         state(LongArmState.Attack) {
@@ -210,6 +211,14 @@ class LongArm(
         entityFSM.update(dt)
     }
 
+    override fun fixedUpdate() {
+        super.fixedUpdate()
+        if (moveDir != 0) {
+            velocityX += moveDir * moveSpeed
+        } else {
+            velocityX *= 0.6
+        }
+    }
 
     override fun destroy() {
         fx.poofDust(centerX, centerY, Colors["#6e0506"])
