@@ -20,14 +20,14 @@ import com.soywiz.korui.UiContainer
 
 inline fun Container.dustBunny(
     cx: Int, cy: Int,
-    level: GenericGameLevelComponent<LevelMark>,
+    game:Game,
     healthMultiplier: Double = 1.0,
     damageMultiplier: Double = 1.0,
     callback: DustBunny.() -> Unit = {}
 ): DustBunny = DustBunny(
-    level = level,
+    game = game,
     platformerDynamicComponent = PlatformerDynamicComponentDefault(
-        levelComponent = level,
+        levelComponent = game.level,
         cx = cx,
         cy = cy,
         xr = 0.5,
@@ -43,17 +43,17 @@ inline fun Container.dustBunny(
     targetComponent = TargetComponentDefault(),
     healthComponent = HealthComponentDefault((25 * healthMultiplier).toInt()),
     dangerousComponent = DangerousComponentDefault((15 * damageMultiplier).toInt())
-).addTo(this).addToLevel().also(callback)
+).addTo(this).addToGame().also(callback)
 
 class DustBunny(
-    level: GenericGameLevelComponent<LevelMark>,
+    game: Game,
     platformerDynamicComponent: PlatformerDynamicComponent,
     spriteComponent: SpriteComponent,
     private val targetComponent: TargetComponent,
     private val healthComponent: HealthComponent,
     private val dangerousComponent: DangerousComponent
 ) :
-    GameEntity(level, spriteComponent, platformerDynamicComponent),
+    GameEntity(game, spriteComponent, platformerDynamicComponent),
     MobComponent,
     SpriteComponent by spriteComponent,
     PlatformerDynamicComponent by platformerDynamicComponent,
@@ -88,7 +88,7 @@ class DustBunny(
     private val moveSpeed = 0.04
     private val attackRange = 1.5
 
-    private val attackingHero get() = distGridTo(level.hero) <= (0.0..attackRange).random() && !cd.has(ATTACK_CD)
+    private val attackingHero get() = distGridTo(hero) <= (0.0..attackRange).random() && !cd.has(ATTACK_CD)
 
     private val entityFSM = stateMachine<DustBunnyState>(DustBunnyState.NoAffects) {
         state(DustBunnyState.Stunned) {
@@ -152,7 +152,7 @@ class DustBunny(
                 sprite.playAnimationLooped(Assets.dustBunnyJump)
             }
             update {
-                moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, cy, moveSpeed * tmod)
+                moveTo(platformerDynamicComponent, spriteComponent, hero.cx, cy, moveSpeed * it.seconds)
             }
 
         }
@@ -224,8 +224,8 @@ class DustBunny(
     }
 
     private fun attemptToAttackHero() {
-        if (distGridTo(level.hero) <= attackRange && dir == dirTo(level.hero)) {
-            attack(level.hero, -dirTo(level.hero))
+        if (distGridTo(hero) <= attackRange && dir == dirTo(hero)) {
+            attack(hero, -dirTo(hero))
         }
     }
 

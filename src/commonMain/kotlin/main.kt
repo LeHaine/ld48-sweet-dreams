@@ -21,7 +21,7 @@ object GameModule : Module() {
         mapSingleton { World().apply { loadAsync() } }
         mapInstance(0) // load first level
         mapPrototype { StartScene() }
-        mapPrototype { LevelScene(get(), get()) }
+        mapPrototype { Game(get(), get()) }
         mapPrototype { EndScene() }
     }
 }

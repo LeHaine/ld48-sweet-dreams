@@ -22,14 +22,14 @@ import com.soywiz.korui.UiContainer
 
 inline fun Container.ghoul(
     cx: Int, cy: Int,
-    level: GenericGameLevelComponent<LevelMark>,
+    game: Game,
     healthMultiplier: Double = 1.0,
     damageMultiplier: Double = 1.0,
     callback: Ghoul.() -> Unit = {}
 ): Ghoul = Ghoul(
-    level = level,
+    game = game,
     platformerDynamicComponent = PlatformerDynamicComponentDefault(
-        levelComponent = level,
+        levelComponent = game.level,
         cx = cx,
         cy = cy,
         xr = 0.5,
@@ -45,17 +45,17 @@ inline fun Container.ghoul(
     targetComponent = TargetComponentDefault(),
     healthComponent = HealthComponentDefault((75 * healthMultiplier).toInt()),
     dangerousComponent = DangerousComponentDefault((50 * damageMultiplier).toInt())
-).addTo(this).addToLevel().also(callback)
+).addTo(this).addToGame().also(callback)
 
 class Ghoul(
-    level: GenericGameLevelComponent<LevelMark>,
+    game: Game,
     platformerDynamicComponent: PlatformerDynamicComponent,
     spriteComponent: SpriteComponent,
     private val targetComponent: TargetComponent,
     private val healthComponent: HealthComponent,
     private val dangerousComponent: DangerousComponent
 ) :
-    GameEntity(level, spriteComponent, platformerDynamicComponent),
+    GameEntity(game, spriteComponent, platformerDynamicComponent),
     MobComponent,
     SpriteComponent by spriteComponent,
     PlatformerDynamicComponent by platformerDynamicComponent,
@@ -92,8 +92,8 @@ class Ghoul(
     private val moveSpeed = 0.01
     private val attackRange = 1.5
 
-    private val attackingHero get() = distGridTo(level.hero) <= attackRange && !cd.has(ATTACK_CD)
-    private val teleporting get() = distGridTo(level.hero) <= 10 && !cd.has(TELEPORT_CD)
+    private val attackingHero get() = distGridTo(hero) <= attackRange && !cd.has(ATTACK_CD)
+    private val teleporting get() = distGridTo(hero) <= 10 && !cd.has(TELEPORT_CD)
 
     private val entityFSM = stateMachine<GhoulState>(GhoulState.NoAffects) {
         state(GhoulState.Stunned) {
@@ -139,8 +139,8 @@ class Ghoul(
             }
 
             begin {
-                toGridPosition(level.hero.cx - level.hero.dir, level.hero.cy)
-                dir = dirTo(level.hero)
+                toGridPosition(hero.cx - hero.dir, hero.cy)
+                dir = dirTo(hero)
                 cd(TELEPORT_CD, 150.milliseconds)
                 sfx.teleport.playSfx()
             }
@@ -158,7 +158,7 @@ class Ghoul(
                 sprite.playAnimationLooped(Assets.ghoulBob)
             }
             update {
-                moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, cy, moveSpeed * tmod)
+                moveTo(platformerDynamicComponent, spriteComponent, hero.cx, cy, moveSpeed * it.seconds)
             }
 
         }
@@ -170,7 +170,7 @@ class Ghoul(
                 }
             }
             begin {
-                dir = dirTo(level.hero)
+                dir = dirTo(hero)
                 sfx.ghoulAnticipation.playSfx()
                 sprite.playOverlap(Assets.ghoulAttack, onAnimationFrameChange = {
                     if (it == 10) {
@@ -244,8 +244,8 @@ class Ghoul(
     }
 
     private fun attemptToAttackHero() {
-        if (distGridTo(level.hero) <= attackRange && dir == dirTo(level.hero)) {
-            attack(level.hero, -dirTo(level.hero))
+        if (distGridTo(hero) <= attackRange && dir == dirTo(hero)) {
+            attack(hero, -dirTo(hero))
         }
     }
 

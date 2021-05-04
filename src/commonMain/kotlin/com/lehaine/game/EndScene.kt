@@ -49,7 +49,7 @@ class EndScene() : Scene() {
 
         addUpdater {
             if (views.input.keys.pressing(Key.LEFT_ALT) && views.input.keys.justPressed(Key.R)) {
-                launchImmediately { sceneContainer.changeTo<LevelScene>() }
+                launchImmediately { sceneContainer.changeTo<Game>() }
             }
         }
     }

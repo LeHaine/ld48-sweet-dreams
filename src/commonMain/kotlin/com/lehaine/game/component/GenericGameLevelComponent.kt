@@ -12,13 +12,6 @@ import com.soywiz.klock.TimeSpan
  * Add any extra references to this LevelComponent such as Hero reference for easier access in other entities.
  */
 interface GenericGameLevelComponent<LevelMark> : LevelComponent<LevelMark> {
-    val fx: Fx
-    val hero: Hero
-    val camera: CameraContainer
-    val spawnPoints: List<World.EntitySpawners>
     val levelWidth: Int
     val levelHeight: Int
-    var slingShotCDRemaining:TimeSpan
-    var sleepState: SleepState
-    var gameFinshed:Boolean
 }

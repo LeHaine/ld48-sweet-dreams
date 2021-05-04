@@ -1,6 +1,5 @@
 package com.lehaine.game
 
-import com.lehaine.game.component.GenericGameLevelComponent
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.component.ext.dirTo
 import com.soywiz.klock.TimeSpan
@@ -35,26 +34,24 @@ import kotlin.math.atan2
  * ```
  */
 open class GameEntity(
-    override val level: GenericGameLevelComponent<LevelMark>,
+    override val game: Game,
     spriteComponent: SpriteComponent = SpriteComponentDefault(anchorX = 0.5, anchorY = 1.0),
     position: LevelDynamicComponent = LevelDynamicComponentDefault(
-        levelComponent = level,
+        levelComponent = game.level,
         anchorX = 0.5,
         anchorY = 1.0
     ),
     scaleComponent: ScaleAndStretchComponent = ScaleAndStretchComponentDefault()
-) : SpriteLevelEntity(level, spriteComponent, position, scaleComponent),
+) : SpriteLevelEntity(game, spriteComponent, position, scaleComponent),
     ScaleAndStretchComponent by scaleComponent {
 
-    val fx get() = level.fx
-    val camera get() = level.camera
+    val hero get() = game.hero
+    val fx get() = game.fx
+    val camera get() = game.camera
     val sfx get() = Assets.Sfx
 
-    // TODO maybe add a component or something to handle creating inputs
-    val input get() = container.stage!!.views.input
-
-    val mouseX get() = level.camera.content.localMouseX(container.stage!!.views)
-    val mouseY get() = level.camera.content.localMouseY(container.stage!!.views)
+    val mouseX get() = camera.content.localMouseX(container.stage!!.views)
+    val mouseY get() = camera.content.localMouseY(container.stage!!.views)
 
     val angleToMouse
         get() = atan2(

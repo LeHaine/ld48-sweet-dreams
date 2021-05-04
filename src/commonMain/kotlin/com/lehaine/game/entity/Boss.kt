@@ -1,7 +1,10 @@
 package com.lehaine.game.entity
 
-import com.lehaine.game.*
+import com.lehaine.game.Assets
 import com.lehaine.game.Assets.Sfx.playSfx
+import com.lehaine.game.GRID_SIZE
+import com.lehaine.game.Game
+import com.lehaine.game.GameEntity
 import com.lehaine.game.component.*
 import com.lehaine.game.view.HealthBar
 import com.lehaine.game.view.healthBar
@@ -21,12 +24,12 @@ import com.soywiz.korui.UiContainer
 
 inline fun Container.boss(
     cx: Int, cy: Int,
-    level: GenericGameLevelComponent<LevelMark>,
+    game: Game,
     callback: Boss.() -> Unit = {}
 ): Boss = Boss(
-    level = level,
+    game = game,
     platformerDynamicComponent = PlatformerDynamicComponentDefault(
-        levelComponent = level,
+        levelComponent = game.level,
         cx = cx,
         cy = cy,
         xr = 0.5,
@@ -42,17 +45,17 @@ inline fun Container.boss(
     targetComponent = TargetComponentDefault(),
     healthComponent = HealthComponentDefault(750),
     dangerousComponent = DangerousComponentDefault(35)
-).addTo(this).addToLevel().also(callback)
+).addTo(this).addToGame().also(callback)
 
 class Boss(
-    level: GenericGameLevelComponent<LevelMark>,
+    game: Game,
     platformerDynamicComponent: PlatformerDynamicComponent,
     spriteComponent: SpriteComponent,
     private val targetComponent: TargetComponent,
     private val healthComponent: HealthComponent,
     private val dangerousComponent: DangerousComponent
 ) :
-    GameEntity(level, spriteComponent, platformerDynamicComponent),
+    GameEntity(game, spriteComponent, platformerDynamicComponent),
     MobComponent,
     SpriteComponent by spriteComponent,
     PlatformerDynamicComponent by platformerDynamicComponent,
@@ -88,7 +91,7 @@ class Boss(
     private val moveSpeed = 0.04
     private val attackRange = 5.0
 
-    private val attackingHero get() = distGridTo(level.hero) <= (0.0..attackRange).random() && !cd.has(ATTACK_CD)
+    private val attackingHero get() = distGridTo(hero) <= (0.0..attackRange).random() && !cd.has(ATTACK_CD)
 
     private val entityFSM = stateMachine<BossState>(BossState.NoAffects) {
         state(BossState.NoAffects) {
@@ -119,7 +122,7 @@ class Boss(
                 sprite.playAnimationLooped(Assets.bossRun)
             }
             update {
-                moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, cy, moveSpeed * tmod)
+                moveTo(platformerDynamicComponent, spriteComponent, hero.cx, cy, moveSpeed * it.seconds)
             }
 
         }
@@ -131,7 +134,7 @@ class Boss(
                 }
             }
             begin {
-                dir = dirTo(level.hero)
+                dir = dirTo(hero)
                 sprite.playOverlap(Assets.bossAttack, onAnimationFrameChange = {
                     if (it in 6..11) {
                         if (it == 6) {
@@ -209,14 +212,14 @@ class Boss(
     override fun destroy() {
         fx.bossDeath(centerX, centerY)
         if(health <= 0) {
-            level.gameFinshed = true
+            game.gameFinshed = true
         }
         super.destroy()
     }
 
     private fun attemptToAttackHero() {
-        if (distGridTo(level.hero) <= attackRange && dir == dirTo(level.hero)) {
-            attack(level.hero, -dirTo(level.hero))
+        if (distGridTo(hero) <= attackRange && dir == dirTo(hero)) {
+            attack(hero, -dirTo(hero))
         }
     }
 

@@ -1,27 +1,28 @@
 package com.lehaine.game.entity
 
-import com.lehaine.game.LevelMark
+import com.lehaine.game.Game
 import com.lehaine.game.SleepState
-import com.lehaine.game.component.GenericGameLevelComponent
 import com.lehaine.kiwi.component.LevelEntity
 import com.lehaine.kiwi.component.addTo
-import com.lehaine.kiwi.component.addToLevel
+import com.lehaine.kiwi.component.addToGame
 import com.lehaine.kiwi.random
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.seconds
 import com.soywiz.korge.view.Container
 import kotlin.random.Random
 
-fun Container.enemySpawner(level: GenericGameLevelComponent<LevelMark>): EnemySpawner =
-    EnemySpawner(level).addTo(this).addToLevel()
+fun Container.enemySpawner(game: Game): EnemySpawner =
+    EnemySpawner(game).addTo(this).addToGame()
 
-class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : LevelEntity(level) {
+class EnemySpawner(override val game: Game) : LevelEntity(game) {
 
     companion object {
         const val SPAWN_CD = "spawnCD"
     }
 
     var shouldSpawn = true
+
+    val camera get() = game.camera
 
     init {
         cd(SPAWN_CD, 10.seconds)
@@ -38,18 +39,18 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
     fun spawn() {
         if (!shouldSpawn) return
 
-        level.camera.content.apply {
-            val spawn = level.spawnPoints.random()
+        camera.content.apply {
+            val spawn = game.spawnPoints.random()
             val rng = Random.nextFloat()
 
-            when (level.sleepState) {
+            when (game.sleepState) {
                 SleepState.VeryLightSleep -> {
                     when {
                         rng > 0.5 -> {
-                            sheep(spawn.cx, spawn.cy, level)
+                            sheep(spawn.cx, spawn.cy, game)
                         }
                         else -> {
-                            dustBunny(spawn.cx, spawn.cy, level)
+                            dustBunny(spawn.cx, spawn.cy, game)
                         }
                     }
                     cd(SPAWN_CD, (1..2).random().seconds)
@@ -57,10 +58,10 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                 SleepState.LightSleep -> {
                     when {
                         rng > 0.8 -> {
-                            sheep(spawn.cx, spawn.cy, level, 2.0, 2.0)
+                            sheep(spawn.cx, spawn.cy, game, 2.0, 2.0)
                         }
                         else -> {
-                            dustBunny(spawn.cx, spawn.cy, level, 2.0, 2.0)
+                            dustBunny(spawn.cx, spawn.cy, game, 2.0, 2.0)
                         }
                     }
                     cd(SPAWN_CD, (1.0..1.5).random().seconds)
@@ -68,10 +69,10 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                 SleepState.MediumSleep -> {
                     when {
                         rng > 0.6 -> {
-                            dustBunny(spawn.cx, spawn.cy, level, 2.25, 2.25)
+                            dustBunny(spawn.cx, spawn.cy, game, 2.25, 2.25)
                         }
                         else -> {
-                            ghoul(spawn.cx, spawn.cy, level)
+                            ghoul(spawn.cx, spawn.cy, game)
                         }
                     }
                     cd(SPAWN_CD, (1.5..4.0).random().seconds)
@@ -79,13 +80,13 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                 SleepState.DeeperSleep -> {
                     when {
                         rng > 0.8 -> {
-                            dustBunny(spawn.cx, spawn.cy, level, 2.5, 2.5)
+                            dustBunny(spawn.cx, spawn.cy, game, 2.5, 2.5)
                         }
                         rng > 0.4 -> {
-                            ghoul(spawn.cx, spawn.cy, level)
+                            ghoul(spawn.cx, spawn.cy, game)
                         }
                         else -> {
-                            longArm(spawn.cx, spawn.cy, level)
+                            longArm(spawn.cx, spawn.cy, game)
                         }
                     }
                     cd(SPAWN_CD, (2.0..3.5).random().seconds)
@@ -93,16 +94,16 @@ class EnemySpawner(override val level: GenericGameLevelComponent<LevelMark>) : L
                 SleepState.EvenDeeperSleep -> {
                     when {
                         rng > 0.5 -> {
-                            ghoul(spawn.cx, spawn.cy, level, 1.25, 1.25)
+                            ghoul(spawn.cx, spawn.cy, game, 1.25, 1.25)
                         }
                         else -> {
-                            longArm(spawn.cx, spawn.cy, level, 1.25, 1.25)
+                            longArm(spawn.cx, spawn.cy, game, 1.25, 1.25)
                         }
                     }
                     cd(SPAWN_CD, (2.0..3.5).random().seconds)
                 }
                 SleepState.DeepestSleep -> {
-                    boss(spawn.cx, spawn.cy, level)
+                    boss(spawn.cx, spawn.cy, game)
                     destroy()
                 }
             }

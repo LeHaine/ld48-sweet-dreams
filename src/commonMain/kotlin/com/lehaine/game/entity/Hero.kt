@@ -14,24 +14,21 @@ import com.soywiz.kds.iterators.fastForEach
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.klock.seconds
-import com.soywiz.korev.Key
 import com.soywiz.korge.tween.get
 import com.soywiz.korge.tween.tween
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korio.async.launchImmediately
-import com.soywiz.korma.geom.Anchor
 import com.soywiz.korui.UiContainer
-import kotlin.math.pow
 
 fun Container.hero(
     data: World.EntityHero,
-    level: GenericGameLevelComponent<LevelMark>,
+    game: Game,
     callback: Hero.() -> Unit = {}
 ): Hero = Hero(
-    level = level,
+    game = game,
     platformerDynamicComponent = PlatformerDynamicComponentDefault(
-        levelComponent = level,
+        levelComponent = game.level,
         cx = data.cx,
         cy = data.cy,
         xr = data.pivotX.toDouble(),
@@ -46,17 +43,17 @@ fun Container.hero(
     ),
     healthComponent = HealthComponentDefault(200),
     dangerousComponent = DangerousComponentDefault(35)
-).addTo(this).addToLevel().also(callback)
+).addTo(this).addToGame().also(callback)
 
 
 class Hero(
-    level: GenericGameLevelComponent<LevelMark>,
+    game: Game,
     platformerDynamicComponent: PlatformerDynamicComponent,
     spriteComponent: SpriteComponent,
     private val healthComponent: HealthComponent,
     private val dangerousComponent: DangerousComponent
 ) :
-    GameEntity(level, spriteComponent, platformerDynamicComponent),
+    GameEntity(game, spriteComponent, platformerDynamicComponent),
     SpriteComponent by spriteComponent,
     PlatformerDynamicComponent by platformerDynamicComponent,
     HealthComponent by healthComponent,
@@ -64,7 +61,6 @@ class Hero(
 
     companion object {
         private const val ON_GROUND_RECENTLY = "onGroundRecently"
-        private const val JUMP_EXTRA = "jumpExtra"
         private const val ANIM_PLAYING = "animPlaying"
         private const val ATTACK_CD = "attackCD"
         private const val COMBO = "combo"
@@ -89,27 +85,28 @@ class Hero(
         object SlingShot : HeroState()
     }
 
-    private val moveSpeed = 0.04
-    private val moveFriction = 0.8
+    private val input = game.controller.createAccess("hero")
+
+    private val speed = 0.08
+
+    private var moveX = 0.0
+
     private val jumpHeight = -0.5
-    private val jumpExtraSpeed = 0.04
 
     private var canSwing = true
-    private val swinging get() = input.mouseButtons == 1 && canSwing
+    private val swinging get() = input.mouseDown() && canSwing
 
-    private val runningLeft get() = input.keys.pressing(Key.A) || input.keys.pressing(Key.Q) || input.keys.pressing(Key.LEFT)
-    private val runningRight get() = input.keys.pressing(Key.D) || input.keys.pressing(Key.RIGHT)
-    private val running get() = runningLeft || runningRight
+    private val runningRight get() = input.strength(GameInput.Horizontal) > 0
+    private val running get() = input.down(GameInput.Horizontal)
 
     private val dodging
-        get() = (input.keys.justPressed(Key.LEFT_SHIFT) || input.keys.justPressed(Key.RIGHT_SHIFT)) && !cd.has(
+        get() = input.pressed(GameInput.Dodge) && !cd.has(
             DODGE
         )
 
-    private val slingShot get() = input.keys.justPressed(Key.F) && !cd.has(SLING_SHOT_CD)
+    private val slingShot get() = input.pressed(GameInput.SlingShot) && !cd.has(SLING_SHOT_CD)
 
-    private val jumping get() = input.keys.justPressed(Key.SPACE) && cd.has(ON_GROUND_RECENTLY)
-    private val jumpingExtra get() = input.keys.justPressed(Key.SPACE) && cd.has(JUMP_EXTRA)
+    private val jumping get() = input.pressed(GameInput.Jump) && cd.has(ON_GROUND_RECENTLY)
 
     private var broomCombo = 0
 
@@ -121,8 +118,8 @@ class Hero(
                     sprite.playAnimationLooped(Assets.heroSleep)
                 }
                 var i = 0
-                while (i < level.entities.size) {
-                    val entity = level.entities[i]
+                while (i < game.entities.size) {
+                    val entity = game.entities[i]
                     if (entity is MobComponent) {
                         i--
                         entity.destroy()
@@ -136,8 +133,8 @@ class Hero(
                 }
 
                 container.stage?.views?.launchImmediately {
-                    level.camera.tween(
-                        level.camera::cameraZoom[1.0, 3.0],
+                    camera.tween(
+                        camera::cameraZoom[1.0, 3.0],
                         time = 500.milliseconds
                     )
                 }
@@ -159,7 +156,7 @@ class Hero(
                 addAffect(Affect.INVULNERABLE, 1.seconds)
             }
             update {
-                velocityX += moveSpeed * 1.25 * dir * tmod
+                moveX = speed * 1.25 * dir
                 if (!cd.has(RUN_DUST)) {
                     cd(RUN_DUST, 100.milliseconds)
                     fx.runDust(centerX, bottom, -dir)
@@ -181,7 +178,7 @@ class Hero(
             begin {
                 sfx.shoot.playSfx()
                 cd(ATTACK_CD, 300.milliseconds)
-                level.slingShotCDRemaining = 2.seconds
+                game.slingShotCDRemaining = 2.seconds
                 cd(SLING_SHOT_CD, 2.seconds)
                 cd(ANIM_PLAYING, Assets.heroSlingShot.duration)
                 sprite.playOverlap(Assets.heroSlingShot)
@@ -195,7 +192,7 @@ class Hero(
                         1 -> centerY - 2
                         else -> centerY + 2
                     }
-                    projectile(x, y, dir, level, this@Hero)
+                    projectile(x, y, dir, game, this@Hero)
                 }
             }
         }
@@ -216,7 +213,7 @@ class Hero(
                 cd(ANIM_PLAYING, Assets.heroBroomAttack3.duration)
                 broomCombo = 0
                 sfx.strongSwing.playSfx()
-                velocityX += 0.05 * dir
+                moveX = 0.05 * dir
                 camera.shake(50.milliseconds, 0.5)
                 damageEntities(true, 3.0)
             }
@@ -237,7 +234,7 @@ class Hero(
                 cd(ATTACK_CD, 400.milliseconds)
                 cd(ANIM_PLAYING, Assets.heroBroomAttack2.duration)
                 broomCombo++
-                velocityX += 0.05 * dir
+                moveX = 0.05 * dir
                 sfx.swing.playSfx()
                 damageEntities(true, 2.0)
             }
@@ -258,7 +255,7 @@ class Hero(
                 cd(ANIM_PLAYING, Assets.heroBroomAttack1.duration)
                 cd(COMBO, 800.milliseconds)
                 broomCombo++
-                velocityX += 0.05 * dir
+                moveX = 0.05 * dir
                 sfx.swing.playSfx()
                 damageEntities(false, 1.0)
             }
@@ -266,7 +263,7 @@ class Hero(
         state(HeroState.Sleep) {
             transition {
                 when {
-                    running || jumping || input.mouseButtons != 0 -> HeroState.Idle
+                    running || jumping || input.mouseDown() -> HeroState.Idle
                     else -> HeroState.Sleep
                 }
             }
@@ -275,7 +272,7 @@ class Hero(
             }
 
             update {
-                if(!cd.has(SLEEPY_Z)) {
+                if (!cd.has(SLEEPY_Z)) {
                     cd(SLEEPY_Z, 500.milliseconds)
                     fx.sleepyZs(centerX, centerY)
                 }
@@ -311,9 +308,6 @@ class Hero(
                 }
             }
             update {
-                if (jumpingExtra) {
-                    jumpExtra()
-                }
                 run()
             }
 
@@ -366,7 +360,7 @@ class Hero(
     }
 
 
-    private var currentSleepState = level.sleepState
+    private var currentSleepState = game.sleepState
 
     val healthBar: HealthBar = container.run {
         healthBar(health / 10.0, 2.0, Colors["#066d00"]) {
@@ -383,7 +377,7 @@ class Hero(
                 alpha = 0.35
                 smoothing = false
                 x = 0.5
-                y  = 0.5
+                y = 0.5
                 anchor(0.5, 1.0)
                 parent?.sendChildToBack(this)
             }
@@ -394,11 +388,13 @@ class Hero(
 
     override fun update(dt: TimeSpan) {
         super.update(dt)
+        moveX = 0.0
+
         if (onGround) {
             cd(ON_GROUND_RECENTLY, 150.milliseconds)
         }
 
-        if (input.mouseButtons == 0) {
+        if (!input.mouseDown()) {
             canSwing = true
         }
 
@@ -406,15 +402,24 @@ class Hero(
             broomCombo = 0
         }
 
-        if (level.sleepState != currentSleepState) {
+        if (game.sleepState != currentSleepState) {
             health += (maxHealth * 0.25).toInt()
             if (health > maxHealth) {
                 health = maxHealth
             }
             healthBar.setHealthRatio(healthRatio)
-            currentSleepState = level.sleepState
+            currentSleepState = game.sleepState
         }
         fsm.update(dt)
+    }
+
+    override fun fixedUpdate() {
+        super.fixedUpdate()
+        if(moveX != 0.0) {
+            velocityX += moveX
+        } else {
+            velocityX *= 0.3
+        }
     }
 
     override fun damage(amount: Int, fromDir: Int) {
@@ -434,7 +439,7 @@ class Hero(
 
     private fun damageEntities(stunEnemy: Boolean, damageMultiplier: Double) {
         var hasHit = false
-        level.entities.fastForEach {
+        game.entities.fastForEach {
             if (it != this@Hero
                 && (distGridTo(it) <= 2.5 || (it is Boss && distGridTo(it) <= 4.5))
                 && it is HealthComponent
@@ -464,22 +469,14 @@ class Hero(
                 cd(FOOTSTEP_SOUND, 350.milliseconds)
                 sfx.footstep.playSfx()
             }
-            val speed = if (runningRight) moveSpeed else -moveSpeed
             dir = if (runningRight) 1 else -1
-            velocityX += speed * tmod
-        } else {
-            velocityX *= moveFriction.pow(tmod)
+            moveX = speed * input.strength(GameInput.Horizontal)
         }
     }
 
     private fun jump() {
         velocityY = jumpHeight
         stretchX = 0.7
-        cd(JUMP_EXTRA, 100.milliseconds)
-    }
-
-    private fun jumpExtra() {
-        velocityY -= jumpExtraSpeed * tmod
     }
 
     override fun buildDebugInfo(container: UiContainer) {

@@ -4,8 +4,13 @@ import GameModule
 import com.lehaine.game.entity.Hero
 import com.lehaine.game.entity.enemySpawner
 import com.lehaine.game.entity.hero
+import com.lehaine.kiwi.component.Entity
+import com.lehaine.kiwi.component.GameComponent
+import com.lehaine.kiwi.korge.InputController
+import com.lehaine.kiwi.korge.addFixedInterpUpdater
 import com.lehaine.kiwi.korge.cd
 import com.lehaine.kiwi.korge.getByPrefix
+import com.lehaine.kiwi.korge.view.CameraContainer
 import com.lehaine.kiwi.korge.view.cameraContainer
 import com.lehaine.kiwi.korge.view.enhancedSprite
 import com.lehaine.kiwi.korge.view.ldtk.ldtkMapView
@@ -14,9 +19,11 @@ import com.soywiz.kds.iterators.fastForEach
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.klock.seconds
+import com.soywiz.klock.timesPerSecond
 import com.soywiz.kmem.toIntCeil
 import com.soywiz.kmem.toIntFloor
 import com.soywiz.kmem.umod
+import com.soywiz.korev.GameButton
 import com.soywiz.korev.Key
 import com.soywiz.korge.input.keys
 import com.soywiz.korge.scene.Scene
@@ -32,17 +39,35 @@ import com.soywiz.korma.geom.Rectangle
 import kotlin.math.floor
 
 
-class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scene() {
+class Game(private val world: World, private val levelIdx: Int = 0) : Scene(), GameComponent {
+
+    var gameFinshed: Boolean = false
+    var slingShotCDRemaining: TimeSpan = TimeSpan.ZERO
+    var sleepState: SleepState = SleepState.VeryLightSleep
+
+    lateinit var camera: CameraContainer
+    lateinit var fx: Fx
+    lateinit var hero: Hero
+
+    override lateinit var level: GameLevel
+    override val entities: ArrayList<Entity> = arrayListOf()
+    override val staticEntities: ArrayList<Entity> = arrayListOf()
+    val spawnPoints: ArrayList<World.EntitySpawners> = arrayListOf()
+
+
+    lateinit var controller: InputController<GameInput>
+
+    override var fixedProgressionRatio: Double = 1.0
 
     override suspend fun Container.sceneInit() {
+        controller = InputController(views)
+        createControllerBindings()
+
         val worldLevel = world.allLevels[levelIdx]
         val ldtkLevel = worldLevel.toLDtkLevel()
-        val gameLevel = GameLevel(worldLevel)
+        level = GameLevel(worldLevel)
 
-        lateinit var fx: Fx
-        lateinit var hero: Hero
-
-        val cam = cameraContainer(
+        camera = cameraContainer(
             GameModule.size.width.toDouble(), GameModule.size.height.toDouble(),
             deadZone = 10,
             viewBounds = Rectangle(0, 0, worldLevel.pxWidth, worldLevel.pxHeight),
@@ -52,7 +77,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
         ) {
             ldtkMapView(ldtkLevel)
             worldLevel.layerEntities.allSpawners.forEach {
-                gameLevel.spawnPoints += it
+                spawnPoints += it
             }
 
             container EntityContainer@{
@@ -71,18 +96,16 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                     }
                 }
 
-                hero = hero(worldLevel.layerEntities.allHero[0], gameLevel).also { gameLevel._hero = it }
+                hero = hero(worldLevel.layerEntities.allHero[0], this@Game)
             }
 
             val particleContainer = fastSpriteContainer(useRotation = true, smoothing = false)
-            fx = Fx(gameLevel, particleContainer).also { gameLevel._fx = it }
+            fx = Fx(level, particleContainer)
 
         }.apply {
             cameraZoom = 1.3
             // follow newly created entity or do something with camera
             follow(hero)
-        }.also {
-            gameLevel._camera = it
         }
 
         val warningText = text("Face your nightmare! \nThey are coming! MOVE!") {
@@ -141,7 +164,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             x = 7.0
         }.alignBottomToTopOf(slingshotCDCover, 1)
 
-        val sleepState = text("Very Light Sleep") {
+        val sleepStateText = text("Very Light Sleep") {
             font = Assets.pixelFont
             fontSize = 8.0
             alignment = TextAlignment.CENTER
@@ -150,10 +173,10 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
 
         enhancedSprite(smoothing = false) {
             playAnimationLooped(Assets.sleepIcon)
-            alignRightToLeftOf(sleepState, 3.0)
+            alignRightToLeftOf(sleepStateText, 3.0)
         }
 
-        enemySpawner(gameLevel)
+        enemySpawner(this@Game)
         var timer = TimeSpan.ZERO
 
         var showDeathScreen = false
@@ -165,7 +188,7 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
 
         addUpdater { dt ->
             val tmod = if (dt == 0.milliseconds) 0.0 else (dt / 16.666666.milliseconds)
-            if (gameLevel.gameFinshed && !transitionToEndScene && !cd.has("GAME_DONE_CD")) {
+            if (gameFinshed && !transitionToEndScene && !cd.has("GAME_DONE_CD")) {
                 cd("GAME_DONE_CD", 3.seconds) {
                     transitionToEndScene = true
                 }
@@ -193,9 +216,9 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                 timerText.text =
                     "${minutes}:${seconds.toString().padStart(2, '0')}"
 
-                sleepState.text = when {
+                sleepStateText.text = when {
                     timer >= SleepState.DeepestSleep.time -> {
-                        if (gameLevel.sleepState != SleepState.DeepestSleep) {
+                        if (sleepState != SleepState.DeepestSleep) {
                             warningText.apply {
                                 text = "Entering REM - the deepest sleep stage.\nFace your nightmare!"
                                 visible = true
@@ -205,12 +228,12 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                                 }
                             }
                         }
-                        gameLevel.sleepState = SleepState.DeepestSleep
+                        sleepState = SleepState.DeepestSleep
                         newOverlayAlpha = 0.44
                         "Deepest SLEEP!"
                     }
                     timer >= SleepState.EvenDeeperSleep.time -> {
-                        if (gameLevel.sleepState != SleepState.LightSleep) {
+                        if (sleepState != SleepState.LightSleep) {
                             warningText.apply {
                                 text = "Entering an even deeper sleep state"
                                 visible = true
@@ -219,12 +242,12 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                                 }
                             }
                         }
-                        gameLevel.sleepState = SleepState.EvenDeeperSleep
+                        sleepState = SleepState.EvenDeeperSleep
                         newOverlayAlpha = 0.35
                         "Even Deeper Sleep"
                     }
                     timer >= SleepState.DeeperSleep.time -> {
-                        if (gameLevel.sleepState != SleepState.LightSleep) {
+                        if (sleepState != SleepState.LightSleep) {
                             warningText.apply {
                                 text = "Entering a deeper sleep state"
                                 visible = true
@@ -234,12 +257,12 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                                 }
                             }
                         }
-                        gameLevel.sleepState = SleepState.DeeperSleep
+                        sleepState = SleepState.DeeperSleep
                         newOverlayAlpha = 0.3
                         "Deeper Sleep"
                     }
                     timer >= SleepState.MediumSleep.time -> {
-                        if (gameLevel.sleepState != SleepState.LightSleep) {
+                        if (sleepState != SleepState.LightSleep) {
                             warningText.apply {
                                 text = "Entering a medium sleep state"
                                 visible = true
@@ -249,12 +272,12 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                                 }
                             }
                         }
-                        gameLevel.sleepState = SleepState.MediumSleep
+                        sleepState = SleepState.MediumSleep
                         newOverlayAlpha = 0.2
                         "Medium Sleep"
                     }
                     timer >= SleepState.LightSleep.time -> {
-                        if (gameLevel.sleepState != SleepState.LightSleep) {
+                        if (sleepState != SleepState.LightSleep) {
                             warningText.apply {
                                 text = "Entering a light sleep state"
                                 visible = true
@@ -264,19 +287,19 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
                                 }
                             }
                         }
-                        gameLevel.sleepState = SleepState.LightSleep
+                        sleepState = SleepState.LightSleep
                         newOverlayAlpha = 0.15
                         "Light Sleep"
                     }
                     else -> {
-                        gameLevel.sleepState = SleepState.VeryLightSleep
+                        sleepState = SleepState.VeryLightSleep
                         newOverlayAlpha = 0.1
                         "Very Light Sleep"
                     }
                 } + "\n(${((timer.seconds / SleepState.DeepestSleep.time.seconds) * 100).toIntFloor()}%)"
-                if (gameLevel.slingShotCDRemaining > 0.milliseconds) {
-                    gameLevel.slingShotCDRemaining -= dt
-                    slingshotCDText.text = gameLevel.slingShotCDRemaining.seconds.toIntCeil().toString()
+                if (slingShotCDRemaining > 0.milliseconds) {
+                    slingShotCDRemaining -= dt
+                    slingshotCDText.text = slingShotCDRemaining.seconds.toIntCeil().toString()
                     slingshotCDCover.visible = true
                     slingshotCDText.visible = true
                 } else {
@@ -286,11 +309,10 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             }
 
             fx.update(dt)
-            gameLevel.entities.fastForEach {
-                it.tmod = tmod
+            entities.fastForEach {
                 it.update(dt)
             }
-            gameLevel.entities.fastForEach {
+            entities.fastForEach {
                 it.postUpdate(dt)
             }
 
@@ -316,28 +338,55 @@ class LevelScene(private val world: World, private val levelIdx: Int = 0) : Scen
             }
 
             if (views.input.keys.pressing(Key.LEFT_ALT) && views.input.keys.justPressed(Key.R)) {
-                launchImmediately { sceneContainer.changeTo<LevelScene>() }
+                launchImmediately { sceneContainer.changeTo<Game>() }
             }
         }
 
+        addFixedInterpUpdater(30.timesPerSecond,
+            interpolate = { ratio -> fixedProgressionRatio = ratio },
+            updatable = { entities.fastForEach { it.fixedUpdate() } }
+        )
+
         keys {
-//            down(Key.ESCAPE) {
-//                stage?.views?.debugViews = false
-//                stage?.gameWindow?.run {
-//                    debug = false
-//                    close()
-//                }
-//            }
+            down(Key.ESCAPE) {
+                stage?.views?.debugViews = false
+                stage?.gameWindow?.run {
+                    debug = false
+                    close()
+                }
+            }
 
             down(Key.M) {
                 Assets.Sfx.musicChannel.togglePaused()
             }
-//            down(Key.PAGE_UP) {
-//                cam.cameraZoom += 0.1
-//            }
-//            down(Key.PAGE_DOWN) {
-//                cam.cameraZoom -= 0.1
-//            }
+            down(Key.PAGE_UP) {
+                camera.cameraZoom += 0.1
+            }
+            down(Key.PAGE_DOWN) {
+                camera.cameraZoom -= 0.1
+            }
         }
+    }
+
+    private fun createControllerBindings() {
+        controller.addAxis(
+            GameInput.Horizontal,
+            positiveKeys = listOf(Key.D, Key.RIGHT),
+            positiveButtons = listOf(GameButton.LX),
+            negativeKeys = listOf(Key.A, Key.LEFT),
+            negativeButtons = listOf(GameButton.LX)
+        )
+
+        controller.addBinding(GameInput.Jump, keys = listOf(Key.W, Key.SPACE, Key.UP), listOf(GameButton.XBOX_A))
+        controller.addBinding(
+            GameInput.Dodge,
+            keys = listOf(Key.LEFT_SHIFT, Key.RIGHT_SHIFT),
+            listOf(GameButton.XBOX_X)
+        )
+        controller.addBinding(
+            GameInput.SlingShot,
+            keys = listOf(Key.F),
+            listOf(GameButton.XBOX_B)
+        )
     }
 }

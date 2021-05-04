@@ -2,11 +2,10 @@ package com.lehaine.game.entity
 
 import com.lehaine.game.Assets
 import com.lehaine.game.GRID_SIZE
+import com.lehaine.game.Game
 import com.lehaine.game.GameEntity
-import com.lehaine.game.LevelMark
 import com.lehaine.game.component.DangerousComponent
 import com.lehaine.game.component.DangerousComponentDefault
-import com.lehaine.game.component.GenericGameLevelComponent
 import com.lehaine.game.component.HealthComponent
 import com.lehaine.kiwi.component.*
 import com.lehaine.kiwi.component.ext.toPixelPosition
@@ -19,13 +18,13 @@ inline fun GameEntity.projectile(
     px: Double,
     py: Double,
     fireDir: Int,
-    level: GenericGameLevelComponent<LevelMark>,
+    game: Game,
     owner: GameEntity,
     callback: Projectile.() -> Unit = {}
 ): Projectile = Projectile(
-    level = level,
+    game = game,
     levelDynamicComponent = LevelDynamicComponentDefault(
-        levelComponent = level,
+        levelComponent = game.level,
         xr = 0.5,
         yr = 0.5,
         anchorX = 0.5,
@@ -43,19 +42,19 @@ inline fun GameEntity.projectile(
     owner = owner
 ).apply {
     toPixelPosition(px, py)
-}.addToLevel()
-    .addTo(level.camera.content)
+}.addToGame()
+    .addTo(game.camera.content)
     .also(callback)
 
 class Projectile(
-    level: GenericGameLevelComponent<LevelMark>,
+    game: Game,
     levelDynamicComponent: LevelDynamicComponent,
     spriteComponent: SpriteComponent,
     private val dangerousComponent: DangerousComponent,
     private val owner: GameEntity,
     fireDir: Int
 ) :
-    GameEntity(level, spriteComponent, levelDynamicComponent),
+    GameEntity(game, spriteComponent, levelDynamicComponent),
     SpriteComponent by spriteComponent,
     LevelDynamicComponent by levelDynamicComponent,
     DangerousComponent by dangerousComponent {

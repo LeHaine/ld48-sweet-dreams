@@ -22,14 +22,14 @@ import com.soywiz.korui.UiContainer
 
 inline fun Container.longArm(
     cx: Int, cy: Int,
-    level: GenericGameLevelComponent<LevelMark>,
+    game: Game,
     healthMultiplier: Double = 1.0,
     damageMultiplier: Double = 1.0,
     callback: LongArm.() -> Unit = {}
 ): LongArm = LongArm(
-    level = level,
+    game = game,
     platformerDynamicComponent = PlatformerDynamicComponentDefault(
-        levelComponent = level,
+        levelComponent = game.level,
         cx = cx,
         cy = cy,
         xr = 0.5,
@@ -45,17 +45,17 @@ inline fun Container.longArm(
     targetComponent = TargetComponentDefault(),
     healthComponent = HealthComponentDefault((100 * healthMultiplier).toInt()),
     dangerousComponent = DangerousComponentDefault((35 * damageMultiplier).toInt())
-).addTo(this).addToLevel().also(callback)
+).addTo(this).addToGame().also(callback)
 
 class LongArm(
-    level: GenericGameLevelComponent<LevelMark>,
+    game: Game,
     platformerDynamicComponent: PlatformerDynamicComponent,
     spriteComponent: SpriteComponent,
     private val targetComponent: TargetComponent,
     private val healthComponent: HealthComponent,
     private val dangerousComponent: DangerousComponent
 ) :
-    GameEntity(level, spriteComponent, platformerDynamicComponent),
+    GameEntity(game, spriteComponent, platformerDynamicComponent),
     MobComponent,
     SpriteComponent by spriteComponent,
     PlatformerDynamicComponent by platformerDynamicComponent,
@@ -90,7 +90,7 @@ class LongArm(
     private val moveSpeed = 0.015
     private val attackRange = 2.5
 
-    private val attackingHero get() = distGridTo(level.hero) <= (0.0..attackRange).random() && !cd.has(ATTACK_CD)
+    private val attackingHero get() = distGridTo(hero) <= (0.0..attackRange).random() && !cd.has(ATTACK_CD)
 
     private val entityFSM = stateMachine<LongArmState>(LongArmState.NoAffects) {
         state(LongArmState.Stunned) {
@@ -139,7 +139,7 @@ class LongArm(
                 sprite.playAnimationLooped(Assets.longArmWalk)
             }
             update {
-                moveTo(platformerDynamicComponent, spriteComponent, level.hero.cx, cy, moveSpeed * tmod)
+                moveTo(platformerDynamicComponent, spriteComponent, hero.cx, cy, moveSpeed * it.seconds)
             }
 
         }
@@ -151,7 +151,7 @@ class LongArm(
                 }
             }
             begin {
-                dir = dirTo(level.hero)
+                dir = dirTo(hero)
                 sprite.playOverlap(Assets.longArmSwing, onAnimationFrameChange = {
                     if (it == 7) {
                         sfx.longArmSwing.playSfx()
@@ -225,8 +225,8 @@ class LongArm(
     }
 
     private fun attemptToAttackHero() {
-        if (distGridTo(level.hero) <= attackRange && dir == dirTo(level.hero)) {
-            attack(level.hero, -dirTo(level.hero))
+        if (distGridTo(hero) <= attackRange && dir == dirTo(hero)) {
+            attack(hero, -dirTo(hero))
         }
     }
 
