@@ -45,7 +45,7 @@ class StartScene() : Scene() {
                 if (!launched) {
                     launched = true
                     Assets.Sfx.playMusic()
-                    launchImmediately { sceneContainer.changeTo<Game>(time = 2.seconds) }
+                    launchImmediately { sceneContainer.changeTo<Game>() }
                 }
             }
         }
@@ -55,7 +55,7 @@ class StartScene() : Scene() {
                 if (!launched) {
                     launched = true
                     Assets.Sfx.playMusic()
-                    launchImmediately { sceneContainer.changeTo<Game>(time = 2.seconds) }
+                    launchImmediately { sceneContainer.changeTo<Game>() }
                 }
             }
         }

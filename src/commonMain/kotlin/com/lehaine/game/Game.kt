@@ -356,7 +356,8 @@ class Game(private val world: World, private val levelIdx: Int = 0) : Scene(), G
             }
 
             down(Key.M) {
-                Assets.Sfx.musicChannel.togglePaused()
+                // TODO renable when KorGE 2.1 released
+               // Assets.Sfx.musicChannel.togglePaused()
             }
             down(Key.PAGE_UP) {
                 camera.cameraZoom += 0.1

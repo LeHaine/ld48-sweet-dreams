@@ -87,12 +87,14 @@ object Assets {
             roll = loadSound("roll0")
             longArmSwing = loadSound("longArmSwing0")
 
-            music = resourcesVfs["sfx/music.mp3"].readMusic()
+            // TODO reenable when KorGE 2.1 released
+        //    music = resourcesVfs["sfx/music.mp3"].readMusic()
         }
 
         suspend fun playMusic() {
-            musicChannel = music.playForever()
-            musicChannel.volume = 0.1
+            // TODO reenable when KorGE 2.1 released
+//            musicChannel = music.playForever()
+//            musicChannel.volume = 0.1
         }
 
         private suspend fun loadSoundsByPrefix(
