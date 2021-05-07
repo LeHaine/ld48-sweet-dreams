@@ -1,7 +1,6 @@
 package com.lehaine.game.entity
 
 import com.lehaine.game.Game
-import com.lehaine.game.SleepState
 import com.lehaine.kiwi.component.LevelEntity
 import com.lehaine.kiwi.component.addTo
 import com.lehaine.kiwi.component.addToGame
@@ -44,7 +43,7 @@ class EnemySpawner(override val game: Game) : LevelEntity(game) {
             val rng = Random.nextFloat()
 
             when (game.sleepState) {
-                SleepState.VeryLightSleep -> {
+                Game.SleepState.VeryLightSleep -> {
                     when {
                         rng > 0.5 -> {
                             sheep(spawn.cx, spawn.cy, game)
@@ -55,7 +54,7 @@ class EnemySpawner(override val game: Game) : LevelEntity(game) {
                     }
                     cd(SPAWN_CD, (1..2).random().seconds)
                 }
-                SleepState.LightSleep -> {
+                Game.SleepState.LightSleep -> {
                     when {
                         rng > 0.8 -> {
                             sheep(spawn.cx, spawn.cy, game, 2.0, 2.0)
@@ -66,7 +65,7 @@ class EnemySpawner(override val game: Game) : LevelEntity(game) {
                     }
                     cd(SPAWN_CD, (1.0..1.5).random().seconds)
                 }
-                SleepState.MediumSleep -> {
+                Game.SleepState.MediumSleep -> {
                     when {
                         rng > 0.6 -> {
                             dustBunny(spawn.cx, spawn.cy, game, 2.25, 2.25)
@@ -77,7 +76,7 @@ class EnemySpawner(override val game: Game) : LevelEntity(game) {
                     }
                     cd(SPAWN_CD, (1.5..4.0).random().seconds)
                 }
-                SleepState.DeeperSleep -> {
+                Game.SleepState.DeeperSleep -> {
                     when {
                         rng > 0.8 -> {
                             dustBunny(spawn.cx, spawn.cy, game, 2.5, 2.5)
@@ -91,7 +90,7 @@ class EnemySpawner(override val game: Game) : LevelEntity(game) {
                     }
                     cd(SPAWN_CD, (2.0..3.5).random().seconds)
                 }
-                SleepState.EvenDeeperSleep -> {
+                Game.SleepState.EvenDeeperSleep -> {
                     when {
                         rng > 0.5 -> {
                             ghoul(spawn.cx, spawn.cy, game, 1.25, 1.25)
@@ -102,7 +101,7 @@ class EnemySpawner(override val game: Game) : LevelEntity(game) {
                     }
                     cd(SPAWN_CD, (2.0..3.5).random().seconds)
                 }
-                SleepState.DeepestSleep -> {
+                Game.SleepState.DeepestSleep -> {
                     boss(spawn.cx, spawn.cy, game)
                     destroy()
                 }

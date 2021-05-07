@@ -1,9 +1,6 @@
 package com.lehaine.game
 
 import com.lehaine.game.component.GenericGameLevelComponent
-import com.lehaine.game.entity.Hero
-import com.lehaine.kiwi.component.Entity
-import com.lehaine.kiwi.korge.view.CameraContainer
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.klock.seconds
@@ -95,21 +92,4 @@ enum class LevelMark {
     PLATFORM_END_RIGHT,
     PLATFORM_END_LEFT,
     SMALL_STEP
-}
-
-sealed class SleepState(val time: TimeSpan) {
-    object VeryLightSleep : SleepState(0.milliseconds)
-    object LightSleep : SleepState(30.seconds)
-    object MediumSleep : SleepState(60.seconds)
-    object DeeperSleep : SleepState(90.seconds)
-    object EvenDeeperSleep : SleepState(120.seconds)
-    object DeepestSleep : SleepState(180.seconds)
-
-    // debug
-//    object VeryLightSleep : SleepState(0.milliseconds)
-//    object LightSleep : SleepState(10.seconds)
-//    object MediumSleep : SleepState(20.seconds)
-//    object DeeperSleep : SleepState(30.seconds)
-//    object EvenDeeperSleep : SleepState(40.seconds)
-//    object DeepestSleep : SleepState(50.seconds)
 }

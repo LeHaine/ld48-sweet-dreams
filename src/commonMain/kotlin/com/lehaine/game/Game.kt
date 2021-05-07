@@ -25,7 +25,7 @@ import com.soywiz.korev.Key
 import com.soywiz.korge.input.keys
 import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.view.*
-import com.soywiz.korge.view.fast.*
+import com.soywiz.korge.view.fast.fastSpriteContainer
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.color.RGBA
 import com.soywiz.korim.text.HorizontalAlign
@@ -37,6 +37,23 @@ import kotlin.math.floor
 
 
 class Game(private val world: World, private val levelIdx: Int = 0) : Scene(), GameComponent {
+
+    sealed class SleepState(val time: TimeSpan) {
+        object VeryLightSleep : SleepState(0.milliseconds)
+        object LightSleep : SleepState(30.seconds)
+        object MediumSleep : SleepState(60.seconds)
+        object DeeperSleep : SleepState(90.seconds)
+        object EvenDeeperSleep : SleepState(120.seconds)
+        object DeepestSleep : SleepState(180.seconds)
+
+        // debug
+//    object VeryLightSleep : SleepState(0.milliseconds)
+//    object LightSleep : SleepState(10.seconds)
+//    object MediumSleep : SleepState(20.seconds)
+//    object DeeperSleep : SleepState(30.seconds)
+//    object EvenDeeperSleep : SleepState(40.seconds)
+//    object DeepestSleep : SleepState(50.seconds)
+    }
 
     var gameFinshed: Boolean = false
     var slingShotCDRemaining: TimeSpan = TimeSpan.ZERO
@@ -50,7 +67,6 @@ class Game(private val world: World, private val levelIdx: Int = 0) : Scene(), G
     override val entities: ArrayList<Entity> = arrayListOf()
     override val staticEntities: ArrayList<Entity> = arrayListOf()
     val spawnPoints: ArrayList<World.EntitySpawners> = arrayListOf()
-
 
     lateinit var controller: InputController<GameInput>
 
@@ -357,7 +373,7 @@ class Game(private val world: World, private val levelIdx: Int = 0) : Scene(), G
 
             down(Key.M) {
                 // TODO renable when KorGE 2.1 released
-               // Assets.Sfx.musicChannel.togglePaused()
+                // Assets.Sfx.musicChannel.togglePaused()
             }
             down(Key.PAGE_UP) {
                 camera.cameraZoom += 0.1
