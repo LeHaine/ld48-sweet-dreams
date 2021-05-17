@@ -2,7 +2,6 @@ package com.lehaine.game
 
 import GameModule
 import com.lehaine.kiwi.korge.getByPrefix
-import com.soywiz.klock.seconds
 import com.soywiz.korge.input.keys
 import com.soywiz.korge.input.mouse
 import com.soywiz.korge.scene.Scene
@@ -14,6 +13,8 @@ import com.soywiz.korim.text.VerticalAlign
 import com.soywiz.korio.async.launchImmediately
 
 class StartScene() : Scene() {
+
+    private var launched = false
 
     override suspend fun Container.sceneInit() {
         solidRect(GameModule.size.width, GameModule.size.height, Colors["#222034"])
@@ -39,25 +40,24 @@ class StartScene() : Scene() {
             centerOnStage()
         }.alignTopToBottomOf(t1, 5)
 
-        var launched = false
         mouse {
             onClick {
-                if (!launched) {
-                    launched = true
-                    Assets.Sfx.playMusic()
-                    launchImmediately { sceneContainer.changeTo<Game>() }
-                }
+                launchGame()
             }
         }
 
         keys {
             down {
-                if (!launched) {
-                    launched = true
-                    Assets.Sfx.playMusic()
-                    launchImmediately { sceneContainer.changeTo<Game>() }
-                }
+                launchGame()
             }
+        }
+    }
+
+    private suspend fun launchGame() {
+        if (!launched) {
+            launched = true
+            Assets.Sfx.playMusic()
+            launchImmediately { sceneContainer.changeTo<Game>() }
         }
     }
 }
